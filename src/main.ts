@@ -1,5 +1,7 @@
 import { createApp } from 'vue'
-import './style.css'
 import App from './App.vue'
 import 'ant-design-vue/dist/antd.css'
-createApp(App).mount('#app')
+import router from './router'
+import pinia from './store'
+const app = createApp(App)
+app.use(router).use(pinia).mount('#app')
