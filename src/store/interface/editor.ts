@@ -1,4 +1,4 @@
-import { TextComponentTypeProps } from '../../components/PText/defaultProps/index.ts'
+import { TextComponentTypeProps } from '../../components/defaultAttr/index.ts'
 export interface EditorProps {
     components: ComponentDataType[]
     currentElement: string

@@ -1,6 +1,6 @@
 import { mapValues, pick } from 'lodash-es'
 import { computed } from 'vue'
-import { TextComponentTypeProps } from '../components/PText/defaultProps'
+import { TextComponentTypeProps } from '../components/defaultAttr'
 export const transformToComponentProps = <T extends {}>(props: T) => {
     return mapValues(props, (item) => {
         return {

@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     AButton: typeof import('ant-design-vue/es')['Button']
     ACol: typeof import('ant-design-vue/es')['Col']
     ADropdownButton: typeof import('ant-design-vue/es')['DropdownButton']
+    AInput: typeof import('ant-design-vue/es')['Input']
     ALayout: typeof import('ant-design-vue/es')['Layout']
     ALayoutContent: typeof import('ant-design-vue/es')['LayoutContent']
     ALayoutFooter: typeof import('ant-design-vue/es')['LayoutFooter']
@@ -21,9 +22,11 @@ declare module '@vue/runtime-core' {
     AMenuItem: typeof import('ant-design-vue/es')['MenuItem']
     ARow: typeof import('ant-design-vue/es')['Row']
     ComponentList: typeof import('./src/components/ComponentList/index.vue')['default']
+    EditWrapper: typeof import('./src/components/EditWrapper/index.vue')['default']
     PText: typeof import('./src/components/PText/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SelectTable: typeof import('./src/components/selectTable/index.vue')['default']
     UserProfile: typeof import('./src/components/UserProfile.vue')['default']
   }
 }

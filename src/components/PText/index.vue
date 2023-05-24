@@ -4,7 +4,7 @@
 <script setup lang="ts">
 import { defineProps, StyleValue } from 'vue'
 import { pick, without } from 'lodash-es'
-import { textDefaultProps, TextComponentTypeProps } from './defaultProps/index.ts'
+import { textDefaultProps, TextComponentTypeProps } from '../defaultAttr/index.ts'
 
 // import { transformToComponentProps } from '../../utils/index.ts'
 function getStyleSheet(textData: TextComponentTypeProps) {

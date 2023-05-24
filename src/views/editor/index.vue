@@ -31,27 +31,69 @@
             </a-layout-sider>
             <a-layout-content class="main">
                 <div>content</div>
-                <div v-for="v in editStore.components" :key="v.id">
-                    <PText v-bind="v.props"></PText>
-                </div>
+                <edit-wrapper
+                    @sendItemData="handleSendItemData"
+                    v-for="v in editStore.components"
+                    :id="v.id"
+                    :key="v.id"
+                >
+                    <p-text v-bind="v.props"></p-text>
+                </edit-wrapper>
             </a-layout-content>
-            <a-layout-sider>Sider</a-layout-sider>
+            <a-layout-sider>
+                <div>组件属性</div>
+                <select-table :data="tableData"></select-table>
+                <pre>{{ editStore.currentElement }}</pre>
+            </a-layout-sider>
         </a-layout>
     </a-layout>
 </template>
 <script setup lang="ts">
+import { computed } from 'vue'
 import useEditorStore from './../../store/modules/editor.ts'
 import defaultTextTemplates from './data/defaultTemplate.ts'
 import ComponentList from '../../components/ComponentList/index.vue'
 import PText from '../../components/PText/index.vue'
-console.log(defaultTextTemplates, 'defaultTextTemplates')
+import SelectTable from '../../components/selectTable/index.vue'
+import EditWrapper from '../../components/EditWrapper/index.vue'
+import { TableDataType, componentsMapTYpe } from './interface/index'
+import { TextComponentTypeProps } from '../../components/defaultAttr'
 const editStore = useEditorStore()
+const componentsMap: componentsMapTYpe = {
+    text: {
+        componentName: 'a-input',
+    },
+    fontSize: {
+        componentName: 'a-input',
+    },
+    lineHeight: {
+        componentName: 'a-slider',
+        extraAntAttr: { max: 3, min: 0, step: 0.2 },
+    },
+}
+const tableData = computed(() => {
+    let dataObj = {} as TableDataType
+    Object.keys(editStore.currentElement).map((key: string) => {
+        const newKey = key as keyof TextComponentTypeProps
+        dataObj[newKey] = {
+            value: editStore.currentElement[newKey],
+            componentName: componentsMap[newKey]?.componentName,
+            extraAntAttr: componentsMap[newKey]?.extraAntAttr,
+        }
+    })
+    return dataObj
+})
+//  添加组件
 const handleAddItem = (item: any) => {
     editStore.addItem(item)
 }
+// 添加属性
+const handleSendItemData = (id: string) => {
+    editStore.currentSelect(id)
+}
 </script>
 <style scoped lang="scss">
-::v-deep .ant-layout-sider-children {
+:deep(.ant-layout-sider-children) {
     background: #fff;
 }
 
