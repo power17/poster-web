@@ -1,6 +1,5 @@
 <template>
-    <div class="p-text-component" :style="styleSheet">{{ props.text }}</div>
-    <div></div>
+    <div class="p-text-component" :style="styleSheet" @click="handleClick">{{ props.text }}</div>
 </template>
 <script setup lang="ts">
 import { defineProps, StyleValue } from 'vue'
@@ -18,7 +17,31 @@ const props = defineProps<{
     text?: string
     top?: string
     fontSize?: string
+    url?: string
+    actionType?: string
+    color?: String
+    backgroundColor?: String
+    borderWidth?: String
+    borderColor?: String
+    borderStyle?: String
+    borderRadius?: String
+    paddingLeft?: String
+    paddingRight?: String
+    paddingTop?: String
+    paddingBottom?: String
+    width?: String
+    tag?: String
+    textAlign?: String
+    position?: String
+    fontWeight?: String
+    textDecoration?: String
 }>()
+// const props = defineProps(defaultProps)
 const textData = Object.assign(textDefaultProps, props)
 const styleSheet = getStyleSheet(textData) as StyleValue
+const handleClick = () => {
+    if (textData.actionType === 'url' && textData.url) {
+        window.location.href = textData.url
+    }
+}
 </script>

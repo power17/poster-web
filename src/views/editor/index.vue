@@ -24,7 +24,8 @@
         </a-layout-header>
         <a-layout>
             <a-layout-sider>
-                <div style="height: 100%">side</div>
+                <h2>组件列表</h2>
+                <ComponentList :list="defaultTextTemplates"></ComponentList>
             </a-layout-sider>
             <a-layout-content class="main">
                 <div>content</div>
@@ -38,6 +39,8 @@
 </template>
 <script setup lang="ts">
 import useEditorStore from './../../store/modules/editor.ts'
+import defaultTextTemplates from './data/defaultTemplate.ts'
+import ComponentList from '../../components/ComponentList/index.vue'
 import PText from '../../components/PText/index.vue'
 const { components } = useEditorStore()
 </script>

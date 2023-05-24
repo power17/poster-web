@@ -18,7 +18,7 @@ export const testComponents: ComponentDataType[] = [
     {
         id: uuidv4(),
         name: 'l-text',
-        props: { text: 'hello3', fontSize: '30px', top: '40px' },
+        props: { text: 'hello3', fontSize: '30px', top: '40px', actionType: 'url', url: 'https://www.baidu.com' },
     },
 ]
 const useEditorStore = defineStore({
