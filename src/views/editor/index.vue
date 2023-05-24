@@ -25,11 +25,13 @@
         <a-layout>
             <a-layout-sider>
                 <h2>组件列表</h2>
-                <ComponentList :list="defaultTextTemplates"></ComponentList>
+                <div>
+                    <ComponentList :list="defaultTextTemplates" @itemClick="handleAddItem"></ComponentList>
+                </div>
             </a-layout-sider>
             <a-layout-content class="main">
                 <div>content</div>
-                <div v-for="v in components" :key="v.id">
+                <div v-for="v in editStore.components" :key="v.id">
                     <PText v-bind="v.props"></PText>
                 </div>
             </a-layout-content>
@@ -42,7 +44,11 @@ import useEditorStore from './../../store/modules/editor.ts'
 import defaultTextTemplates from './data/defaultTemplate.ts'
 import ComponentList from '../../components/ComponentList/index.vue'
 import PText from '../../components/PText/index.vue'
-const { components } = useEditorStore()
+console.log(defaultTextTemplates, 'defaultTextTemplates')
+const editStore = useEditorStore()
+const handleAddItem = (item: any) => {
+    editStore.addItem(item)
+}
 </script>
 <style scoped lang="scss">
 ::v-deep .ant-layout-sider-children {
