@@ -28,7 +28,9 @@
             </a-layout-sider>
             <a-layout-content class="main">
                 <div>content</div>
-                <p-text v-for="v in components" :key="v.id" v-bind="v.props"></p-text>
+                <div v-for="v in components" :key="v.id">
+                    <PText v-bind="v.props"></PText>
+                </div>
             </a-layout-content>
             <a-layout-sider>Sider</a-layout-sider>
         </a-layout>
@@ -36,7 +38,7 @@
 </template>
 <script setup lang="ts">
 import useEditorStore from './../../store/modules/editor.ts'
-import PText from '../../components/PText.vue'
+import PText from '../../components/PText/index.vue'
 const { components } = useEditorStore()
 </script>
 <style scoped lang="scss">

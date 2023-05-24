@@ -2,8 +2,8 @@
 // import { reactive } from 'vue'
 export interface CommonComponentTypeProps {
     // actions
-    // actionType: string
-    // url: string
+    actionType: string
+    url: string
     // size
     height: string
     width: string
@@ -27,7 +27,7 @@ export interface CommonComponentTypeProps {
 }
 
 export interface TextComponentTypeProps extends CommonComponentTypeProps {
-    // text: string
+    text: string
     fontSize: string
     fontFamily: string
     fontWeight: string
@@ -65,7 +65,7 @@ export const commonDefaultProps: CommonComponentTypeProps = {
 }
 export const textDefaultProps: TextComponentTypeProps = {
     // basic props - font styles
-    // text: '正文内容',
+    text: '正文内容',
     fontSize: '14px',
     fontFamily: '',
     fontWeight: 'normal',
