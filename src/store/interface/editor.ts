@@ -1,9 +1,11 @@
+import { TextComponentTypeProps } from '../../components/defaultAttr/index.ts'
 export interface EditorProps {
     components: ComponentDataType[]
     currentElement: string
 }
+
 export interface ComponentDataType {
-    props: { [key: string]: any }
+    props: Partial<TextComponentTypeProps>
     id: string
     name: string
 }
