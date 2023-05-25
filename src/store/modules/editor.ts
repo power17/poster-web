@@ -10,7 +10,14 @@ export const testComponents: ComponentDataType[] = [
     {
         id: uuidv4(),
         name: 'l-text',
-        props: { text: 'hello1', fontSize: '10px', top: '10px', color: 'yellow' },
+        props: {
+            text: 'hello1',
+            fontSize: '10px',
+            top: '10px',
+            color: 'yellow',
+            textAlign: 'left',
+            fontFamily: 'FangSong","STFangsong',
+        },
     },
     {
         id: uuidv4(),

@@ -40,7 +40,7 @@
                     <p-text v-bind="v.props"></p-text>
                 </edit-wrapper>
             </a-layout-content>
-            <a-layout-sider>
+            <a-layout-sider width="300px">
                 <div>组件属性</div>
                 <select-table :data="tableData"></select-table>
                 <pre>{{ editStore.currentElement }}</pre>
@@ -56,29 +56,72 @@ import ComponentList from '../../components/ComponentList/index.vue'
 import PText from '../../components/PText/index.vue'
 import SelectTable from '../../components/selectTable/index.vue'
 import EditWrapper from '../../components/EditWrapper/index.vue'
-import { TableDataType, componentsMapTYpe } from './interface/index'
+import { componentsMapTYpe } from './interface/index'
 import { TextComponentTypeProps } from '../../components/defaultAttr'
 const editStore = useEditorStore()
+// 右侧展示区数据
 const componentsMap: componentsMapTYpe = {
     text: {
         componentName: 'a-input',
+        text: '文字',
     },
     fontSize: {
         componentName: 'a-input',
+        text: '字体',
     },
     lineHeight: {
         componentName: 'a-slider',
         extraAntAttr: { max: 3, min: 0, step: 0.2 },
+        text: '行高',
+        transformDataType(v: string) {
+            return Number(v)
+        },
+    },
+    textAlign: {
+        componentName: 'a-radio-group',
+        text: '对齐',
+        subComponentName: 'a-radio-button',
+        options: [
+            {
+                value: 'left',
+                text: '左',
+            },
+            {
+                value: 'middle',
+                text: '中',
+            },
+            {
+                value: 'right',
+                text: '右',
+            },
+        ],
+    },
+    fontFamily: {
+        componentName: 'a-select',
+        subComponentName: 'a-select-option',
+        text: '字体',
+        options: [
+            { text: '宋体', value: '"SimSun","STSong"' },
+            { text: '黑体', value: '"SimHei","STHeiti"' },
+            { text: '楷体', value: '"KaiTi","STKaiti"' },
+            { text: '仿宋', value: '"FangSong","STFangsong"' },
+        ],
     },
 }
 const tableData = computed(() => {
-    let dataObj = {} as TableDataType
+    let dataObj = {} as componentsMapTYpe
     Object.keys(editStore.currentElement).map((key: string) => {
         const newKey = key as keyof TextComponentTypeProps
+        const item = componentsMap[newKey]
         dataObj[newKey] = {
-            value: editStore.currentElement[newKey],
+            value: item?.transformDataType
+                ? item.transformDataType(editStore.currentElement[newKey])
+                : editStore.currentElement[newKey],
             componentName: componentsMap[newKey]?.componentName,
             extraAntAttr: componentsMap[newKey]?.extraAntAttr,
+            subComponentName: componentsMap[newKey]?.subComponentName,
+            options: componentsMap[newKey]?.options,
+            text: componentsMap[newKey]?.text,
         }
     })
     return dataObj
