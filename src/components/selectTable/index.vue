@@ -1,6 +1,10 @@
 <template>
     <!-- <pre class="select-table">{{ props.data }}</pre> -->
     <!-- <a-slider id="test" value="1" /> -->
+    <!-- <a-select :value="options" style="width: 120px">
+        <a-select-option value="lucy">Lucy</a-select-option>
+        <a-select-option value="lucy">nihao</a-select-option>
+    </a-select> -->
     <div class="select-table" v-for="(val, key) in finalData" :key="key">
         <div class="label">{{ val?.text }}</div>
         <component
@@ -10,13 +14,40 @@
             :is="val?.componentName"
             v-bind="val.extraAntAttr"
         >
-            <template v-if="val.options">
-                <component v-for="(option, o) in val.options" :is="val.subComponentName" :key="o" :value="option.value">
+            <template v-if="val.options && val.subComponentName !== 'a-select-option'">
+                <component :is="val.subComponentName" v-for="(option, k) in val.options" :key="k" :value="option.value">
                     {{ option.text }}
                 </component>
             </template>
+            <template v-if="val.subComponentName === 'a-select-option'">
+                <a-select-option
+                    :is="val.subComponentName"
+                    v-for="(option, k) in val.options"
+                    :key="k"
+                    :value="option.value"
+                >
+                    {{ option.text }}
+                </a-select-option>
+            </template>
         </component>
     </div>
+    <!-- <div class="select-table" v-for="(val, key) in finalData" :key="key">
+        <div class="label">{{ val?.text }}</div>
+        <a-select
+            v-if="val"
+            :value="val.value"
+            v-on:[val.eventName]="($event: any) => handleEmit(val.key,$event)"
+            :is="val?.componentName"
+            v-bind="val.extraAntAttr"
+        >
+            <template v-if="val.options">
+                <a-select-option v-for="(option, k) in val.options" :key="k" :value="option.value">
+                    {{ option.text }}
+                </a-select-option>
+            </template>
+        </a-select>
+    </div> -->
+
     <!-- <pre>{{ props.data }}</pre> -->
 </template>
 <script setup lang="ts">
@@ -27,16 +58,16 @@ import { computed } from 'vue'
 import { TextComponentTypeProps } from '../defaultAttr/index'
 import { componentsMapType, finalDataType } from './interface/index'
 const props = defineProps<{ data: Readonly<TextComponentTypeProps> }>()
-
 const componentsMap: componentsMapType = {
     text: {
-        componentName: 'a-input',
+        componentName: 'a-textarea',
         text: '文字',
+        extraAntAttr: { row: 3 },
     },
     fontSize: {
-        componentName: 'a-input',
-        text: '字体',
-        transformDataType(v: string) {
+        componentName: 'a-input-number',
+        text: '字号',
+        transformDataType(v: any) {
             return parseInt(v)
         },
         afterTransformDataType(v: any) {
@@ -45,7 +76,7 @@ const componentsMap: componentsMapType = {
     },
     lineHeight: {
         componentName: 'a-slider',
-        extraAntAttr: { max: 3, min: 0, step: 1 },
+        extraAntAttr: { max: 3, min: 0, step: 0.2 },
         text: '行高',
         transformDataType(v: string) {
             return parseInt(v)
@@ -74,7 +105,9 @@ const componentsMap: componentsMapType = {
         componentName: 'a-select',
         subComponentName: 'a-select-option',
         text: '字体',
+        value: '',
         options: [
+            { text: '无', value: '""' },
             { text: '宋体', value: '"SimSun","STSong"' },
             { text: '黑体', value: '"SimHei","STHeiti"' },
             { text: '楷体', value: '"KaiTi","STKaiti"' },
@@ -107,13 +140,20 @@ const finalData = computed(() => {
 const emit = defineEmits<{
     (e: 'change', key: any, $event: any): void
 }>()
-const handleEmit = (key: keyof TextComponentTypeProps, $event: any) => {
-    const transform = componentsMap[key]?.afterTransformDataType
-    let v = $event.target.value
-    if (transform) {
-        v = transform(parseInt(v)) || v
+const handleEmit = (key: string, $event: any) => {
+    // todo
+    let v = $event
+    if (typeof $event === 'object') {
+        const transform = componentsMap[key as keyof TextComponentTypeProps]?.afterTransformDataType
+        v = $event.target.value
+        if (transform) {
+            v = transform(parseInt(v)) || v
+        }
+    } else {
+        if (key !== 'fontFamily') {
+            v = `${v}px`
+        }
     }
-
     // v = parseInt(v)
     emit('change', key, v)
 }

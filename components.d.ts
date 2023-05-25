@@ -21,6 +21,8 @@ declare module '@vue/runtime-core' {
     AMenu: typeof import('ant-design-vue/es')['Menu']
     AMenuItem: typeof import('ant-design-vue/es')['MenuItem']
     ARow: typeof import('ant-design-vue/es')['Row']
+    ASelect: typeof import('ant-design-vue/es')['Select']
+    ASelectOption: typeof import('ant-design-vue/es')['SelectOption']
     ASlider: typeof import('ant-design-vue/es')['Slider']
     ComponentList: typeof import('./src/components/ComponentList/index.vue')['default']
     EditWrapper: typeof import('./src/components/EditWrapper/index.vue')['default']

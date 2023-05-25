@@ -14,13 +14,13 @@ export const testComponents: ComponentDataType[] = [
             text: 'hello1',
             fontSize: '10px',
             textAlign: 'center',
-            fontFamily: 'FangSong","STFangsong',
+            fontFamily: '"SimHei","STHeiti"',
         },
     },
     {
         id: uuidv4(),
         name: 'l-text',
-        props: { text: 'hello2sf', fontSize: '20px', lineHeight: '2' },
+        props: { text: 'hello2sf', fontSize: '20px', lineHeight: '2', fontFamily: '"SimHei","STHeiti"' },
     },
     {
         id: uuidv4(),
@@ -29,7 +29,8 @@ export const testComponents: ComponentDataType[] = [
             text: 'hello3',
             color: 'red',
             fontSize: '30px',
-            top: '40px',
+            // top: '40px',
+            fontFamily: '',
             actionType: 'url',
             // url: 'https://www.baidu.com',
         },
@@ -63,7 +64,7 @@ const useEditorStore = defineStore({
         currentSelect(id: string) {
             this.currentElementId = id
         },
-        updateComponentData(key: string, value: any) {
+        updateComponentData(key: any, value: any) {
             const current = this.components.find((component) => component.id === this.currentElementId)
             if (current) {
                 console.log('current', current, key, value)

@@ -3,18 +3,18 @@
     <div class="p-text-component" :style="styleSheet" @click="handleClick">{{ props.text }}</div>
 </template>
 <script setup lang="ts">
-import { defineProps, reactive, StyleValue } from 'vue'
-import { pick, without } from 'lodash-es'
+import { defineProps, StyleValue } from 'vue'
+// import { pick, without } from 'lodash-es'
 import { textDefaultProps, TextComponentTypeProps } from '../defaultAttr/index.ts'
-import { defaultProps } from 'ant-design-vue/es/vc-mentions/src/mentionsProps'
+// import { defaultProps } from 'ant-design-vue/es/vc-mentions/src/mentionsProps'
 
-// import { transformToComponentProps } from '../../utils/index.ts'
-function getStyleSheet(textData: TextComponentTypeProps) {
-    // 剔除样式属性
-    const styleKey = without(Object.keys(textData), 'text', 'url', 'actionType')
-    const styleSheet = pick(textData, styleKey)
-    return styleSheet
-}
+// // import { transformToComponentProps } from '../../utils/index.ts'
+// function getStyleSheet(textData: TextComponentTypeProps) {
+//     // 剔除样式属性
+//     const styleKey = without(Object.keys(textData), 'text', 'url', 'actionType')
+//     const styleSheet = pick(textData, styleKey)
+//     return styleSheet
+// }
 // const defaultProps = transformToComponentProps(textDefaultProps)
 const props = withDefaults(defineProps<Readonly<Partial<TextComponentTypeProps>>>(), textDefaultProps)
 const styleSheet = props as StyleValue
@@ -45,7 +45,7 @@ const styleSheet = props as StyleValue
 // const props = defineProps<ComponentDataPropsType>()
 
 // const props = defineProps(defaultProps)
-console.log(props, 'ptext')
+// console.log(props, 'ptext')
 // const textData = Object.assign(textDefaultProps, props)
 
 // 获取样式属性

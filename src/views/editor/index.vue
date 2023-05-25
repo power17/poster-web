@@ -61,7 +61,6 @@ import EditWrapper from '../../components/EditWrapper/index.vue'
 const editStore = useEditorStore()
 // 改变组件属性
 const handleChange = (key: any, value: any) => {
-    console.log(key, value)
     editStore.updateComponentData(key, value)
 }
 //  添加组件
