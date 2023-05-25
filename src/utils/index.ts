@@ -1,0 +1,24 @@
+import { mapValues, pick } from 'lodash-es'
+import { computed } from 'vue'
+import { TextComponentTypeProps } from '../components/defaultAttr'
+export const transformToComponentProps = <T extends {}>(props: T) => {
+    return mapValues(props, (item) => {
+        return {
+            type: (item as any).constructor as StringConstructor,
+            default: item,
+        }
+    })
+}
+export const useComponentCommon = (props: Readonly<Partial<TextComponentTypeProps>>, picks: string[]) => {
+    const styleProps = computed(() => pick(props, picks))
+    // const styleProps = () => pick(props, picks)
+    // const handleClick = () => {
+    //     if (props.actionType === 'url' && props.url) {
+    //         window.location.href = props.url
+    //     }
+    // }
+    return {
+        styleProps,
+        // handleClick,
+    }
+}

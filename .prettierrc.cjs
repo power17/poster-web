@@ -34,4 +34,5 @@ module.exports = {
   htmlWhitespaceSensitivity: 'ignore',
   // 换行符使用 lf
   endOfLine: 'auto',
+  useTabs: false
 };
