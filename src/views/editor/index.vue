@@ -42,90 +42,28 @@
             </a-layout-content>
             <a-layout-sider width="300px">
                 <div>组件属性</div>
-                <select-table :data="tableData"></select-table>
+                <select-table :data="editStore.currentElement" @change="handleChange"></select-table>
                 <pre>{{ editStore.currentElement }}</pre>
             </a-layout-sider>
         </a-layout>
     </a-layout>
 </template>
 <script setup lang="ts">
-import { computed } from 'vue'
+// import { computed } from 'vue'
 import useEditorStore from './../../store/modules/editor.ts'
 import defaultTextTemplates from './data/defaultTemplate.ts'
 import ComponentList from '../../components/ComponentList/index.vue'
 import PText from '../../components/PText/index.vue'
 import SelectTable from '../../components/selectTable/index.vue'
 import EditWrapper from '../../components/EditWrapper/index.vue'
-import { componentsMapTYpe } from './interface/index'
-import { TextComponentTypeProps } from '../../components/defaultAttr'
+// import { componentsMapTYpe } from './interface/index'
+// import { TextComponentTypeProps } from '../../components/defaultAttr'
 const editStore = useEditorStore()
-// 右侧展示区数据
-const componentsMap: componentsMapTYpe = {
-    text: {
-        componentName: 'a-input',
-        text: '文字',
-    },
-    fontSize: {
-        componentName: 'a-input',
-        text: '字体',
-    },
-    lineHeight: {
-        componentName: 'a-slider',
-        extraAntAttr: { max: 3, min: 0, step: 0.2 },
-        text: '行高',
-        transformDataType(v: string) {
-            return Number(v)
-        },
-    },
-    textAlign: {
-        componentName: 'a-radio-group',
-        text: '对齐',
-        subComponentName: 'a-radio-button',
-        options: [
-            {
-                value: 'left',
-                text: '左',
-            },
-            {
-                value: 'middle',
-                text: '中',
-            },
-            {
-                value: 'right',
-                text: '右',
-            },
-        ],
-    },
-    fontFamily: {
-        componentName: 'a-select',
-        subComponentName: 'a-select-option',
-        text: '字体',
-        options: [
-            { text: '宋体', value: '"SimSun","STSong"' },
-            { text: '黑体', value: '"SimHei","STHeiti"' },
-            { text: '楷体', value: '"KaiTi","STKaiti"' },
-            { text: '仿宋', value: '"FangSong","STFangsong"' },
-        ],
-    },
+// 改变组件属性
+const handleChange = (key: any, value: any) => {
+    console.log(key, value)
+    editStore.updateComponentData(key, value)
 }
-const tableData = computed(() => {
-    let dataObj = {} as componentsMapTYpe
-    Object.keys(editStore.currentElement).map((key: string) => {
-        const newKey = key as keyof TextComponentTypeProps
-        const item = componentsMap[newKey]
-        dataObj[newKey] = {
-            value: item?.transformDataType
-                ? item.transformDataType(editStore.currentElement[newKey])
-                : editStore.currentElement[newKey],
-            componentName: componentsMap[newKey]?.componentName,
-            extraAntAttr: componentsMap[newKey]?.extraAntAttr,
-            subComponentName: componentsMap[newKey]?.subComponentName,
-            options: componentsMap[newKey]?.options,
-            text: componentsMap[newKey]?.text,
-        }
-    })
-    return dataObj
-})
 //  添加组件
 const handleAddItem = (item: any) => {
     editStore.addItem(item)
