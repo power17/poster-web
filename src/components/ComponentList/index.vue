@@ -4,7 +4,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { TextComponentTypeProps } from '../PText/defaultProps/index.ts'
+import { TextComponentTypeProps } from '../defaultAttr/index.ts'
 import { defineProps, defineEmits } from 'vue'
 import PText from '../PText/index.vue'
 

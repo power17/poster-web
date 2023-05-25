@@ -20,10 +20,10 @@ export interface CommonComponentTypeProps {
     boxShadow: string
     opacity: string
     // position and x,y
-    position: string
-    left: string
-    top: string
-    right: string
+    // position: string
+    // left: string
+    // top: string
+    // right: string
 }
 
 export interface TextComponentTypeProps extends CommonComponentTypeProps {
@@ -58,10 +58,10 @@ export const commonDefaultProps: CommonComponentTypeProps = {
     boxShadow: '0 0 0 #000000',
     opacity: '1',
     // position and x,y
-    position: 'absolute',
-    left: '0',
-    top: '0',
-    right: '0',
+    // position: 'absolute',
+    // left: '0',
+    // top: '0',
+    // right: '0',
 }
 export const textDefaultProps: TextComponentTypeProps = {
     // basic props - font styles
@@ -72,8 +72,8 @@ export const textDefaultProps: TextComponentTypeProps = {
     fontStyle: 'normal',
     textDecoration: 'none',
     lineHeight: '1',
-    textAlign: 'center',
-    color: 'red',
+    textAlign: 'left',
+    color: '#000',
     backgroundColor: '',
     ...commonDefaultProps,
 }

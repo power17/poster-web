@@ -1,10 +1,12 @@
 <template>
+    <!-- <pre>{{ props }}</pre> -->
     <div class="p-text-component" :style="styleSheet" @click="handleClick">{{ props.text }}</div>
 </template>
 <script setup lang="ts">
-import { defineProps, StyleValue } from 'vue'
+import { defineProps, reactive, StyleValue } from 'vue'
 import { pick, without } from 'lodash-es'
 import { textDefaultProps, TextComponentTypeProps } from '../defaultAttr/index.ts'
+import { defaultProps } from 'ant-design-vue/es/vc-mentions/src/mentionsProps'
 
 // import { transformToComponentProps } from '../../utils/index.ts'
 function getStyleSheet(textData: TextComponentTypeProps) {
@@ -14,7 +16,8 @@ function getStyleSheet(textData: TextComponentTypeProps) {
     return styleSheet
 }
 // const defaultProps = transformToComponentProps(textDefaultProps)
-const props = defineProps<Readonly<Partial<TextComponentTypeProps>>>()
+const props = withDefaults(defineProps<Readonly<Partial<TextComponentTypeProps>>>(), textDefaultProps)
+const styleSheet = props as StyleValue
 // const props = defineProps<{
 //     text?: string
 //     top?: string
@@ -42,10 +45,12 @@ const props = defineProps<Readonly<Partial<TextComponentTypeProps>>>()
 // const props = defineProps<ComponentDataPropsType>()
 
 // const props = defineProps(defaultProps)
-const textData = Object.assign(textDefaultProps, props)
+console.log(props, 'ptext')
+// const textData = Object.assign(textDefaultProps, props)
 
 // 获取样式属性
-const styleSheet = getStyleSheet(textData) as StyleValue
+// const styleSheet = reactive(getStyleSheet(textData)) as StyleValue
+// const styleSheet = props as StyleValue
 const handleClick = () => {
     if (props.actionType === 'url' && props.url) {
         window.location.href = props.url

@@ -13,16 +13,14 @@ export const testComponents: ComponentDataType[] = [
         props: {
             text: 'hello1',
             fontSize: '10px',
-            top: '10px',
-            color: 'yellow',
-            textAlign: 'left',
+            textAlign: 'center',
             fontFamily: 'FangSong","STFangsong',
         },
     },
     {
         id: uuidv4(),
         name: 'l-text',
-        props: { text: 'hello2sf', fontSize: '20px', top: '20px', lineHeight: '1' },
+        props: { text: 'hello2sf', fontSize: '20px', lineHeight: '2' },
     },
     {
         id: uuidv4(),
@@ -64,6 +62,13 @@ const useEditorStore = defineStore({
         // 选中
         currentSelect(id: string) {
             this.currentElementId = id
+        },
+        updateComponentData(key: string, value: any) {
+            const current = this.components.find((component) => component.id === this.currentElementId)
+            if (current) {
+                console.log('current', current, key, value)
+                current.props[key as keyof TextComponentTypeProps] = value
+            }
         },
     },
 })
