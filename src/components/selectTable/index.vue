@@ -10,25 +10,32 @@
         <component
             v-if="val"
             :value="val.value"
+            class="select-com"
             v-on:[val.eventName]="($event: any) => handleEmit(val.key,$event)"
             :is="val?.componentName"
             v-bind="val.extraAntAttr"
         >
-            <template v-if="val.options && val.subComponentName !== 'a-select-option'">
-                <component :is="val.subComponentName" v-for="(option, k) in val.options" :key="k" :value="option.value">
+            <template v-if="val.options">
+                <component
+                    :is="val?.subComponentName"
+                    v-for="(option, k) in val.options"
+                    :key="k"
+                    :value="option.value"
+                >
                     {{ option.text }}
                 </component>
             </template>
-            <template v-if="val.subComponentName === 'a-select-option'">
+
+            <!-- <template v-if="val.options">
                 <a-select-option
                     :is="val.subComponentName"
                     v-for="(option, k) in val.options"
                     :key="k"
                     :value="option.value"
                 >
-                    {{ option.text }}
+                    {{ val.subComponentName }}
                 </a-select-option>
-            </template>
+            </template> -->
         </component>
     </div>
     <!-- <div class="select-table" v-for="(val, key) in finalData" :key="key">
@@ -76,7 +83,7 @@ const componentsMap: componentsMapType = {
     },
     lineHeight: {
         componentName: 'a-slider',
-        extraAntAttr: { max: 3, min: 0, step: 0.2 },
+        extraAntAttr: { max: 100, min: 0, step: 2 },
         text: '行高',
         transformDataType(v: string) {
             return parseInt(v)
@@ -161,6 +168,11 @@ const handleEmit = (key: string, $event: any) => {
 <style scoped lang="scss">
 .select-table {
     display: flex;
+    margin-bottom: 10px;
+    flex: 1;
+    .select-com {
+        flex: 1;
+    }
     .label {
         width: 80px;
     }
