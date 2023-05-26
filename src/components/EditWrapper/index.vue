@@ -9,7 +9,7 @@ import useEditorStore from '../../store/modules/editor'
 const editStore = useEditorStore()
 const props = defineProps<{ id: string }>()
 const emit = defineEmits<{
-    (e: 'sendItemData', id: string): void
+    (e: string, id: string): void
 }>()
 const handleEmitData = () => {
     emit('sendItemData', props.id)

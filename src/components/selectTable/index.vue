@@ -5,6 +5,7 @@
         <a-select-option value="lucy">Lucy</a-select-option>
         <a-select-option value="lucy">nihao</a-select-option>
     </a-select> -->
+    <a-slider ></a-slider>
     <div class="select-table" v-for="(val, key) in finalData" :key="key">
         <div class="label">{{ val?.text }}</div>
         <component
@@ -83,10 +84,13 @@ const componentsMap: componentsMapType = {
     },
     lineHeight: {
         componentName: 'a-slider',
-        extraAntAttr: { max: 100, min: 0, step: 2 },
+        extraAntAttr: { max: 10, min: 0, step: 0.2 },
         text: '行高',
         transformDataType(v: string) {
-            return parseInt(v)
+            return parseFloat(v)
+        },
+        afterTransformDataType(v: any) {
+            return String(v)
         },
     },
     textAlign: {
@@ -157,12 +161,21 @@ const handleEmit = (key: string, $event: any) => {
             v = transform(parseInt(v)) || v
         }
     } else {
-        if (key !== 'fontFamily') {
-            v = `${v}px`
+        switch (key){
+            case 'fontFamily':
+                break
+            case 'lineHeight':
+                break
+            default:
+                v = `${v}px`
+
         }
+        // if (key !== 'fontFamily') {
+        //     v = `${v}px`
+        // }
     }
     // v = parseInt(v)
-    emit('change', key, v)
+    emit('change', key, String(v))
 }
 </script>
 <style scoped lang="scss">

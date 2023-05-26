@@ -20,7 +20,7 @@ export const testComponents: ComponentDataType[] = [
     {
         id: uuidv4(),
         name: 'l-text',
-        props: { text: 'hello2sf', fontSize: '20px', lineHeight: '2', fontFamily: '"SimHei","STHeiti"' },
+        props: { text: 'hello2sf', fontSize: '20px', lineHeight: '1', fontFamily: '"SimHei","STHeiti"' },
     },
     {
         id: uuidv4(),
@@ -67,7 +67,6 @@ const useEditorStore = defineStore({
         updateComponentData(key: any, value: any) {
             const current = this.components.find((component) => component.id === this.currentElementId)
             if (current) {
-                console.log('current', current, key, value)
                 current.props[key as keyof TextComponentTypeProps] = value
             }
         },
