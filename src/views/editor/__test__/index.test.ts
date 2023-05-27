@@ -1,7 +1,7 @@
-import {describe, expect, it, vi} from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 describe('test cb', () => {
     it('测试回调', () => {
-        const fn = (cb:(data:string)=> void) => {
+        const fn = (cb: (data: string) => void) => {
             cb('hello')
         }
         fn((data) => {
@@ -22,11 +22,10 @@ describe('test cb', () => {
     // })
     vi.useFakeTimers()
     it('测试异步 Times', () => {
-        const fn = (cb: (data:string) => void) => {
+        const fn = (cb: (data: string) => void) => {
             setTimeout(() => {
                 cb('hello')
             }, 1000)
-
         }
         const mockfn = vi.fn()
         fn(mockfn)
@@ -36,14 +35,13 @@ describe('test cb', () => {
         expect(mockfn).toHaveBeenCalledWith('hello')
     })
     it('测试异步 Times  控制时间', () => {
-        const fn = (cb:(data: string)=> void) => {
+        const fn = (cb: (data: string) => void) => {
             setTimeout(() => {
                 cb('hello')
                 setTimeout(() => {
                     cb('two')
                 }, 2000)
             }, 1000)
-
         }
         const mockfn = vi.fn()
         fn(mockfn)
@@ -58,7 +56,6 @@ describe('test cb', () => {
         expect(mockfn).toHaveBeenCalledTimes(2)
         expect(mockfn).toHaveBeenCalledWith('two')
         // jest.advanceTimersByTime(500)
-
     })
     const testPromise = () => {
         return Promise.resolve('hello')
@@ -82,7 +79,7 @@ describe('test cb', () => {
         return expect(rejectPromise()).rejects.toBe('error')
     })
     // ------mockfn -------------
-    const fn = (flag:boolean, cb: (data:number)=>void) => {
+    const fn = (flag: boolean, cb: (data: number) => void) => {
         if (flag) cb(22)
         return 22
     }
@@ -119,5 +116,4 @@ describe('test cb', () => {
 
     //     })
     // })
-
 })

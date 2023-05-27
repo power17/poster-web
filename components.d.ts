@@ -30,6 +30,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SelectTable: typeof import('./src/components/selectTable/index.vue')['default']
+    Upload: typeof import('./src/components/Upload/index.vue')['default']
     UserProfile: typeof import('./src/components/UserProfile.vue')['default']
   }
 }

@@ -8,8 +8,8 @@ module.exports = {
     },
     extends: ['plugin:vue/vue3-essential', 'eslint:recommended', 'prettier', 'plugin:prettier/recommended'],
     overrides: [],
-    // 忽略单元测试文件 
-    ignorePatterns: [/spec.js$/],
+    // 忽略单元测试文件
+    // ignorePatterns: [/spec\.js$/],
     /* 指定如何解析语法 */
     parser: 'vue-eslint-parser',
     parserOptions: {

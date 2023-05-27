@@ -6,6 +6,14 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    server: {
+        proxy: {
+            '^/api/.*': {
+                target: 'http://182.92.168.192:8081',
+                changeOrigin: true,
+            },
+        },
+    },
     plugins: [
         vue(),
         Components({
@@ -15,10 +23,9 @@ export default defineConfig({
                 }),
             ],
         }),
-        
     ],
     test: {
-        "globals": true,
-        "environment": "jsdom",
-      },
+        globals: true,
+        environment: 'jsdom',
+    },
 })
