@@ -22,6 +22,7 @@ async function getToken() {
         veriCode: code,
     })
     const token = loginRes.data.data.token
+    console.log(1111)
     return token
 }
 type UploadStatusType = 'ready' | 'loading' | 'success' | 'error'
@@ -43,17 +44,17 @@ const handleUploadFileChange = async (e: Event) => {
         formData.append(uploadFile.name, uploadFile)
         try {
             uploadStatus.value = 'loading'
+            const token = await getToken()
             const res = await axios.post(props.actions, formData, {
                 headers: {
                     'Content-type': 'multipart/form-data',
-                    authorization: `Bearer ${await getToken()}`,
+                    authorization: `Bearer ${token}`,
                 },
             })
             uploadStatus.value = 'success'
-            const url = res.data.data.url
-            console.log(url)
-        } catch {
-            // console.error(e.message)
+            // const url = res.data.data.url
+            console.log(res)
+        } catch (e) {
             uploadStatus.value = 'error'
         }
     }

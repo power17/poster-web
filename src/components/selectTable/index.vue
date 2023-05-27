@@ -2,10 +2,11 @@
     <!-- <pre class="select-table">{{ props.data }}</pre> -->
     <!-- <a-slider id="test" value="1" /> -->
     <!-- <a-select :value="options" style="width: 120px">
-        <a-select-option value="lucy">Lucy</a-select-option>
-        <a-select-option value="lucy">nihao</a-select-option>
-    </a-select> -->
-    <a-slider ></a-slider>
+        <a-select-option value="lucy">李</a-select-option>
+        <a-select-option value="ni">你</a-select-option>
+        <component :is="test.y" :value="test.y">hao</component>
+    </a-select>
+    <a-slider></a-slider> -->
     <div class="select-table" v-for="(val, key) in finalData" :key="key">
         <div class="label">{{ val?.text }}</div>
         <component
@@ -62,9 +63,14 @@
 // import { Input } from 'ant-design-vue'
 // import { componentsMapTYpe } from '../../views/editor/interface'
 
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { TextComponentTypeProps } from '../defaultAttr/index'
 import { componentsMapType, finalDataType } from './interface/index'
+const options = ref<string>('')
+const test = {
+    x: 'a-select',
+    y: 'a-select-option',
+}
 const props = defineProps<{ data: Readonly<TextComponentTypeProps> }>()
 const componentsMap: componentsMapType = {
     text: {
@@ -161,14 +167,13 @@ const handleEmit = (key: string, $event: any) => {
             v = transform(parseInt(v)) || v
         }
     } else {
-        switch (key){
+        switch (key) {
             case 'fontFamily':
                 break
             case 'lineHeight':
                 break
             default:
                 v = `${v}px`
-
         }
         // if (key !== 'fontFamily') {
         //     v = `${v}px`
