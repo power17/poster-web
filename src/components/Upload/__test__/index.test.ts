@@ -37,20 +37,30 @@ describe('upload.vue', () => {
         await wrapper.get('input').trigger('change')
         expect(spy).toHaveBeenCalledTimes(2) // ??
         expect(wrapper.get('button span').text()).toBe('正在上传')
+        expect(wrapper.get('button').attributes()).toHaveProperty('disabled')
+        expect(wrapper.findAll('li').length).toBe(1)
+        const firstItem = wrapper.get('li:first-child')
+        expect(firstItem.classes()).toContain('upload-loading')
         // 上传成功
-        // expect(spy).toHaveBeenCalledTimes(3)
         await flushPromises()
-        // expect(spy).toHaveBeenCalledTimes(3)
-        // await asyncMock()
-        expect(wrapper.get('button span').text()).toBe('上传成功')
         expect(spy).toHaveBeenCalledTimes(3)
+        expect(wrapper.get('button span').text()).toBe('点击上传')
+        expect(firstItem.classes()).toContain('upload-success')
+        expect(firstItem.get('.filename').text()).toBe(testFile.name)
     })
     it('upload Reject', async () => {
         spy.mockRejectedValueOnce({ error: 'error' })
+
         await wrapper.get('input').trigger('change')
-        expect(spy).toHaveBeenCalledTimes(4)
         expect(wrapper.get('button span').text()).toBe('正在上传')
         await flushPromises()
-        expect(wrapper.get('button span').text()).toBe('上传失败')
+        expect(wrapper.get('button span').text()).toBe('点击上传')
+        // 待实现
+        expect(wrapper.findAll('li').length).toBe(2)
+        const lastItem = wrapper.get('li:last-child')
+        expect(lastItem.classes()).toContain('upload-error')
+        await lastItem.get('.delete-icon').trigger('click')
+
+        expect(wrapper.findAll('li').length).toBe(1)
     })
 })
