@@ -5,4 +5,5 @@ export interface UploadFileType {
     name: string
     status: UploadStatusType
     raw: File
+    resp?: any
 }

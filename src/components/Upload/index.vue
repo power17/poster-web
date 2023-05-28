@@ -1,9 +1,16 @@
 <template>
     <div class="upload">
-        <button @click="handleuploadFile" :disabled="isUploading">
-            <span v-if="isUploading">正在上传</span>
-            <span v-else>点击上传</span>
-        </button>
+        <div class="upload-area" @click="handleuploadFile">
+            <slot v-if="isUploading" name="loading">
+                <button disabled>正在上传</button>
+            </slot>
+            <slot name="uploaded" v-else-if="lastFile && lastFile.loaded" :uploadedData="lastFile.data">
+                <button>点击上传</button>
+            </slot>
+            <slot v-else>
+                <button>点击上传</button>
+            </slot>
+        </div>
         <input ref="fileRef" type="file" @change="handleUploadFileChange" :style="{ display: 'none' }" />
         <ul class="upload-file-ul">
             <li :class="`upload-flie-li upload-${file.status}`" v-for="file in uploadFiles" :key="file.uid">
@@ -33,6 +40,16 @@ async function getToken() {
 }
 const isUploading = computed(() => {
     return uploadFiles.value.some((file) => file.status === 'loading')
+})
+const lastFile = computed(() => {
+    const lastFile = uploadFiles.value.at(-1)
+    if (lastFile) {
+        return {
+            loaded: lastFile.status === 'success',
+            data: lastFile.resp,
+        }
+    }
+    return false
 })
 
 const props = defineProps<{ actions: string }>()
@@ -72,12 +89,12 @@ const handleUploadFileChange = async (e: Event) => {
             })
             // uploadStatus.value = 'success'
             fileObj.status = 'success'
-            console.log(res)
+            fileObj.resp = res.data
             if (fileRef.value) {
                 fileRef.value.value = ''
             }
         } catch (e) {
-            console.error(e)
+            console.error(e, 'error')
             fileObj.status = 'error'
         }
     }
