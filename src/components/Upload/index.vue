@@ -25,6 +25,12 @@ import { reactive, ref, computed } from 'vue'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
 import type { UploadFileType } from './index.d.ts'
+// import type { CheckUploadType } from './index.d.ts'
+export interface UploadPropsType {
+    actions: string
+    beforeUpload: (file: File) => boolean | Promise<File>
+}
+
 const uploadFiles = ref<UploadFileType[]>([]) // 文件数组
 async function getToken() {
     const res = await axios.post('/api/users/genVeriCode', {
@@ -52,10 +58,9 @@ const lastFile = computed(() => {
     return false
 })
 
-const props = defineProps<{ actions: string }>()
+const props = defineProps<UploadPropsType>()
 const fileRef = ref<HTMLInputElement | null>(null)
 const removeFile = (uid: string) => {
-    // console.log(uploadFiles, uid)
     uploadFiles.value = uploadFiles.value.filter((file) => file.uid === uid)
 }
 // 上传点击
@@ -69,34 +74,57 @@ const handleUploadFileChange = async (e: Event) => {
     const files = target.files
     if (files) {
         const uploadFile = files[0]
-        const formData = new FormData()
-        formData.append(uploadFile.name, uploadFile)
-        const fileObj = reactive<UploadFileType>({
-            uid: uuidv4(),
-            size: uploadFile.size,
-            name: uploadFile.name,
-            raw: uploadFile,
-            status: 'loading',
-        })
-        uploadFiles.value.push(fileObj)
-        try {
-            const token = await getToken()
-            const res = await axios.post(props.actions, formData, {
-                headers: {
-                    'Content-type': 'multipart/form-data',
-                    authorization: `Bearer ${token}`,
-                },
-            })
-            // uploadStatus.value = 'success'
-            fileObj.status = 'success'
-            fileObj.resp = res.data
-            if (fileRef.value) {
-                fileRef.value.value = ''
+        if (props.beforeUpload) {
+            const result = props.beforeUpload(uploadFile)
+            if (result && result instanceof Promise) {
+                result
+                    .then((processFile) => {
+                        if (processFile instanceof File) {
+                            postFiles(processFile)
+                        } else {
+                            throw new Error('before upload should return file')
+                        }
+                    })
+                    .catch((e) => console.log(e))
+            } else if (result) {
+                postFiles(uploadFile)
             }
-        } catch (e) {
-            console.error(e, 'error')
-            fileObj.status = 'error'
+        } else {
+            postFiles(uploadFile)
         }
+    }
+}
+// 上传文件
+async function postFiles(uploadFile: File) {
+    const formData = new FormData()
+    formData.append(uploadFile.name, uploadFile)
+    const fileObj = reactive<UploadFileType>({
+        uid: uuidv4(),
+        size: uploadFile.size,
+        name: uploadFile.name,
+        raw: uploadFile,
+        status: 'loading',
+    })
+
+    uploadFiles.value.push(fileObj)
+
+    try {
+        const token = await getToken()
+        const res = await axios.post(props.actions, formData, {
+            headers: {
+                'Content-type': 'multipart/form-data',
+                authorization: `Bearer ${token}`,
+            },
+        })
+        // uploadStatus.value = 'success'
+        fileObj.status = 'success'
+        fileObj.resp = res.data
+        if (fileRef.value) {
+            fileRef.value.value = ''
+        }
+    } catch (e) {
+        console.error(e, 'error')
+        fileObj.status = 'error'
     }
 }
 </script>

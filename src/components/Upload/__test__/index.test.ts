@@ -19,6 +19,7 @@ describe('upload.vue', () => {
         wrapper = shallowMount(Uploader as any, {
             props: {
                 actions: '/api/utils/upload-img',
+                beforeUpload: () => true,
             },
         })
     })
@@ -77,6 +78,7 @@ describe('upload.vue', () => {
         const wrapper = mount(Uploader as any, {
             props: {
                 actions: 'test.url',
+                beforeUpload: () => true,
             },
             slots: {
                 default: '<button>custom button</button>',
@@ -99,6 +101,7 @@ describe('upload.vue', () => {
         await flushPromises()
         expect(wrapper.get('.custom-loaded').text()).toBe('power.url')
     })
+    // 上传前的检查
     it('before upload', async () => {
         spy.mockResolvedValueOnce({ data: { data: { code: '234' } } })
         spy.mockResolvedValueOnce({ data: { data: { token: '234' } } })
@@ -123,6 +126,40 @@ describe('upload.vue', () => {
         // expect(spy).toHaveBeenCalled()
         expect(wrapper.findAll('li').length).toBe(0)
         expect(callback).toHaveBeenCalled()
+    })
+    it.only('before upload check using Promise', async () => {
+        spy.mockResolvedValueOnce({ data: { data: { code: 'swq234' } } })
+        spy.mockResolvedValueOnce({ data: { data: { token: 'sw234' } } })
+        spy.mockResolvedValueOnce({ data: { url: 'dumy.url' } })
+        const successPromise = (file: File) => {
+            const newFile = new File([file], 'new_name.docx', { type: file.type })
+            return Promise.resolve(newFile)
+        }
+        const failPromise = () => {
+            return Promise.reject('wrong type')
+        }
+        const wrapper = shallowMount(Uploader as any, {
+            props: {
+                actions: 'test.url',
+                beforeUpload: failPromise,
+            },
+        })
+        // 测试上传reject失败
+        const fileInput = wrapper.get('input').element as HTMLInputElement
+        setInputValue(fileInput)
+        await wrapper.get('input').trigger('change')
+        await flushPromises()
+        expect(wrapper.findAll('li').length).toBe(0)
+        // test promise with wrong type
+        // 测试 promise with file
+        await wrapper.setProps({ beforeUpload: successPromise })
+        await wrapper.get('input').trigger('change')
+        await flushPromises()
+        // vi.useFakeTimers()
+        // await vi.runAllTicks()
+        const firstItem = wrapper.get('li:first-child')
+        expect(firstItem.classes()).toContain('upload-success')
+        expect(firstItem.get('.filename').text()).toBe('new_name.docx')
     })
 
     afterAll(() => {

@@ -7,3 +7,4 @@ export interface UploadFileType {
     raw: File
     resp?: any
 }
+export type CheckUploadType = (file: File) => boolean | Promise<File>
