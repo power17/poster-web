@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, it, vi } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import axios from 'axios'
 import { VueWrapper, flushPromises, mount, shallowMount } from '@vue/test-utils'
 import Uploader from '../index.vue'
@@ -67,7 +67,7 @@ describe('upload.vue', () => {
         expect(wrapper.findAll('li').length).toBe(1)
     })
 
-    it.only('should show correct interface when running custom slot', async () => {
+    it('should show correct interface when running custom slot', async () => {
         spy.mockResolvedValueOnce({ data: { data: { code: '234' } } })
         spy.mockResolvedValueOnce({ data: { data: { token: '234' } } })
         spy.mockResolvedValueOnce({ data: { url: 'dumy.url' } })
@@ -98,5 +98,34 @@ describe('upload.vue', () => {
         expect(wrapper.get('.loading').text()).toBe('custom loading')
         await flushPromises()
         expect(wrapper.get('.custom-loaded').text()).toBe('power.url')
+    })
+    it('before upload', async () => {
+        spy.mockResolvedValueOnce({ data: { data: { code: '234' } } })
+        spy.mockResolvedValueOnce({ data: { data: { token: '234' } } })
+        spy.mockResolvedValueOnce({ data: { url: 'dumy.url' } })
+        const callback = vi.fn()
+        const checkFileSize = (file: File) => {
+            if (file.size > 2) {
+                callback()
+                return false
+            }
+            return true
+        }
+        const wrapper = shallowMount(Uploader as any, {
+            props: {
+                actions: 'test.url',
+                beforeUpload: checkFileSize,
+            },
+        })
+        const fileInput = wrapper.get('input').element as HTMLInputElement
+        setInputValue(fileInput)
+        await wrapper.get('input').trigger('change')
+        // expect(spy).toHaveBeenCalled()
+        expect(wrapper.findAll('li').length).toBe(0)
+        expect(callback).toHaveBeenCalled()
+    })
+
+    afterAll(() => {
+        spy.mockReset()
     })
 })
