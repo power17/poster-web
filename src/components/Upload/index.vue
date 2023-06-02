@@ -116,6 +116,7 @@ async function postFiles(uploadFile: File) {
                 authorization: `Bearer ${token}`,
             },
         })
+        console.log(111)
         // uploadStatus.value = 'success'
         fileObj.status = 'success'
         fileObj.resp = res.data
