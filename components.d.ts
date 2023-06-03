@@ -25,6 +25,7 @@ declare module '@vue/runtime-core' {
     ASelectOption: typeof import('ant-design-vue/es')['SelectOption']
     ASlider: typeof import('ant-design-vue/es')['Slider']
     ComponentList: typeof import('./src/components/ComponentList/index.vue')['default']
+    Drag: typeof import('./src/components/Upload/drag.vue')['default']
     EditWrapper: typeof import('./src/components/EditWrapper/index.vue')['default']
     PText: typeof import('./src/components/PText/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

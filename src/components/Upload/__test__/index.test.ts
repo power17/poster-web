@@ -127,7 +127,7 @@ describe('upload.vue', () => {
         expect(wrapper.findAll('li').length).toBe(0)
         expect(callback).toHaveBeenCalled()
     })
-    it.only('before upload check using Promise', async () => {
+    it('before upload check using Promise', async () => {
         spy.mockResolvedValueOnce({ data: { data: { code: 'swq234' } } })
         spy.mockResolvedValueOnce({ data: { data: { token: 'sw234' } } })
         spy.mockResolvedValueOnce({ data: { url: 'dumy.url' } })

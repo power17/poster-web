@@ -1,10 +1,12 @@
 <template>
-    <file-upload actions="/api/utils/upload-img"></file-upload>
+    <file-upload :before-upload="beforUpload" actions="/api/utils/upload-img" drag></file-upload>
     <router-view></router-view>
 </template>
 <script setup lang="ts">
 import FileUpload from './components/Upload/index.vue'
-
+const beforUpload = () => {
+    return true
+}
 // import { useGlobalStore } from './store'
 // const globalStore = useGlobalStore()
 </script>
