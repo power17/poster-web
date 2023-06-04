@@ -25,7 +25,6 @@ import { reactive, ref, computed } from 'vue'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
 import type { UploadFileType } from './index.d.ts'
-// import type { CheckUploadType } from './index.d.ts'
 export interface UploadPropsType {
     actions: string
     beforeUpload: (file: File) => boolean | Promise<File>
@@ -74,7 +73,6 @@ const handleuploadFile = () => {
 }
 const handleUploadFileChange = async (e: Event) => {
     const target = e.target as HTMLInputElement
-    // const files = target.files
     upload(target.files)
 }
 async function upload(files: FileList | null) {
