@@ -42,6 +42,7 @@
             </a-layout-content>
             <a-layout-sider width="300px">
                 <div>组件属性</div>
+                <image-processer></image-processer>
                 <select-table :data="editStore.currentElement" @change="handleChange"></select-table>
                 <pre>{{ editStore.currentElement }}</pre>
             </a-layout-sider>
@@ -56,6 +57,7 @@ import ComponentList from '../../components/ComponentList/index.vue'
 import PText from '../../components/PText/index.vue'
 import SelectTable from '../../components/selectTable/index.vue'
 import EditWrapper from '../../components/EditWrapper/index.vue'
+import ImageProcesser from '../../components/ImageProcesser/index.vue'
 // import { componentsMapTYpe } from './interface/index'
 // import { TextComponentTypeProps } from '../../components/defaultAttr'
 const editStore = useEditorStore()

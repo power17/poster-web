@@ -1,19 +1,12 @@
 <template>
-    <!-- <pre class="select-table">{{ props.data }}</pre> -->
-    <!-- <a-slider id="test" value="1" /> -->
-    <!-- <a-select :value="options" style="width: 120px">
-        <a-select-option value="lucy">李</a-select-option>
-        <a-select-option value="ni">你</a-select-option>
-        <component :is="test.y" :value="test.y">hao</component>
-    </a-select>
-    <a-slider></a-slider> -->
     <div class="select-table" v-for="(val, key) in finalData" :key="key">
+        <!-- <pre> {{ finalData }}</pre> -->
         <div class="label">{{ val?.text }}</div>
         <component
             v-if="val"
             :value="val.value"
             class="select-com"
-            v-on:[val.eventName]="($event: any) => handleEmit(val.key,$event)"
+            v-on:[val.eventName]="($event: any) => handleEmit(val.key, $event)"
             :is="val?.componentName"
             v-bind="val.extraAntAttr"
         >
@@ -21,23 +14,12 @@
                 <component
                     :is="val?.subComponentName"
                     v-for="(option, k) in val.options"
-                    :key="k"
                     :value="option.value"
+                    :key="k"
                 >
                     {{ option.text }}
                 </component>
             </template>
-
-            <!-- <template v-if="val.options">
-                <a-select-option
-                    :is="val.subComponentName"
-                    v-for="(option, k) in val.options"
-                    :key="k"
-                    :value="option.value"
-                >
-                    {{ val.subComponentName }}
-                </a-select-option>
-            </template> -->
         </component>
     </div>
     <!-- <div class="select-table" v-for="(val, key) in finalData" :key="key">
@@ -60,27 +42,22 @@
     <!-- <pre>{{ props.data }}</pre> -->
 </template>
 <script setup lang="ts">
-// import { Input } from 'ant-design-vue'
-// import { componentsMapTYpe } from '../../views/editor/interface'
-
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { TextComponentTypeProps } from '../defaultAttr/index'
 import { componentsMapType, finalDataType } from './interface/index'
-const options = ref<string>('')
-const test = {
-    x: 'a-select',
-    y: 'a-select-option',
-}
+
 const props = defineProps<{ data: Readonly<TextComponentTypeProps> }>()
 const componentsMap: componentsMapType = {
     text: {
         componentName: 'a-textarea',
         text: '文字',
         extraAntAttr: { row: 3 },
+        subComponentName: '',
     },
     fontSize: {
         componentName: 'a-input-number',
         text: '字号',
+        subComponentName: '',
         transformDataType(v: any) {
             return parseInt(v)
         },
@@ -90,6 +67,7 @@ const componentsMap: componentsMapType = {
     },
     lineHeight: {
         componentName: 'a-slider',
+        subComponentName: '',
         extraAntAttr: { max: 10, min: 0, step: 0.2 },
         text: '行高',
         transformDataType(v: string) {
@@ -141,7 +119,7 @@ const finalData = computed(() => {
         if (itemMap) {
             result[newKey] = {
                 value: itemMap.transformDataType ? itemMap.transformDataType(item) : item,
-                componentName: itemMap.componentName,
+                componentName: itemMap.componentName || '',
                 subComponentName: itemMap.subComponentName,
                 text: itemMap.text,
                 options: itemMap.options,
@@ -151,6 +129,7 @@ const finalData = computed(() => {
             }
         }
     })
+    console.log(result)
     return result
 })
 
@@ -188,9 +167,11 @@ const handleEmit = (key: string, $event: any) => {
     display: flex;
     margin-bottom: 10px;
     flex: 1;
+
     .select-com {
         flex: 1;
     }
+
     .label {
         width: 80px;
     }

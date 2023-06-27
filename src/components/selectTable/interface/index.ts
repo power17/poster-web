@@ -4,17 +4,17 @@ export type componentsMapType = {
         componentName: string | undefined
         extraAntAttr?: { [key: string]: any }
         text?: string
-        subComponentName?: string
+        subComponentName: string
         options?: { text: string; value: any }[]
-        value?: string
+        value?: string | never
         transformDataType?: (data: any) => any
-        eventName?: string
+        eventName?: string | never
         afterTransformDataType?: (data: any) => any
     }
 }
 export interface FormProps {
-    componentName: string | undefined
-    subComponentName?: string
+    componentName: string
+    subComponentName: string
     value: string
     extraAntAttr?: { [key: string]: any }
     text?: string

@@ -1,6 +1,9 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@ant-design/icons-vue':
+    specifier: ^6.1.0
+    version: 6.1.0(vue@3.3.4)
   '@types/lodash-es':
     specifier: ^4.17.7
     version: 4.17.7
@@ -13,6 +16,9 @@ dependencies:
   axios:
     specifier: ^1.4.0
     version: 1.4.0
+  cropperjs:
+    specifier: ^1.5.13
+    version: 1.5.13
   lodash-es:
     specifier: ^4.17.21
     version: 4.17.21
@@ -1136,6 +1142,10 @@ packages:
   /core-js@3.30.2:
     resolution: {integrity: sha512-uBJiDmwqsbJCWHAwjrx3cvjbMXP7xD72Dmsn5LOJpiRmE3WbBbN5rCqQ2Qh6Ek6/eOrjlWngEynBWo4VxerQhg==}
     requiresBuild: true
+    dev: false
+
+  /cropperjs@1.5.13:
+    resolution: {integrity: sha512-by7jKAo73y5/Do0K6sxdTKHgndY0NMjG2bEdgeJxycbcmHuCiMXqw8sxy5C5Y5WTOTcDGmbT7Sr5CgKOXR06OA==}
     dev: false
 
   /cross-spawn@7.0.3:

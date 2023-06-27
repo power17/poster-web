@@ -5,7 +5,7 @@
 </template>
 <script setup lang="ts">
 import { TextComponentTypeProps } from '../defaultAttr/index.ts'
-import { defineProps, defineEmits } from 'vue'
+// import { defineProps, defineEmits } from 'vue'
 import PText from '../PText/index.vue'
 
 const props = defineProps<{ list: Partial<TextComponentTypeProps>[] }>()
