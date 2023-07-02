@@ -30,7 +30,7 @@
                 </div>
             </a-layout-sider>
             <a-layout-content class="main">
-                <div>content</div>
+                <div>画布区域</div>
                 <edit-wrapper
                     @sendItemData="handleSendItemData"
                     v-for="v in editStore.components"
@@ -51,7 +51,7 @@
 </template>
 <script setup lang="ts">
 // import { computed } from 'vue'
-import useEditorStore from './../../store/modules/editor.ts'
+import useEditorStore from './../../store/editor.ts'
 import defaultTextTemplates from './data/defaultTemplate.ts'
 import ComponentList from '../../components/ComponentList/index.vue'
 import PText from '../../components/PText/index.vue'
@@ -134,3 +134,4 @@ const handleSendItemData = (id: string) => {
     height: 100%;
 }
 </style>
+../../store/editor.ts

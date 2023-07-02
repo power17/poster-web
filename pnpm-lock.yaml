@@ -19,6 +19,9 @@ dependencies:
   cropperjs:
     specifier: ^1.5.13
     version: 1.5.13
+  lego-bricks:
+    specifier: ^1.0.11
+    version: 1.0.11(vue@3.3.4)
   lodash-es:
     specifier: ^4.17.21
     version: 4.17.21
@@ -2280,6 +2283,16 @@ packages:
   /jsonc-parser@3.2.0:
     resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==}
     dev: true
+
+  /lego-bricks@1.0.11(vue@3.3.4):
+    resolution: {integrity: sha512-v2rPAzkQty5H/RFSPMKtU2TLNMJTW4tQ8ahikK6+HnZviJlSrkX9zVtankqGK/j83zMZQJQEmu6N/zMFSo1mlw==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      core-js: 3.30.2
+      lodash-es: 4.17.21
+      vue: 3.3.4
+    dev: false
 
   /levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}

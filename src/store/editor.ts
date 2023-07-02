@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
-import { ComponentDataType } from './../interface/editor'
-import { TextComponentTypeProps } from '../../components/defaultAttr/index'
+import { ComponentDataType } from './interface/editor'
+import { TextComponentTypeProps } from '../components/defaultAttr/index'
+// import { imageDefaultProps } from 'lego-bricks'
 import { v4 as uuidv4 } from 'uuid'
 interface editorStoreType {
     components: ComponentDataType[]
@@ -33,6 +34,20 @@ export const testComponents: ComponentDataType[] = [
             fontFamily: '',
             actionType: 'url',
             // url: 'https://www.baidu.com',
+        },
+    },
+    {
+        id: uuidv4(),
+        name: 'l-image',
+        // layerName: '图层4',
+        props: {
+            backgroundSize: 'cover',
+            backgroundColor: '#fff',
+            backgroundRepeat: 'no-repeat',
+           
+            backgroundImage:
+                'url("https://static.imooc-lego.com/upload-files/%E5%B9%BC%E5%84%BF%E5%9B%AD%E8%83%8C%E6%99%AF%E5%9B%BE-994372.jpg")',
+            height: '560px',
         },
     },
 ]
