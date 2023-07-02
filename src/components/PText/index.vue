@@ -3,7 +3,7 @@
     <div class="p-text-component" :style="styleSheet" @click="handleClick">{{ props.text }}</div>
 </template>
 <script setup lang="ts">
-import { defineProps, StyleValue } from 'vue'
+import { StyleValue } from 'vue'
 // import { pick, without } from 'lodash-es'
 import { textDefaultProps, TextComponentTypeProps } from '../defaultAttr/index.ts'
 // import { defaultProps } from 'ant-design-vue/es/vc-mentions/src/mentionsProps'
