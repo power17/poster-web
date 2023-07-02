@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import { StyleValue } from 'vue'
 // import { pick, without } from 'lodash-es'
-import { TextComponentTypeProps } from '../defaultAttr/index.ts'
+import { textDefaultProps, TextComponentTypeProps } from '../defaultAttr/index.ts'
 // import { defaultProps } from 'ant-design-vue/es/vc-mentions/src/mentionsProps'
 import { without, pick } from 'lodash-es'
 
@@ -19,10 +19,8 @@ function getStyleSheet(textData: Partial<TextComponentTypeProps>) {
     return styleSheet
 }
 // const defaultProps = transformToComponentProps(textDefaultProps)
-const props = defineProps<Partial<TextComponentTypeProps>>()
-const tag = props.tag || 'div'
+const props = withDefaults(defineProps<Partial<TextComponentTypeProps>>(), textDefaultProps)
 const styleSheet = getStyleSheet(props) as StyleValue
-console.log(Object.keys(styleSheet))
 // console.log(styleSheet, '1', textDefaultProps)
 // // const props = defineProps<{
 //     text?: string

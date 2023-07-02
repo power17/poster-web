@@ -1,48 +1,27 @@
 <template>
     <a-layout>
-        <a-layout-header class="header">
-            <div class="page-title">
-                <router-link to="/">
-                    <img alt="power设计" src="../../assets/logo.png" class="logo-img" />
-                </router-link>
-                <!-- <inline-edit :value="page.title" @change="titleChange" /> -->
-            </div>
-            <a-menu :selectable="false" theme="dark" mode="horizontal" :style="{ lineHeight: '64px' }">
-                <a-menu-item key="1">
-                    <a-button type="primary">预览和设置</a-button>
-                </a-menu-item>
-                <a-menu-item key="2">
-                    <a-button type="primary">保存</a-button>
-                </a-menu-item>
-                <a-menu-item key="3">
-                    <a-button type="primary">发布</a-button>
-                </a-menu-item>
-                <a-menu-item key="4">
-                    <user-profile></user-profile>
-                </a-menu-item>
-            </a-menu>
-        </a-layout-header>
         <a-layout>
             <a-layout-sider>
                 <h2>组件列表</h2>
-                <div>
+                <div class="canvas-area">
                     <ComponentList :list="defaultTextTemplates" @itemClick="handleAddItem"></ComponentList>
                 </div>
             </a-layout-sider>
             <a-layout-content class="main">
                 <div>画布区域</div>
-                <edit-wrapper
-                    @sendItemData="handleSendItemData"
-                    v-for="v in editStore.components"
-                    :id="v.id"
-                    :key="v.id"
-                >
-                    <p-text v-bind="v.props"></p-text>
-                </edit-wrapper>
+                <div class="canvas-area">
+                    <edit-wrapper
+                        @sendItemData="handleSendItemData"
+                        v-for="v in editStore.components"
+                        :id="v.id"
+                        :key="v.id"
+                    >
+                        <p-text v-bind="v.props"></p-text>
+                    </edit-wrapper>
+                </div>
             </a-layout-content>
             <a-layout-sider width="300px">
                 <div>组件属性</div>
-                <image-processer></image-processer>
                 <select-table :data="editStore.currentElement" @change="handleChange"></select-table>
                 <pre>{{ editStore.currentElement }}</pre>
             </a-layout-sider>
@@ -57,7 +36,7 @@ import ComponentList from '../../components/ComponentList/index.vue'
 import PText from '../../components/PText/index.vue'
 import SelectTable from '../../components/selectTable/index.vue'
 import EditWrapper from '../../components/EditWrapper/index.vue'
-import ImageProcesser from '../../components/ImageProcesser/index.vue'
+
 // import { componentsMapTYpe } from './interface/index'
 // import { TextComponentTypeProps } from '../../components/defaultAttr'
 const editStore = useEditorStore()
@@ -75,15 +54,10 @@ const handleSendItemData = (id: string) => {
 }
 </script>
 <style scoped lang="scss">
-:deep(.ant-layout-sider-children) {
-    background: #fff;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-}
 .main {
+    position: relative;
+}
+.canvas-area {
     position: relative;
 }
 
@@ -134,4 +108,3 @@ const handleSendItemData = (id: string) => {
     height: 100%;
 }
 </style>
-../../store/editor.ts

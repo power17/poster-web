@@ -16,12 +16,13 @@ export const testComponents: ComponentDataType[] = [
             fontSize: '10px',
             textAlign: 'center',
             fontFamily: '"SimHei","STHeiti"',
+            top: '10px',
         },
     },
     {
         id: uuidv4(),
         name: 'l-text',
-        props: { text: 'hello2sf', fontSize: '20px', lineHeight: '1', fontFamily: '"SimHei","STHeiti"' },
+        props: { text: 'hello2sf', top: '30px', fontSize: '20px', lineHeight: '1', fontFamily: '"SimHei","STHeiti"' },
     },
     {
         id: uuidv4(),
@@ -30,7 +31,7 @@ export const testComponents: ComponentDataType[] = [
             text: 'hello3',
             color: 'red',
             fontSize: '30px',
-            // top: '40px',
+            top: '50px',
             fontFamily: '',
             actionType: 'url',
             // url: 'https://www.baidu.com',
@@ -44,10 +45,11 @@ export const testComponents: ComponentDataType[] = [
             backgroundSize: 'cover',
             backgroundColor: '#fff',
             backgroundRepeat: 'no-repeat',
-           
+            top: '100px',
             backgroundImage:
                 'url("https://static.imooc-lego.com/upload-files/%E5%B9%BC%E5%84%BF%E5%9B%AD%E8%83%8C%E6%99%AF%E5%9B%BE-994372.jpg")',
             height: '560px',
+            text: '',
         },
     },
 ]

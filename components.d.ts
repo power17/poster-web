@@ -10,6 +10,8 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AButton: typeof import('ant-design-vue/es')['Button']
+    ACard: typeof import('ant-design-vue/es')['Card']
+    ACardMeta: typeof import('ant-design-vue/es')['CardMeta']
     ACol: typeof import('ant-design-vue/es')['Col']
     ADropdownButton: typeof import('ant-design-vue/es')['DropdownButton']
     AInput: typeof import('ant-design-vue/es')['Input']
@@ -25,6 +27,7 @@ declare module '@vue/runtime-core' {
     ASelect: typeof import('ant-design-vue/es')['Select']
     ASelectOption: typeof import('ant-design-vue/es')['SelectOption']
     ASlider: typeof import('ant-design-vue/es')['Slider']
+    ATag: typeof import('ant-design-vue/es')['Tag']
     ComponentList: typeof import('./src/components/ComponentList/index.vue')['default']
     Drag: typeof import('./src/components/Upload/drag.vue')['default']
     EditWrapper: typeof import('./src/components/EditWrapper/index.vue')['default']
@@ -33,6 +36,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SelectTable: typeof import('./src/components/selectTable/index.vue')['default']
+    TemplateList: typeof import('./src/components/TemplateList/index.vue')['default']
     Upload: typeof import('./src/components/Upload/index.vue')['default']
     UserProfile: typeof import('./src/components/UserProfile.vue')['default']
   }

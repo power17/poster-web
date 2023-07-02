@@ -45,7 +45,6 @@
 import { computed } from 'vue'
 import { TextComponentTypeProps } from '../defaultAttr/index'
 import { componentsMapType, finalDataType } from './interface/index'
-
 const props = defineProps<{ data: Readonly<TextComponentTypeProps> }>()
 const componentsMap: componentsMapType = {
     text: {
@@ -108,6 +107,13 @@ const componentsMap: componentsMapType = {
             { text: '楷体', value: '"KaiTi","STKaiti"' },
             { text: '仿宋', value: '"FangSong","STFangsong"' },
         ],
+    },
+    backgroundImage: {
+        componentName: 'ImageProcess',
+        subComponentName: '',
+        text: '',
+        value: '',
+        options: [],
     },
 }
 const finalData = computed(() => {
