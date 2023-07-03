@@ -9,7 +9,7 @@ import configAnt from './config/configAnt'
 import legoBricks from 'lego-bricks'
 const app = createApp(App)
 const pinia = createPinia()
-app.use(router).use(pinia).use(legoBricks).use(configAnt).mount('#app')
+app.use(pinia).use(router).use(legoBricks).use(configAnt).mount('#app')
 
 import axios from 'axios'
 import { useGlobalStore } from '../src/store/global'

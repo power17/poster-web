@@ -108,3 +108,4 @@ const handleSendItemData = (id: string) => {
     height: 100%;
 }
 </style>
+../../store/editor.ts

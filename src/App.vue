@@ -1,5 +1,5 @@
 <template>
-    <header-bar></header-bar>
+    <!-- <header-bar></header-bar> -->
     <router-view></router-view>
     <!-- <file-upload :before-upload="beforUpload" actions="/api/utils/upload-img" drag></file-upload> -->
     <!-- <button @click="login">gitee授权登录</button> -->

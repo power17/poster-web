@@ -45,8 +45,11 @@ export const useUserStore = defineStore({
                 return Promise.reject(e)
             }
         },
-        logout(state: userStoreType) {
-            state.isLogin = false
+        logout() {
+            this.token = ''
+            localStorage.removeItem('token')
+            this.isLogin = false
+            delete axios.defaults.headers.common.Authorization
         },
     },
 })
