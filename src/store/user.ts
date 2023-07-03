@@ -1,13 +1,12 @@
-import { message } from 'ant-design-vue'
 import axios from 'axios'
 import { defineStore } from 'pinia'
 interface userInfoType {
-    nickName: ''
+    nickName: string
 }
 interface userStoreType {
+    loginButtonStatus: boolean
     isLogin: boolean
-    userName?: string
-    token?: string
+    token: string
     userInfo: userInfoType
 }
 interface payloadType {
@@ -20,32 +19,31 @@ export const useUserStore = defineStore({
     state: (): userStoreType => ({
         isLogin: false,
         userInfo: {} as userInfoType,
+        loginButtonStatus: false,
+        token: localStorage.getItem('token') || '',
     }),
     actions: {
         login: async function (payload: payloadType) {
             const res = await axios.post('/users/loginByPhoneNumber', payload)
-            if (res.data.errno !== 0) {
-                message.error(res.data.message)
-                return false
-            }
-            this.token = res.data.data.token
+            this.token = res.data.token || ''
+            localStorage.setItem('token', this.token)
             this.isLogin = true
             axios.defaults.headers.common.Authorization = `Bearer ${this.token}`
             return this.token
         },
         fetchCurrentUser: async function () {
             const res = await axios.get('/users/getUserInfo')
-            console.log(res.data.data)
-            this.userInfo = res.data.data
+            this.userInfo = res.data
             return this.userInfo
         },
         loginAndFetch: async function (payload: payloadType) {
-            const loginRes = await this.login(payload)
-            await this.fetchCurrentUser()
-            if (!loginRes) {
-                return false
+            try {
+                await this.login(payload)
+                await this.fetchCurrentUser()
+            } catch (e) {
+                this.loginButtonStatus = false
+                return Promise.reject(e)
             }
-            return true
         },
         logout(state: userStoreType) {
             state.isLogin = false

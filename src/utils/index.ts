@@ -1,4 +1,4 @@
-import { mapValues, pick } from 'lodash-es'
+import { isEmpty, mapValues, pick } from 'lodash-es'
 import { computed } from 'vue'
 import { TextComponentTypeProps } from '../components/defaultAttr'
 export const transformToComponentProps = <T extends {}>(props: T) => {
@@ -21,4 +21,7 @@ export const useComponentCommon = (props: Readonly<Partial<TextComponentTypeProp
         styleProps,
         // handleClick,
     }
+}
+export const isEmptyObject = (object: Object) => {
+    return Object.keys(object).length === 0
 }

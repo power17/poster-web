@@ -5,7 +5,7 @@
             <a-col :span="12" class="aside">
                 <div class="aside-inner">
                     <router-link to="/">
-                        <img alt="慕课乐高" src="../../assets/logo.png" class="logo-img" />
+                        <img alt="power设计" src="../../assets/logo.png" class="logo-img" />
                     </router-link>
                     <h2>
                         心之所向，素履所往，
@@ -30,7 +30,9 @@
                         </a-input>
                     </a-form-item>
                     <a-form-item>
-                        <a-button type="primary" size="large" @click="login">登录</a-button>
+                        <a-button type="primary" size="large" @click="login" :loading="userStore.loginButtonStatus">
+                            登录
+                        </a-button>
                         <a-button
                             :disabled="codeButtonDisabled"
                             size="large"
@@ -115,18 +117,18 @@ const sendVeriCode = () => {
     })
 }
 // login
+
 const login = async () => {
     const result = await validate()
+    userStore.loginButtonStatus = true
+
     if (result) {
-        const res = await userStore.loginAndFetch(form)
-        console.log(res)
-        if (!res) {
-            return
-        }
-        message.success('登录成功，2秒后跳转首页')
+        await userStore.loginAndFetch(form)
+        message.success('登录成功,2秒后跳转首页')
         router.push('/')
         resetFields()
     }
+    userStore.loginButtonStatus = false
 }
 </script>
 <style scoped lang="scss">

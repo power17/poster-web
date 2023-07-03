@@ -1,5 +1,5 @@
 <template>
-    <router-link to="/login" v-if="!isLogin">
+    <router-link to="/login" v-if="isEmptyObject(userStore.userInfo)">
         <a-button type="primary" class="user-profile-component">登录</a-button>
     </router-link>
     <div v-else>
@@ -16,9 +16,9 @@
 <script setup lang="ts">
 import { useUserStore } from '../store/user'
 import { computed } from 'vue'
+import { isEmptyObject } from '../utils'
 const userStore = useUserStore()
 const userInfo = computed(() => userStore.userInfo)
-const isLogin = computed(() => userStore.isLogin)
 </script>
 <style scoped lang="scss">
 .user-profile-component {

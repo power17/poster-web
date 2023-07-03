@@ -34,6 +34,8 @@ declare module '@vue/runtime-core' {
     ComponentList: typeof import('./src/components/ComponentList/index.vue')['default']
     Drag: typeof import('./src/components/Upload/drag.vue')['default']
     EditWrapper: typeof import('./src/components/EditWrapper/index.vue')['default']
+    Header: typeof import('./src/components/Header/index.vue')['default']
+    HeaderBar: typeof import('./src/components/HeaderBar/index.vue')['default']
     ImageProcesser: typeof import('./src/components/ImageProcesser/index.vue')['default']
     PText: typeof import('./src/components/PText/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

@@ -1,17 +1,9 @@
 import axios from 'axios'
 import { defineStore } from 'pinia'
-import { RespListDataType, TemplateType, ListType } from './resType'
-interface State {
-    data: RespListDataType<TemplateType>
-}
-
 export const useTemplateStore = defineStore('templateStore', {
-    state: (): State => {
+    state: () => {
         return {
-            data: {
-                errno: 0,
-                data: {} as ListType<TemplateType>,
-            },
+            templateData: [],
         }
     },
     actions: {
@@ -22,7 +14,7 @@ export const useTemplateStore = defineStore('templateStore', {
                     pageSize: 8,
                 },
             })
-            this.data = templateDate.data
+            this.templateData = templateDate.data.list
         },
     },
 })
