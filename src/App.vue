@@ -7,7 +7,7 @@
             </router-link>
             <!-- <inline-edit :value="page.title" @change="titleChange" /> -->
         </div>
-        <a-menu :selectable="false" theme="dark" mode="horizontal" :style="{ lineHeight: '64px' }">
+        <a-menu class="header-menu" :selectable="false" theme="dark" mode="horizontal" :style="{ lineHeight: '64px' }">
             <a-menu-item key="1">
                 <a-button type="primary">预览和设置</a-button>
             </a-menu-item>
@@ -23,16 +23,16 @@
         </a-menu>
     </a-layout-header>
     <router-view></router-view>
-    <file-upload :before-upload="beforUpload" actions="/api/utils/upload-img" drag></file-upload>
+    <!-- <file-upload :before-upload="beforUpload" actions="/api/utils/upload-img" drag></file-upload> -->
     <!-- <button @click="login">gitee授权登录</button> -->
 </template>
 <script setup lang="ts">
 // import { onMounted } from 'vue'
-import FileUpload from './components/Upload/index.vue'
+// import FileUpload from './components/Upload/index.vue'
 // import axios from 'axios'
-const beforUpload = () => {
-    return true
-}
+// const beforUpload = () => {
+//     return true
+// }
 // onMounted(() => {
 //     window.addEventListener('message', (m) => {
 //         const token = m.data
@@ -55,6 +55,9 @@ const beforUpload = () => {
 // const globalStore = useGlobalStore()
 </script>
 <style scoped lang="scss">
+.header-menu {
+    width: 550px;
+}
 :deep(.ant-layout-sider-children) {
     background: #fff;
 }

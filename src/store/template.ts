@@ -1,24 +1,6 @@
 import axios from 'axios'
 import { defineStore } from 'pinia'
-interface RespType<T> {
-    errno: number
-    data: T
-}
-interface ListType<T> {
-    count: number
-    list: T[]
-}
-type RespListDataType<T> = RespType<ListType<T>>
-
-export interface TemplateType {
-    id: number
-    title: string
-    coverImg: string
-    author: string
-    copiedCount: number
-    isHot: boolean
-    isNew: boolean
-}
+import { RespListDataType, TemplateType, ListType } from './resType'
 interface State {
     data: RespListDataType<TemplateType>
 }

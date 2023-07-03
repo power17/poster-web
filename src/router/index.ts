@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from './../views/Home/index.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -18,7 +17,7 @@ const router = createRouter({
         {
             path: '/login',
             name: 'login',
-            component: () => import(/* webpackChunkName: "editor" */ '../views/login/index.vue'),
+            component: () => import(/* webpackChunkName: "editor" */ '../views/Login/index.vue'),
             // meta: { requiredLogin: true, title: '编辑我的设计' },
         },
     ],
