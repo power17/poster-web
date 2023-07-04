@@ -8,4 +8,5 @@ export interface ComponentDataType {
     props: Partial<TextComponentTypeProps>
     id: string
     name: string
+    layerName?: string
 }

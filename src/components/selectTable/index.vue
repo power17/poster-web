@@ -1,13 +1,14 @@
+<!-- v-on:[val.eventName]="($event: any) => handleEmit(val.key, $event)" -->
 <template>
     <div class="select-table" v-for="(val, key) in finalData" :key="key">
         <!-- <pre> {{ finalData }}</pre> -->
         <div class="label">{{ val?.text }}</div>
         <component
             v-if="val"
-            :value="val.value"
+            v-model:value="val.value"
             class="select-com"
-            v-on:[val.eventName]="($event: any) => handleEmit(val.key, $event)"
-            :is="val?.componentName"
+            v-on:[val.eventName]="handleEmit(val.key, val.value, $event)"
+            :is="val.componentName"
             v-bind="val.extraAntAttr"
         >
             <template v-if="val.options">
@@ -22,6 +23,7 @@
             </template>
         </component>
     </div>
+
     <!-- <div class="select-table" v-for="(val, key) in finalData" :key="key">
         <div class="label">{{ val?.text }}</div>
         <a-select
@@ -46,6 +48,7 @@ import { computed } from 'vue'
 import { TextComponentTypeProps } from '../defaultAttr/index'
 import { componentsMapType, finalDataType } from './interface/index'
 const props = defineProps<{ data: Readonly<TextComponentTypeProps> }>()
+console.log(props)
 const componentsMap: componentsMapType = {
     text: {
         componentName: 'a-textarea',
@@ -108,11 +111,12 @@ const componentsMap: componentsMapType = {
             { text: '仿宋', value: '"FangSong","STFangsong"' },
         ],
     },
-    backgroundImage: {
-        componentName: 'ImageProcess',
+    src: {
+        componentName: 'image-processer',
         subComponentName: '',
-        text: '',
+        text: '图片',
         value: '',
+        extraAntAttr: {},
         options: [],
     },
 }
@@ -135,37 +139,33 @@ const finalData = computed(() => {
             }
         }
     })
-    console.log(result)
     return result
 })
 
 const emit = defineEmits<{
     (e: 'change', key: any, $event: any): void
 }>()
-const handleEmit = (key: string, $event: any) => {
+const handleEmit = (key: string, v: string, arg: string) => {
+    const value = arg || v
     // todo
-    let v = $event
-    if (typeof $event === 'object') {
-        const transform = componentsMap[key as keyof TextComponentTypeProps]?.afterTransformDataType
-        v = $event.target.value
-        if (transform) {
-            v = transform(parseInt(v)) || v
-        }
-    } else {
-        switch (key) {
-            case 'fontFamily':
-                break
-            case 'lineHeight':
-                break
-            default:
-                v = `${v}px`
-        }
-        // if (key !== 'fontFamily') {
-        //     v = `${v}px`
-        // }
-    }
+    // if (typeof value === 'object') {
+    //     const transform = componentsMap[key as keyof TextComponentTypeProps]?.afterTransformDataType
+    //     v = value.target.value
+    //     if (transform) {
+    //         v = transform(parseInt(v)) || v
+    //     }
+    // } else {
+    //     switch (key) {
+    //         case 'fontFamily':
+    //             break
+    //         case 'lineHeight':
+    //             break
+    //         default:
+    //             v = `${v}px`
+    //     }
+    // }
     // v = parseInt(v)
-    emit('change', key, String(v))
+    emit('change', key, value)
 }
 </script>
 <style scoped lang="scss">

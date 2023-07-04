@@ -21,8 +21,10 @@ import {
     Radio,
     Select,
 } from 'ant-design-vue'
+import ImageProcesser from './../components/ImageProcesser/index.vue'
 import { App } from 'vue'
 const components = [
+    ImageProcesser,
     Avatar,
     Button,
     Spin,

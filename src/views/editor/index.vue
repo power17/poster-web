@@ -34,6 +34,7 @@
 import useEditorStore from './../../store/editor.ts'
 import defaultTextTemplates from './data/defaultTemplate.ts'
 import ComponentList from '../../components/ComponentList/index.vue'
+
 import SelectTable from '../../components/selectTable/index.vue'
 import EditWrapper from '../../components/EditWrapper/index.vue'
 

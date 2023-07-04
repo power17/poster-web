@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import 'ant-design-vue/dist/antd.css'
-// import 'ant-design-vue/dist/reset.css'
+import 'cropperjs/dist/cropper.css'
 import router from './router'
 import { createPinia } from 'pinia'
 import './style/inidex.css'
