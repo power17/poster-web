@@ -12,11 +12,12 @@
                 <div class="canvas-area">
                     <edit-wrapper
                         @sendItemData="handleSendItemData"
-                        v-for="v in editStore.components"
-                        :id="v.id"
-                        :key="v.id"
+                        v-for="component in editStore.components"
+                        :key="component.id"
+                        :id="component.id"
+                        :props="component.props"
                     >
-                        <p-text v-bind="v.props"></p-text>
+                        <component :is="component.name" v-bind="component.props" />
                     </edit-wrapper>
                 </div>
             </a-layout-content>
@@ -33,7 +34,6 @@
 import useEditorStore from './../../store/editor.ts'
 import defaultTextTemplates from './data/defaultTemplate.ts'
 import ComponentList from '../../components/ComponentList/index.vue'
-import PText from '../../components/PText/index.vue'
 import SelectTable from '../../components/selectTable/index.vue'
 import EditWrapper from '../../components/EditWrapper/index.vue'
 
@@ -54,6 +54,9 @@ const handleSendItemData = (id: string) => {
 }
 </script>
 <style scoped lang="scss">
+:deep(.ant-layout-sider-children) {
+    background: #fff;
+}
 .main {
     position: relative;
 }
