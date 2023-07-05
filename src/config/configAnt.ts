@@ -21,10 +21,13 @@ import {
     Radio,
     Select,
 } from 'ant-design-vue'
+// 自定义组件
 import ImageProcesser from './../components/ImageProcesser/index.vue'
+import ColorPicker from './../components/ColorPicker/index.vue'
 import { App } from 'vue'
 const components = [
     ImageProcesser,
+    ColorPicker,
     Avatar,
     Button,
     Spin,

@@ -31,6 +31,7 @@ export interface CommonComponentTypeProps {
 }
 
 export interface TextComponentTypeProps extends CommonComponentTypeProps {
+    [x: string]: any
     text: string
     fontSize: string
     fontFamily: string

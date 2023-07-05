@@ -11,6 +11,9 @@ export const testComponents: ComponentDataType[] = [
     {
         id: uuidv4(),
         name: 'l-text',
+        layerName: '图层1',
+        isLocked: false,
+        isHidden: false,
         props: {
             text: 'hello1',
             fontSize: '10px',
@@ -22,11 +25,13 @@ export const testComponents: ComponentDataType[] = [
     {
         id: uuidv4(),
         name: 'l-text',
+        layerName: '图层2',
         props: { text: 'hello2sf', top: '30px', fontSize: '20px', lineHeight: '1', fontFamily: '"SimHei","STHeiti"' },
     },
     {
         id: uuidv4(),
         name: 'l-text',
+        layerName: '图层3',
         props: {
             text: 'hello3',
             color: 'red',
@@ -49,6 +54,12 @@ export const testComponents: ComponentDataType[] = [
         },
     },
 ]
+interface paramType {
+    key: any
+    value: any
+    isRoot?: boolean
+    id?: string
+}
 
 const useEditorStore = defineStore({
     id: 'editor',
@@ -77,10 +88,14 @@ const useEditorStore = defineStore({
         currentSelect(id: string) {
             this.currentElementId = id
         },
-        updateComponentData(key: any, value: any) {
-            const current = this.components.find((component) => component.id === this.currentElementId)
+        updateComponentData({ key, value, isRoot, id }: paramType) {
+            const current = this.components.find((component) => component.id === (id || this.currentElementId))
             if (current) {
-                current.props[key as keyof TextComponentTypeProps] = value
+                if (isRoot) {
+                    ;(current as any)[key] = value
+                } else {
+                    current.props[key as keyof TextComponentTypeProps] = value
+                }
             }
         },
     },

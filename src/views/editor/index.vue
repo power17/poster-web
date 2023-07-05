@@ -22,28 +22,35 @@
                 </div>
             </a-layout-content>
             <a-layout-sider width="300px">
-                <div>组件属性</div>
-                <select-table :data="editStore.currentElement" @change="handleChange"></select-table>
+                <a-tabs v-model:activeKey="activePanel">
+                    <a-tab-pane key="component" tab="属性设置">
+                        <select-table :data="editStore.currentElement" @change="handleChange"></select-table>
+                    </a-tab-pane>
+                    <a-tab-pane key="layer" tab="图层设置" force-render>
+                        <layer-list @change="handleChange" :list="editStore.components"></layer-list>
+                    </a-tab-pane>
+                </a-tabs>
+
                 <pre>{{ editStore.currentElement }}</pre>
             </a-layout-sider>
         </a-layout>
     </a-layout>
 </template>
 <script setup lang="ts">
-// import { computed } from 'vue'
+import { ref } from 'vue'
 import useEditorStore from './../../store/editor.ts'
 import defaultTextTemplates from './data/defaultTemplate.ts'
 import ComponentList from '../../components/ComponentList/index.vue'
 
 import SelectTable from '../../components/selectTable/index.vue'
+import LayerList from '../../components/LayerList/index.vue'
 import EditWrapper from '../../components/EditWrapper/index.vue'
 
-// import { componentsMapTYpe } from './interface/index'
-// import { TextComponentTypeProps } from '../../components/defaultAttr'
+const activePanel = ref('component')
 const editStore = useEditorStore()
 // 改变组件属性
-const handleChange = (key: any, value: any) => {
-    editStore.updateComponentData(key, value)
+const handleChange = (data) => {
+    editStore.updateComponentData(data)
 }
 //  添加组件
 const handleAddItem = (item: any) => {

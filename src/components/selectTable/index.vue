@@ -1,7 +1,6 @@
 <!-- v-on:[val.eventName]="($event: any) => handleEmit(val.key, $event)" -->
 <template>
     <div class="select-table" v-for="(val, key) in finalData" :key="key">
-        <!-- <pre> {{ finalData }}</pre> -->
         <div class="label">{{ val?.text }}</div>
         <component
             v-if="val"
@@ -23,32 +22,12 @@
             </template>
         </component>
     </div>
-
-    <!-- <div class="select-table" v-for="(val, key) in finalData" :key="key">
-        <div class="label">{{ val?.text }}</div>
-        <a-select
-            v-if="val"
-            :value="val.value"
-            v-on:[val.eventName]="($event: any) => handleEmit(val.key,$event)"
-            :is="val?.componentName"
-            v-bind="val.extraAntAttr"
-        >
-            <template v-if="val.options">
-                <a-select-option v-for="(option, k) in val.options" :key="k" :value="option.value">
-                    {{ option.text }}
-                </a-select-option>
-            </template>
-        </a-select>
-    </div> -->
-
-    <!-- <pre>{{ props.data }}</pre> -->
 </template>
 <script setup lang="ts">
 import { computed } from 'vue'
 import { TextComponentTypeProps } from '../defaultAttr/index'
 import { componentsMapType, finalDataType } from './interface/index'
 const props = defineProps<{ data: Readonly<TextComponentTypeProps> }>()
-console.log(props)
 const componentsMap: componentsMapType = {
     text: {
         componentName: 'a-textarea',
@@ -66,6 +45,12 @@ const componentsMap: componentsMapType = {
         afterTransformDataType(v: any) {
             return `${v ? v : 0}px`
         },
+    },
+    color: {
+        componentName: 'color-picker',
+        subComponentName: '',
+        extraAntAttr: {},
+        text: '字体颜色',
     },
     lineHeight: {
         componentName: 'a-slider',
@@ -135,7 +120,7 @@ const finalData = computed(() => {
                 options: itemMap.options,
                 extraAntAttr: itemMap.extraAntAttr,
                 eventName: itemMap.eventName ? itemMap.eventName : 'change',
-                key: newKey,
+                key: newKey as string,
             }
         }
     })
@@ -143,7 +128,7 @@ const finalData = computed(() => {
 })
 
 const emit = defineEmits<{
-    (e: 'change', key: any, $event: any): void
+    (e: 'change', data: { key: string; value: string }): void
 }>()
 const handleEmit = (key: string, v: string, arg: string) => {
     const value = arg || v
@@ -165,7 +150,7 @@ const handleEmit = (key: string, v: string, arg: string) => {
     //     }
     // }
     // v = parseInt(v)
-    emit('change', key, value)
+    emit('change', { key, value })
 }
 </script>
 <style scoped lang="scss">
