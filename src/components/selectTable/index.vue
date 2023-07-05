@@ -27,7 +27,7 @@
 import { computed } from 'vue'
 import { TextComponentTypeProps } from '../defaultAttr/index'
 import { componentsMapType, finalDataType } from './interface/index'
-const props = defineProps<{ data: Readonly<TextComponentTypeProps> }>()
+const props = defineProps<{ data: Partial<TextComponentTypeProps> }>()
 const componentsMap: componentsMapType = {
     text: {
         componentName: 'a-textarea',

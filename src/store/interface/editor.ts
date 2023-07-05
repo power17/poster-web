@@ -9,6 +9,6 @@ export interface ComponentDataType {
     id: string
     name: string
     layerName?: string
-    isLocked?: boolean
-    isHidden?: boolean
+    isLocked: boolean
+    isHidden: boolean
 }

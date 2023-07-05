@@ -1,6 +1,12 @@
 <template>
     <ul class="ant-list-items ant-list-bordered">
-        <li v-for="item in list" :key="item.id" class="ant-list-item">
+        <li
+            :class="{ active: currentSelectId === item.id }"
+            @click="handleSelect(item.id)"
+            v-for="item in list"
+            :key="item.id"
+            class="ant-list-item"
+        >
             <a-tooltip :title="item.isHidden ? '显示' : '隐藏'">
                 <a-button shape="circle" @click.stop="handleChange('isHidden', !item.isHidden, true, item.id)">
                     <template #icon v-if="item.isHidden"><EyeOutlined /></template>
@@ -20,11 +26,16 @@
 <script setup lang="ts">
 import { ComponentDataType } from '../../store/interface/editor'
 import { EyeOutlined, EyeInvisibleOutlined, LockOutlined, UnlockOutlined, DragOutlined } from '@ant-design/icons-vue'
-defineProps<{ list: ComponentDataType[] }>()
-const emits = defineEmits(['change'])
+defineProps<{ list: ComponentDataType[]; currentSelectId: string }>()
+// const currentSelectId = ref('')
+const emits = defineEmits(['change', 'select'])
 const handleChange = (key: string, value: boolean, isRoot: boolean, id: string) => {
-    console.log(key, value, isRoot)
+    // currentSelectId.value = id
     emits('change', { key, value, isRoot, id })
+}
+const handleSelect = (id: string) => {
+    // currentSelectId.value = id
+    emits('select', id)
 }
 </script>
 <style scoped lang="scss">

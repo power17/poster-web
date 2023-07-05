@@ -16,6 +16,7 @@
                         :key="component.id"
                         :id="component.id"
                         :props="component.props"
+                        :isHidden="component.isHidden"
                     >
                         <component :is="component.name" v-bind="component.props" />
                     </edit-wrapper>
@@ -24,10 +25,24 @@
             <a-layout-sider width="300px">
                 <a-tabs v-model:activeKey="activePanel">
                     <a-tab-pane key="component" tab="属性设置">
-                        <select-table :data="editStore.currentElement" @change="handleChange"></select-table>
+                        <select-table
+                            v-if="!editStore.currentElement.isLocked"
+                            :data="editStore.currentElement.props"
+                            @change="handleChange"
+                        ></select-table>
+                        <a-empty v-else>
+                            <template #description>
+                                <p>该元素被锁定，无法编辑</p>
+                            </template>
+                        </a-empty>
                     </a-tab-pane>
                     <a-tab-pane key="layer" tab="图层设置" force-render>
-                        <layer-list @change="handleChange" :list="editStore.components"></layer-list>
+                        <layer-list
+                            @select="handleSendItemData"
+                            @change="handleChange"
+                            :currentSelectId="editStore.currentElement.id"
+                            :list="editStore.components"
+                        ></layer-list>
                     </a-tab-pane>
                 </a-tabs>
 
@@ -37,7 +52,7 @@
     </a-layout>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import useEditorStore from './../../store/editor.ts'
 import defaultTextTemplates from './data/defaultTemplate.ts'
 import ComponentList from '../../components/ComponentList/index.vue'
@@ -46,10 +61,21 @@ import SelectTable from '../../components/selectTable/index.vue'
 import LayerList from '../../components/LayerList/index.vue'
 import EditWrapper from '../../components/EditWrapper/index.vue'
 
+const activeComponent = computed(() => {
+    return editStore.components.find((component) => editStore.currentElementId === component.id)
+})
+
 const activePanel = ref('component')
 const editStore = useEditorStore()
 // 改变组件属性
-const handleChange = (data) => {
+interface paramType {
+    key: any
+    value: any
+    isRoot?: boolean
+    id?: string
+}
+const handleChange = (data: paramType) => {
+    console.log(data)
     editStore.updateComponentData(data)
 }
 //  添加组件
@@ -118,5 +144,7 @@ const handleSendItemData = (id: string) => {
 .layout-col {
     height: 100%;
 }
+.active {
+    border: 1px solid #1890ff;
+}
 </style>
-../../store/editor.ts

@@ -26,12 +26,16 @@ export const testComponents: ComponentDataType[] = [
         id: uuidv4(),
         name: 'l-text',
         layerName: '图层2',
+        isLocked: false,
+        isHidden: false,
         props: { text: 'hello2sf', top: '30px', fontSize: '20px', lineHeight: '1', fontFamily: '"SimHei","STHeiti"' },
     },
     {
         id: uuidv4(),
         name: 'l-text',
         layerName: '图层3',
+        isLocked: false,
+        isHidden: false,
         props: {
             text: 'hello3',
             color: 'red',
@@ -46,6 +50,8 @@ export const testComponents: ComponentDataType[] = [
         id: uuidv4(),
         name: 'l-image',
         layerName: '图层4',
+        isLocked: false,
+        isHidden: false,
         props: {
             ...imageDefaultProps,
             src: 'https://poster-design.oss-cn-shenzhen.aliyuncs.com/pexels-tua%CC%82%CC%81n-kie%CC%A3%CC%82t-jr-1391498.jpg',
@@ -65,14 +71,12 @@ const useEditorStore = defineStore({
     id: 'editor',
     state: (): editorStoreType => ({
         components: testComponents,
-        currentElementId: '',
+        currentElementId: testComponents[0].id,
     }),
     getters: {
         currentElement(state) {
-            const current = state.components.find((component) => component.id === state.currentElementId) || {
-                props: {},
-            }
-            return current?.props as TextComponentTypeProps
+            const current = state.components.find((component) => component.id === state.currentElementId)
+            return current as ComponentDataType
         },
     },
     actions: {
@@ -91,6 +95,7 @@ const useEditorStore = defineStore({
         updateComponentData({ key, value, isRoot, id }: paramType) {
             const current = this.components.find((component) => component.id === (id || this.currentElementId))
             if (current) {
+                this.currentElementId = id || ''
                 if (isRoot) {
                     ;(current as any)[key] = value
                 } else {
