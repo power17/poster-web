@@ -54,7 +54,7 @@ export const testComponents: ComponentDataType[] = [
         isHidden: false,
         props: {
             ...imageDefaultProps,
-            src: 'https://poster-design.oss-cn-shenzhen.aliyuncs.com/pexels-tua%CC%82%CC%81n-kie%CC%A3%CC%82t-jr-1391498.jpg',
+            src: '/src/assets/mei.jpg',
             width: '134px',
             top: '100px',
         },
@@ -86,6 +86,9 @@ const useEditorStore = defineStore({
                 id: uuidv4(),
                 name: 'l-text',
                 props,
+                layerName: '',
+                isLocked: false,
+                isHidden: false,
             })
         },
         // 选中
@@ -95,7 +98,7 @@ const useEditorStore = defineStore({
         updateComponentData({ key, value, isRoot, id }: paramType) {
             const current = this.components.find((component) => component.id === (id || this.currentElementId))
             if (current) {
-                this.currentElementId = id || ''
+                this.currentElementId = id || this.currentElementId
                 if (isRoot) {
                     ;(current as any)[key] = value
                 } else {

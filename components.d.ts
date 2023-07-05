@@ -42,6 +42,7 @@ declare module '@vue/runtime-core' {
     Header: typeof import('./src/components/Header/index.vue')['default']
     HeaderBar: typeof import('./src/components/HeaderBar/index.vue')['default']
     ImageProcesser: typeof import('./src/components/ImageProcesser/index.vue')['default']
+    InlineEditor: typeof import('./src/components/InlineEditor/index.vue')['default']
     LayerList: typeof import('./src/components/LayerList/index.vue')['default']
     PText: typeof import('./src/components/PText/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

@@ -19,17 +19,22 @@
                     <template #icon v-else><LockOutlined /></template>
                 </a-button>
             </a-tooltip>
-            <div style="height: 32px; line-height: 32px">{{ item.layerName }}</div>
+            <inline-editor
+                :value="item.layerName"
+                @change="handleChange('layerName', $event, true, item.id)"
+            ></inline-editor>
         </li>
     </ul>
 </template>
 <script setup lang="ts">
 import { ComponentDataType } from '../../store/interface/editor'
-import { EyeOutlined, EyeInvisibleOutlined, LockOutlined, UnlockOutlined, DragOutlined } from '@ant-design/icons-vue'
+import InlineEditor from '../InlineEditor/index.vue'
+import { EyeOutlined, EyeInvisibleOutlined, LockOutlined, UnlockOutlined } from '@ant-design/icons-vue'
 defineProps<{ list: ComponentDataType[]; currentSelectId: string }>()
 // const currentSelectId = ref('')
 const emits = defineEmits(['change', 'select'])
-const handleChange = (key: string, value: boolean, isRoot: boolean, id: string) => {
+const handleChange = (key: string, value: boolean, isRoot?: boolean, id?: string) => {
+    console.log(111)
     // currentSelectId.value = id
     emits('change', { key, value, isRoot, id })
 }

@@ -52,7 +52,7 @@
     </a-layout>
 </template>
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import useEditorStore from './../../store/editor.ts'
 import defaultTextTemplates from './data/defaultTemplate.ts'
 import ComponentList from '../../components/ComponentList/index.vue'
@@ -60,10 +60,6 @@ import ComponentList from '../../components/ComponentList/index.vue'
 import SelectTable from '../../components/selectTable/index.vue'
 import LayerList from '../../components/LayerList/index.vue'
 import EditWrapper from '../../components/EditWrapper/index.vue'
-
-const activeComponent = computed(() => {
-    return editStore.components.find((component) => editStore.currentElementId === component.id)
-})
 
 const activePanel = ref('component')
 const editStore = useEditorStore()
