@@ -1,4 +1,3 @@
-<!-- v-on:[val.eventName]="($event: any) => handleEmit(val.key, $event)" -->
 <template>
     <div class="select-table" v-for="(val, key) in finalData" :key="key">
         <div class="label">{{ val?.text }}</div>

@@ -25,3 +25,13 @@ export const useComponentCommon = (props: Readonly<Partial<TextComponentTypeProp
 export const isEmptyObject = (object: Object) => {
     return Object.keys(object).length === 0
 }
+export const getDragTargetIndex = (element: HTMLElement, className: string) => {
+    while (element) {
+        if (element.classList.contains(className)) {
+            return element
+        } else {
+            element = element.parentNode as HTMLElement
+        }
+    }
+    return null
+}

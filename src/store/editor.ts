@@ -3,6 +3,7 @@ import { ComponentDataType } from './interface/editor'
 import { TextComponentTypeProps } from '../components/defaultAttr/index'
 import { imageDefaultProps } from 'lego-bricks'
 import { v4 as uuidv4 } from 'uuid'
+
 interface editorStoreType {
     components: ComponentDataType[]
     currentElementId: string
@@ -69,10 +70,12 @@ interface paramType {
 
 const useEditorStore = defineStore({
     id: 'editor',
-    state: (): editorStoreType => ({
-        components: testComponents,
-        currentElementId: testComponents[0].id,
-    }),
+    state: (): editorStoreType => {
+        return {
+            components: testComponents,
+            currentElementId: testComponents[0].id,
+        }
+    },
     getters: {
         currentElement(state) {
             const current = state.components.find((component) => component.id === state.currentElementId)

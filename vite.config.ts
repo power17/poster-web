@@ -15,7 +15,7 @@ export default defineConfig({
         },
     },
     plugins: [
-        vue(),
+        vue({}),
         Components({
             resolvers: [
                 AntDesignVueResolver({

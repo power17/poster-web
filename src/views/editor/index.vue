@@ -46,7 +46,7 @@
                     </a-tab-pane>
                 </a-tabs>
 
-                <pre>{{ editStore.currentElement }}</pre>
+                <pre>{{ editStore.components }}</pre>
             </a-layout-sider>
         </a-layout>
     </a-layout>
@@ -60,7 +60,6 @@ import ComponentList from '../../components/ComponentList/index.vue'
 import SelectTable from '../../components/selectTable/index.vue'
 import LayerList from '../../components/LayerList/index.vue'
 import EditWrapper from '../../components/EditWrapper/index.vue'
-
 const activePanel = ref('component')
 const editStore = useEditorStore()
 // 改变组件属性
@@ -87,6 +86,12 @@ const handleSendItemData = (id: string) => {
 :deep(.ant-layout-sider-children) {
     background: #fff;
 }
+.edit-wrapper .l-image-component,
+.edit-wrapper .l-shape-component,
+.edit-wrapper .l-text-component {
+    position: static !important;
+}
+
 .main {
     position: relative;
 }

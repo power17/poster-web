@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!isHidden" class="edit-wrapper" @click="handleEmitData" :class="{ active }">
+    <div v-if="!isHidden" class="edit-wrapper" @click.stop="handleEmitData" :class="{ active }">
         <slot></slot>
     </div>
 </template>
@@ -18,13 +18,9 @@ const handleEmitData = () => {
 const active = computed(() => props.id === editStore.currentElementId)
 </script>
 <style scoped lang="scss">
-.edit-wrapper {
-    height: 30px;
-}
 .edit-wrapper.active {
     border: 1px solid #1890ff;
     user-select: none;
     z-index: 1500;
 }
 </style>
-../../store/editor

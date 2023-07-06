@@ -8,9 +8,19 @@
 </template>
 <script setup lang="ts">
 import useKeyPress from '../../hooks/useKeyPress'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import useClickOutside from '../../hooks/useClickOutside'
 const isEditing = ref(false)
 const emits = defineEmits(['change'])
+const wrapper = ref(null)
+const isOutside = useClickOutside(wrapper)
+watch(isOutside, (newValue) => {
+    if (newValue && isEditing) {
+        isEditing.value = false
+    }
+    // 点击外侧无法还原bug
+    isOutside.value = false
+})
 useKeyPress('Enter', () => {
     isEditing.value = false
     emits('change', innerValue)
