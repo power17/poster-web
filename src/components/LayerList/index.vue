@@ -1,11 +1,17 @@
 <template>
     <ul class="ant-list-items ant-list-bordered">
         <li
-            :class="{ active: currentSelectId === item.id }"
+            :class="{ ghost: dragData.currentDraggingId === item.id }"
             @click="handleSelect(item.id)"
-            v-for="item in list"
+            v-for="(item, index) in props.list"
             :key="item.id"
             class="ant-list-item"
+            draggable="true"
+            @dragstart="handleDragStart(item.id, index)"
+            @drop="handleDrop"
+            @dragover="handleDragOver"
+            @dragenter="handleEnter"
+            :data-index="index"
         >
             <a-tooltip :title="item.isHidden ? '显示' : '隐藏'">
                 <a-button shape="circle" @click.stop="handleChange('isHidden', !item.isHidden, true, item.id)">
@@ -27,14 +33,45 @@
     </ul>
 </template>
 <script setup lang="ts">
+import { reactive } from 'vue'
 import { ComponentDataType } from '../../store/interface/editor'
 import InlineEditor from '../InlineEditor/index.vue'
+import { arrayMoveImmutable } from 'array-move'
 import { EyeOutlined, EyeInvisibleOutlined, LockOutlined, UnlockOutlined } from '@ant-design/icons-vue'
-defineProps<{ list: ComponentDataType[]; currentSelectId: string }>()
-// const currentSelectId = ref('')
+import { getDragTargetIndex } from '../../utils'
+import useEditorStore from '../../store/editor'
+const editorStore = useEditorStore()
+const props = defineProps<{ list: ComponentDataType[]; currentSelectId: string }>()
+const dragData = reactive({
+    currentDraggingId: '',
+    currentDraggingIndex: -1,
+})
+const handleDragStart = (id: string, index: number) => {
+    dragData.currentDraggingId = id
+    dragData.currentDraggingIndex = index
+}
+const handleEnter = (e: DragEvent) => {
+    const currentEle = getDragTargetIndex(e.target as HTMLElement, 'ant-list-item') as HTMLElement
+    if (currentEle.dataset.index) {
+        const moveIndex = Number(currentEle.dataset.index)
+        if (moveIndex !== dragData.currentDraggingIndex) {
+            const arr = arrayMoveImmutable(props.list, dragData.currentDraggingIndex, moveIndex)
+            dragData.currentDraggingIndex = moveIndex
+            editorStore.$patch({
+                components: arr,
+            })
+        }
+    }
+}
+const handleDrop = () => {
+    dragData.currentDraggingId = ''
+}
+const handleDragOver = (e: DragEvent) => {
+    e.preventDefault()
+}
 const emits = defineEmits(['change', 'select'])
 const handleChange = (key: string, value: boolean, isRoot?: boolean, id?: string) => {
-    console.log(111)
+    console.log(key, value)
     // currentSelectId.value = id
     emits('change', { key, value, isRoot, id })
 }
