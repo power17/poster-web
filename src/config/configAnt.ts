@@ -24,10 +24,13 @@ import {
 // 自定义组件
 import ImageProcesser from './../components/ImageProcesser/index.vue'
 import ColorPicker from './../components/ColorPicker/index.vue'
+import ShadowPicker from './../components/ShadowPicker/index.vue'
 import { App } from 'vue'
 const components = [
     ImageProcesser,
     ColorPicker,
+    ShadowPicker,
+    // ant-design
     Avatar,
     Button,
     Spin,

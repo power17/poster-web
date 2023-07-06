@@ -1,6 +1,6 @@
 <template>
     <div class="select-table" v-for="(val, key) in finalData" :key="key">
-        <div class="label">{{ val?.text }}</div>
+        <div v-if="val.text" class="label">{{ val.text }}</div>
         <component
             v-if="val"
             v-model:value="val.value"

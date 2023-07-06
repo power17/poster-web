@@ -25,11 +25,11 @@
             <a-layout-sider width="300px">
                 <a-tabs v-model:activeKey="activePanel">
                     <a-tab-pane key="component" tab="属性设置">
-                        <select-table
+                        <edit-group
                             v-if="!editStore.currentElement.isLocked"
                             :data="editStore.currentElement.props"
                             @change="handleChange"
-                        ></select-table>
+                        ></edit-group>
                         <a-empty v-else>
                             <template #description>
                                 <p>该元素被锁定，无法编辑</p>
@@ -57,7 +57,8 @@ import useEditorStore from './../../store/editor.ts'
 import defaultTextTemplates from './data/defaultTemplate.ts'
 import ComponentList from '../../components/ComponentList/index.vue'
 
-import SelectTable from '../../components/selectTable/index.vue'
+// import SelectTable from '../../components/selectTable/index.vue'
+import EditGroup from '../../components/EditGroup/index.vue'
 import LayerList from '../../components/LayerList/index.vue'
 import EditWrapper from '../../components/EditWrapper/index.vue'
 const activePanel = ref('component')

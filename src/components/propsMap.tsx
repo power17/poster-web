@@ -54,9 +54,6 @@ export const mapPropsToForms: PropsToForms = {
         text: '文本',
         component: 'a-textarea',
         extraProps: { rows: 3 },
-        initalTransform: (v: string) => {
-            console.log(v)
-        },
         afterTransform: (e: any) => e.target.value,
     },
     fontSize: {
