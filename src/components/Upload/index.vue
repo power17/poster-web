@@ -27,8 +27,8 @@ import { v4 as uuidv4 } from 'uuid'
 import type { UploadFileType } from './index.d.ts'
 export interface UploadPropsType {
     actions: string
-    beforeUpload: (file: File) => boolean | Promise<File>
-    drag: boolean
+    beforeUpload?: (file: File) => boolean | Promise<File>
+    drag?: boolean
 }
 
 const uploadFiles = ref<UploadFileType[]>([]) // 文件数组

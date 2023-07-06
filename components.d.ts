@@ -37,6 +37,7 @@ declare module '@vue/runtime-core' {
     ATabs: typeof import('ant-design-vue/es')['Tabs']
     ATag: typeof import('ant-design-vue/es')['Tag']
     ATooltip: typeof import('ant-design-vue/es')['Tooltip']
+    BackgroundProcesser: typeof import('./src/components/BackgroundProcesser/index.vue')['default']
     ColorPicker: typeof import('./src/components/ColorPicker/index.vue')['default']
     ComponentList: typeof import('./src/components/ComponentList/index.vue')['default']
     Drag: typeof import('./src/components/Upload/drag.vue')['default']

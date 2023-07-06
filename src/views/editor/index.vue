@@ -44,6 +44,9 @@
                             :list="editStore.components"
                         ></layer-list>
                     </a-tab-pane>
+                    <a-tab-pane :tab="editStore.pageData.title">
+                        <select-table :data="editStore.pageData.props"></select-table>
+                    </a-tab-pane>
                 </a-tabs>
 
                 <pre>{{ editStore.components }}</pre>
@@ -59,6 +62,7 @@ import ComponentList from '../../components/ComponentList/index.vue'
 
 // import SelectTable from '../../components/selectTable/index.vue'
 import EditGroup from '../../components/EditGroup/index.vue'
+// import BackgroundProcesser from '../../components/BackgroundProcesser/index.vue'
 import LayerList from '../../components/LayerList/index.vue'
 import EditWrapper from '../../components/EditWrapper/index.vue'
 const activePanel = ref('component')

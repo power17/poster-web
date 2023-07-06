@@ -25,11 +25,13 @@ import {
 import ImageProcesser from './../components/ImageProcesser/index.vue'
 import ColorPicker from './../components/ColorPicker/index.vue'
 import ShadowPicker from './../components/ShadowPicker/index.vue'
+import BackgroundProcesser from './../components/BackgroundProcesser/index.vue'
 import { App } from 'vue'
 const components = [
     ImageProcesser,
     ColorPicker,
     ShadowPicker,
+    BackgroundProcesser,
     // ant-design
     Avatar,
     Button,

@@ -3,10 +3,14 @@ import { ComponentDataType } from './interface/editor'
 import { TextComponentTypeProps } from '../components/defaultAttr/index'
 import { imageDefaultProps, textDefaultProps } from 'lego-bricks'
 import { v4 as uuidv4 } from 'uuid'
-
+import { PageProps } from '../components/propsMap'
 interface editorStoreType {
     components: ComponentDataType[]
     currentElementId: string
+    pageData: {
+        title: string
+        props: PageProps
+    }
 }
 export const testComponents: ComponentDataType[] = [
     {
@@ -78,13 +82,23 @@ interface paramType {
     isRoot?: boolean
     id?: string
 }
-
+const pageDefaultProps = {
+    backgroundColor: '#ffffff',
+    backgroundImage: 'url("/src/assets/mei1.jpg")',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    height: '560px',
+}
 const useEditorStore = defineStore({
     id: 'editor',
     state: (): editorStoreType => {
         return {
             components: testComponents,
             currentElementId: testComponents[0].id,
+            pageData: {
+                title: '页面设置',
+                props: pageDefaultProps,
+            },
         }
     },
     getters: {
