@@ -1,3 +1,4 @@
+import { VNode } from 'vue'
 import { TextComponentTypeProps } from '../../defaultAttr'
 export type componentsMapType = {
     [p in keyof TextComponentTypeProps]?: {
@@ -18,7 +19,7 @@ export interface FormProps {
     value: string
     extraAntAttr?: { [key: string]: any }
     text?: string
-    options?: { text: string; value: any }[]
+    options?: { text: string | VNode; value: any }[]
     key: string
     // valueProp: string
     eventName: string

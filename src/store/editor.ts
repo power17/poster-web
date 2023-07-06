@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ComponentDataType } from './interface/editor'
 import { TextComponentTypeProps } from '../components/defaultAttr/index'
-import { imageDefaultProps } from 'lego-bricks'
+import { imageDefaultProps, textDefaultProps } from 'lego-bricks'
 import { v4 as uuidv4 } from 'uuid'
 
 interface editorStoreType {
@@ -16,11 +16,13 @@ export const testComponents: ComponentDataType[] = [
         isLocked: false,
         isHidden: false,
         props: {
+            ...textDefaultProps,
             text: 'hello1',
             fontSize: '10px',
             textAlign: 'center',
             fontFamily: '"SimHei","STHeiti"',
             top: '10px',
+            borderColor: '#000000',
         },
     },
     {
@@ -29,7 +31,14 @@ export const testComponents: ComponentDataType[] = [
         layerName: '图层2',
         isLocked: false,
         isHidden: false,
-        props: { text: 'hello2sf', top: '30px', fontSize: '20px', lineHeight: '1', fontFamily: '"SimHei","STHeiti"' },
+        props: {
+            borderColor: '#000000',
+            text: 'hello2sf',
+            top: '30px',
+            fontSize: '20px',
+            lineHeight: '1',
+            fontFamily: '"SimHei","STHeiti"',
+        },
     },
     {
         id: uuidv4(),
@@ -44,6 +53,7 @@ export const testComponents: ComponentDataType[] = [
             top: '50px',
             fontFamily: '',
             actionType: 'url',
+            borderColor: '#000000',
             // url: 'https://www.baidu.com',
         },
     },
@@ -58,6 +68,7 @@ export const testComponents: ComponentDataType[] = [
             src: '/src/assets/mei.jpg',
             width: '134px',
             top: '100px',
+            borderColor: '#000000',
         },
     },
 ]

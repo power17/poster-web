@@ -65,7 +65,7 @@ export const commonDefaultProps: CommonComponentTypeProps = {
     paddingBottom: '0px',
     // border type
     borderStyle: 'none',
-    borderColor: '#000',
+    borderColor: '#000000',
     borderWidth: '0',
     borderRadius: '0',
     // shadow and opacity
@@ -90,7 +90,7 @@ export const textDefaultProps: TextComponentTypeProps = {
     textDecoration: 'none',
     lineHeight: '1',
     textAlign: 'left',
-    color: '#000',
+    color: '#000000',
     backgroundColor: '',
     tag: 'div',
 

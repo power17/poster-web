@@ -36,6 +36,7 @@ const props = withDefaults(defineProps<propsType>(), {
     ],
     value: '',
 })
+console.log(props.value)
 const colorValue = ref(props.value)
 
 const emits = defineEmits(['change'])
