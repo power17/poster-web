@@ -30,7 +30,7 @@ const router = createRouter({
             path: '/editor/:id',
             name: 'editor',
             component: () => import(/* webpackChunkName: "home" */ '../views/Editor/index.vue'),
-            meta: { requiredLogin: true, title: '编辑我的设计' },
+            meta: { title: '编辑我的设计' },
         },
         {
             path: '/login',

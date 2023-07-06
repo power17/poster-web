@@ -1,74 +1,58 @@
 <template>
-    <ul class="ant-list-items ant-list-bordered">
-        <li
-            :class="{ ghost: dragData.currentDraggingId === item.id }"
-            @click="handleSelect(item.id)"
-            v-for="(item, index) in props.list"
-            :key="item.id"
-            class="ant-list-item"
-            draggable="true"
-            @dragstart="handleDragStart(item.id, index)"
-            @drop="handleDrop"
-            @dragover="handleDragOver"
-            @dragenter="handleEnter"
-            :data-index="index"
-        >
-            <a-tooltip :title="item.isHidden ? '显示' : '隐藏'">
-                <a-button shape="circle" @click.stop="handleChange('isHidden', !item.isHidden, true, item.id)">
-                    <template #icon v-if="item.isHidden"><EyeOutlined /></template>
-                    <template #icon v-else><EyeInvisibleOutlined /></template>
-                </a-button>
-            </a-tooltip>
-            <a-tooltip :title="item.isLocked ? '解锁' : '锁定'">
-                <a-button shape="circle" @click.stop="handleChange('isLocked', !item.isLocked, true, item.id)">
-                    <template #icon v-if="item.isLocked"><UnlockOutlined /></template>
-                    <template #icon v-else><LockOutlined /></template>
-                </a-button>
-            </a-tooltip>
-            <inline-editor
-                :value="item.layerName"
-                @change="handleChange('layerName', $event, true, item.id)"
-            ></inline-editor>
-        </li>
-    </ul>
+    <draggable :list="list" item-key="id" class="ant-list-items ant-list-bordered" ghost-class="ghost" handle=".handle">
+        <template #item="{ element }">
+            <li
+                :class="{ ghost: dragData.currentDraggingId === element.id }"
+                @click="handleSelect(element.id)"
+                class="ant-list-item"
+                draggable="true"
+            >
+                <a-tooltip :title="element.isHidden ? '显示' : '隐藏'">
+                    <a-button
+                        shape="circle"
+                        @click.stop="handleChange('isHidden', !element.isHidden, true, element.id)"
+                    >
+                        <template #icon v-if="element.isHidden"><EyeOutlined /></template>
+                        <template #icon v-else><EyeInvisibleOutlined /></template>
+                    </a-button>
+                </a-tooltip>
+                <a-tooltip :title="element.isLocked ? '解锁' : '锁定'">
+                    <a-button
+                        shape="circle"
+                        @click.stop="handleChange('isLocked', !element.isLocked, true, element.id)"
+                    >
+                        <template #icon v-if="element.isLocked"><UnlockOutlined /></template>
+                        <template #icon v-else><LockOutlined /></template>
+                    </a-button>
+                </a-tooltip>
+                <inline-editor
+                    :value="element.layerName"
+                    @change="handleChange('layerName', $event, true, element.id)"
+                ></inline-editor>
+                <a-tooltip title="拖动排序">
+                    <a-button shape="circle" class="handle">
+                        <template #icon>
+                            <DragOutlined />
+                        </template>
+                    </a-button>
+                </a-tooltip>
+            </li>
+        </template>
+    </draggable>
 </template>
 <script setup lang="ts">
 import { reactive } from 'vue'
 import { ComponentDataType } from '../../store/interface/editor'
 import InlineEditor from '../InlineEditor/index.vue'
-import { arrayMoveImmutable } from 'array-move'
-import { EyeOutlined, EyeInvisibleOutlined, LockOutlined, UnlockOutlined } from '@ant-design/icons-vue'
-import { getDragTargetIndex } from '../../utils'
-import useEditorStore from '../../store/editor'
-const editorStore = useEditorStore()
+import draggable from 'vuedraggable'
+
+import { EyeOutlined, EyeInvisibleOutlined, LockOutlined, UnlockOutlined, DragOutlined } from '@ant-design/icons-vue'
 const props = defineProps<{ list: ComponentDataType[]; currentSelectId: string }>()
 const dragData = reactive({
     currentDraggingId: '',
     currentDraggingIndex: -1,
 })
-const handleDragStart = (id: string, index: number) => {
-    dragData.currentDraggingId = id
-    dragData.currentDraggingIndex = index
-}
-const handleEnter = (e: DragEvent) => {
-    const currentEle = getDragTargetIndex(e.target as HTMLElement, 'ant-list-item') as HTMLElement
-    if (currentEle.dataset.index) {
-        const moveIndex = Number(currentEle.dataset.index)
-        if (moveIndex !== dragData.currentDraggingIndex) {
-            const arr = arrayMoveImmutable(props.list, dragData.currentDraggingIndex, moveIndex)
-            dragData.currentDraggingIndex = moveIndex
-            editorStore.$patch({
-                components: arr,
-            })
-        }
-    }
-}
-const handleDrop = () => {
-    dragData.currentDraggingId = ''
-}
-const handleDragOver = (e: DragEvent) => {
-    e.preventDefault()
-}
+
 const emits = defineEmits(['change', 'select'])
 const handleChange = (key: string, value: boolean, isRoot?: boolean, id?: string) => {
     console.log(key, value)
@@ -89,10 +73,10 @@ const handleSelect = (id: string) => {
     border: 1px solid #fff;
     border-bottom-color: #f0f0f0;
 }
-.ant-list-item.active {
+.ant-list-element.active {
     border: 1px solid #1890ff;
 }
-.ant-list-item.ghost {
+.ant-list-element.ghost {
     opacity: 0.5;
 }
 
