@@ -1,13 +1,12 @@
 <template>
     <div class="select-table" v-for="(val, key) in finalData" :key="key">
-        <!-- <pre> {{ finalData }}</pre> -->
         <div class="label">{{ val?.text }}</div>
         <component
             v-if="val"
-            :value="val.value"
+            v-model:value="val.value"
             class="select-com"
-            v-on:[val.eventName]="($event: any) => handleEmit(val.key, $event)"
-            :is="val?.componentName"
+            v-on:[val.eventName]="handleEmit(val.key, val.value, $event)"
+            :is="val.componentName"
             v-bind="val.extraAntAttr"
         >
             <template v-if="val.options">
@@ -22,31 +21,12 @@
             </template>
         </component>
     </div>
-    <!-- <div class="select-table" v-for="(val, key) in finalData" :key="key">
-        <div class="label">{{ val?.text }}</div>
-        <a-select
-            v-if="val"
-            :value="val.value"
-            v-on:[val.eventName]="($event: any) => handleEmit(val.key,$event)"
-            :is="val?.componentName"
-            v-bind="val.extraAntAttr"
-        >
-            <template v-if="val.options">
-                <a-select-option v-for="(option, k) in val.options" :key="k" :value="option.value">
-                    {{ option.text }}
-                </a-select-option>
-            </template>
-        </a-select>
-    </div> -->
-
-    <!-- <pre>{{ props.data }}</pre> -->
 </template>
 <script setup lang="ts">
 import { computed } from 'vue'
 import { TextComponentTypeProps } from '../defaultAttr/index'
 import { componentsMapType, finalDataType } from './interface/index'
-
-const props = defineProps<{ data: Readonly<TextComponentTypeProps> }>()
+const props = defineProps<{ data: Partial<TextComponentTypeProps> }>()
 const componentsMap: componentsMapType = {
     text: {
         componentName: 'a-textarea',
@@ -64,6 +44,12 @@ const componentsMap: componentsMapType = {
         afterTransformDataType(v: any) {
             return `${v ? v : 0}px`
         },
+    },
+    color: {
+        componentName: 'color-picker',
+        subComponentName: '',
+        extraAntAttr: {},
+        text: '字体颜色',
     },
     lineHeight: {
         componentName: 'a-slider',
@@ -109,6 +95,14 @@ const componentsMap: componentsMapType = {
             { text: '仿宋', value: '"FangSong","STFangsong"' },
         ],
     },
+    src: {
+        componentName: 'image-processer',
+        subComponentName: '',
+        text: '图片',
+        value: '',
+        extraAntAttr: {},
+        options: [],
+    },
 }
 const finalData = computed(() => {
     let result = {} as finalDataType
@@ -125,41 +119,37 @@ const finalData = computed(() => {
                 options: itemMap.options,
                 extraAntAttr: itemMap.extraAntAttr,
                 eventName: itemMap.eventName ? itemMap.eventName : 'change',
-                key: newKey,
+                key: newKey as string,
             }
         }
     })
-    console.log(result)
     return result
 })
 
 const emit = defineEmits<{
-    (e: 'change', key: any, $event: any): void
+    (e: 'change', data: { key: string; value: string }): void
 }>()
-const handleEmit = (key: string, $event: any) => {
+const handleEmit = (key: string, v: string, arg: string) => {
+    const value = arg || v
     // todo
-    let v = $event
-    if (typeof $event === 'object') {
-        const transform = componentsMap[key as keyof TextComponentTypeProps]?.afterTransformDataType
-        v = $event.target.value
-        if (transform) {
-            v = transform(parseInt(v)) || v
-        }
-    } else {
-        switch (key) {
-            case 'fontFamily':
-                break
-            case 'lineHeight':
-                break
-            default:
-                v = `${v}px`
-        }
-        // if (key !== 'fontFamily') {
-        //     v = `${v}px`
-        // }
-    }
+    // if (typeof value === 'object') {
+    //     const transform = componentsMap[key as keyof TextComponentTypeProps]?.afterTransformDataType
+    //     v = value.target.value
+    //     if (transform) {
+    //         v = transform(parseInt(v)) || v
+    //     }
+    // } else {
+    //     switch (key) {
+    //         case 'fontFamily':
+    //             break
+    //         case 'lineHeight':
+    //             break
+    //         default:
+    //             v = `${v}px`
+    //     }
+    // }
     // v = parseInt(v)
-    emit('change', key, String(v))
+    emit('change', { key, value })
 }
 </script>
 <style scoped lang="scss">
