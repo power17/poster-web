@@ -27,8 +27,8 @@
                 <a-tabs v-model:activeKey="activePanel">
                     <a-tab-pane key="component" tab="属性设置">
                         <edit-group
-                            v-if="!editStore.currentElement.isLocked"
-                            :data="editStore.currentElement.props"
+                            v-if="!editStore.currentElement?.isLocked"
+                            :data="editStore.currentElement?.props || {}"
                             @change="handleChange"
                         ></edit-group>
                         <a-empty v-else>
@@ -41,7 +41,7 @@
                         <layer-list
                             @select="handleSendItemData"
                             @change="handleChange"
-                            :currentSelectId="editStore.currentElement.id"
+                            :currentSelectId="editStore.currentElement?.id || ''"
                             :list="editStore.components"
                         ></layer-list>
                     </a-tab-pane>
@@ -50,7 +50,7 @@
                     </a-tab-pane>
                 </a-tabs>
 
-                <pre>{{ editStore.components }}</pre>
+                <pre>{{ editStore.currentElement }}</pre>
             </a-layout-sider>
         </a-layout>
     </a-layout>

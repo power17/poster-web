@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ComponentDataType } from './interface/editor'
 import { TextComponentTypeProps } from '../components/defaultAttr/index'
-import { imageDefaultProps, textDefaultProps } from 'lego-bricks'
+import { AllComponentProps, imageDefaultProps, textDefaultProps } from 'lego-bricks'
 import { v4 as uuidv4 } from 'uuid'
 import { PageProps } from '../components/propsMap'
 import { cloneDeep } from 'lodash-es'
@@ -112,9 +112,9 @@ const useEditorStore = defineStore({
         }
     },
     getters: {
-        currentElement(state): ComponentDataType {
+        currentElement(state) {
             const current = state.components.find((component) => component.id === state.currentElementId)
-            return current as ComponentDataType
+            return current
         },
     },
     actions: {
@@ -125,7 +125,9 @@ const useEditorStore = defineStore({
             }
         },
         copyComponent() {
-            this.copiedComponent = this.currentElement
+            if (this.currentElement) {
+                this.copiedComponent = this.currentElement
+            }
         },
         pasteComponent() {
             const cloneComponent = cloneDeep(this.copiedComponent)
@@ -158,7 +160,7 @@ const useEditorStore = defineStore({
                 if (isRoot) {
                     ;(current as any)[key] = value
                 } else {
-                    current.props[key as keyof TextComponentTypeProps] = value
+                    current.props[key as keyof AllComponentProps] = value
                 }
             }
         },

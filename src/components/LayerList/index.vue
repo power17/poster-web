@@ -47,7 +47,7 @@ import InlineEditor from '../InlineEditor/index.vue'
 import draggable from 'vuedraggable'
 
 import { EyeOutlined, EyeInvisibleOutlined, LockOutlined, UnlockOutlined, DragOutlined } from '@ant-design/icons-vue'
-const props = defineProps<{ list: ComponentDataType[]; currentSelectId: string }>()
+defineProps<{ list: ComponentDataType[]; currentSelectId: string }>()
 const dragData = reactive({
     currentDraggingId: '',
     currentDraggingIndex: -1,
