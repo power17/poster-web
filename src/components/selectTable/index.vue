@@ -109,7 +109,7 @@ const props = defineProps<{ data: Partial<AllComponentProps> }>()
 const finalData = computed(() => {
     let result = {} as finalDataType
     Object.keys(props.data).map((key) => {
-        const newKey = key as keyof PropsToForms
+        const newKey = key as keyof AllComponentProps
         const item = props.data[newKey]
         const itemMap = mapPropsToForms[newKey]
         if (itemMap) {
