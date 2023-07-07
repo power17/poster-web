@@ -17,6 +17,7 @@
                         :id="component.id"
                         :props="component.props"
                         :isHidden="component.isHidden"
+                        @update-position="updatePositon"
                     >
                         <component :is="component.name" v-bind="component.props" />
                     </edit-wrapper>
@@ -89,6 +90,11 @@ const handleAddItem = (item: any) => {
 // 添加属性
 const handleSendItemData = (id: string) => {
     editStore.currentSelect(id)
+}
+// 更新组件left top值
+const updatePositon = ({ left, top, id }: { left: number; top: number; id: string }) => {
+    editStore.updateComponentData({ key: 'left', value: left + 'px', id })
+    editStore.updateComponentData({ key: 'top', value: top + 'px', id })
 }
 </script>
 <style scoped lang="scss">

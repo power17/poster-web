@@ -12,7 +12,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, nextTick } from 'vue'
 import useEditorStore from '../../store/editor'
 import { pick } from 'lodash-es'
 // import { TextComponentProps } from 'lego-bricks'
@@ -21,17 +21,19 @@ const props = defineProps<{ id: string; isHidden: boolean; props: Object }>()
 // 获取定位属性
 const wrapPosition = computed(() => pick(props.props, ['position', 'left', 'top', 'bottom', 'left']))
 // 发送数据
-const emit = defineEmits(['sendItemData'])
+const emits = defineEmits(['sendItemData', 'updatePosition'])
 const handleEmitData = () => {
-    emit('sendItemData', props.id)
+    emits('sendItemData', props.id)
 }
 // 选中高亮
 const active = computed(() => props.id === editStore.currentElementId)
 // 拖动移动
-const currentElement = ref<null | HTMLElement>(null)
+const currentElement = ref<HTMLElement>()
 
 const startMove = (e: MouseEvent) => {
+    e.preventDefault()
     const grap = { x: 0, y: 0 }
+    let isMove = false
     if (currentElement.value) {
         const { left, top } = currentElement.value.getBoundingClientRect()
         grap.x = e.clientX - left
@@ -39,6 +41,7 @@ const startMove = (e: MouseEvent) => {
     }
     // 鼠标移动
     const handleMove = (e: MouseEvent) => {
+        isMove = true
         // 获取画布的距离
         const canvasArea = document.getElementById('canvas-area') as HTMLElement
         const { left, top } = canvasArea.getBoundingClientRect()
@@ -52,6 +55,18 @@ const startMove = (e: MouseEvent) => {
         }
     }
     document.addEventListener('mousemove', handleMove)
+    // 松开鼠标
+    const handleUp = async () => {
+        if (currentElement.value && isMove) {
+            const { left, top } = currentElement.value.style
+            emits('updatePosition', { left, top, id: props.id })
+            isMove = false
+        }
+        document.removeEventListener('mousemove', handleMove)
+        await nextTick()
+        document.removeEventListener('mouseup', handleUp)
+    }
+    document.addEventListener('mouseup', handleUp)
 }
 </script>
 <style scoped lang="scss">

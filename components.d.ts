@@ -53,7 +53,7 @@ declare module '@vue/runtime-core' {
     PText: typeof import('./src/components/PText/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SelectTable: typeof import('./src/components/selectTable/index.vue')['default']
+    SelectTable: typeof import('./src/components/SelectTable/index.vue')['default']
     ShadowPicker: typeof import('./src/components/ShadowPicker/index.vue')['default']
     TemplateList: typeof import('./src/components/TemplateList/index.vue')['default']
     Upload: typeof import('./src/components/Upload/index.vue')['default']
