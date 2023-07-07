@@ -9,7 +9,7 @@
             </a-layout-sider>
             <a-layout-content class="main">
                 <div>画布区域</div>
-                <div class="canvas-area">
+                <div id="canvas-area" class="canvas-area" :style="editStore.pageData.props">
                     <edit-wrapper
                         @sendItemData="handleSendItemData"
                         v-for="component in editStore.components"
@@ -45,7 +45,7 @@
                         ></layer-list>
                     </a-tab-pane>
                     <a-tab-pane :tab="editStore.pageData.title">
-                        <select-table :data="editStore.pageData.props"></select-table>
+                        <select-table @change="handleChangeBackground" :data="editStore.pageData.props"></select-table>
                     </a-tab-pane>
                 </a-tabs>
 
@@ -65,6 +65,7 @@ import EditGroup from '../../components/EditGroup/index.vue'
 // import BackgroundProcesser from '../../components/BackgroundProcesser/index.vue'
 import LayerList from '../../components/LayerList/index.vue'
 import EditWrapper from '../../components/EditWrapper/index.vue'
+
 const activePanel = ref('component')
 const editStore = useEditorStore()
 // 改变组件属性
@@ -73,6 +74,9 @@ interface paramType {
     value: any
     isRoot?: boolean
     id?: string
+}
+const handleChangeBackground = (data: paramType) => {
+    editStore.updatePageData(data)
 }
 const handleChange = (data: paramType) => {
     console.log(data)

@@ -21,12 +21,17 @@ export const testComponents: ComponentDataType[] = [
         isHidden: false,
         props: {
             ...textDefaultProps,
-            text: 'hello1',
+            text: 'hello113',
+            width: '100px',
+            height: '100px',
+            backgroundColor: '#cccccc',
             fontSize: '10px',
             textAlign: 'center',
             fontFamily: '"SimHei","STHeiti"',
             top: '10px',
             borderColor: '#000000',
+            position: 'absolute',
+            left: '10px',
         },
     },
     {
@@ -122,6 +127,9 @@ const useEditorStore = defineStore({
         // 选中
         currentSelect(id: string) {
             this.currentElementId = id
+        },
+        updatePageData({ key, value }: any) {
+            this.pageData.props[key as keyof PageProps] = value
         },
         updateComponentData({ key, value, isRoot, id }: paramType) {
             const current = this.components.find((component) => component.id === (id || this.currentElementId))
