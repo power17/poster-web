@@ -21,6 +21,7 @@
         "array-move": "^4.0.0",
         "axios": "^1.4.0",
         "cropperjs": "^1.5.13",
+        "hotkeys-js": "^3.10.4",
         "lego-bricks": "^1.0.11",
         "lodash-es": "^4.17.21",
         "pinia": "^2.1.3",

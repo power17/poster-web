@@ -24,10 +24,11 @@
 </template>
 <script setup lang="ts">
 import { computed } from 'vue'
-import { TextComponentTypeProps } from '../defaultAttr/index'
+// import { TextComponentTypeProps } from '../defaultAttr/index'
 import { finalDataType } from './interface/index'
 import { mapPropsToForms, PropsToForms } from './../propsMap'
-const props = defineProps<{ data: Partial<TextComponentTypeProps> }>()
+import { AllComponentProps } from 'lego-bricks'
+const props = defineProps<{ data: Partial<AllComponentProps> }>()
 // const componentsMap: componentsMapType = {
 //     text: {
 //         componentName: 'a-textarea',

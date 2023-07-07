@@ -4,14 +4,9 @@ import { TextComponentTypeProps } from '../components/defaultAttr/index'
 import { imageDefaultProps, textDefaultProps } from 'lego-bricks'
 import { v4 as uuidv4 } from 'uuid'
 import { PageProps } from '../components/propsMap'
-interface editorStoreType {
-    components: ComponentDataType[]
-    currentElementId: string
-    pageData: {
-        title: string
-        props: PageProps
-    }
-}
+import { cloneDeep } from 'lodash-es'
+import { message } from 'ant-design-vue'
+
 export const testComponents: ComponentDataType[] = [
     {
         id: uuidv4(),
@@ -87,12 +82,21 @@ interface paramType {
     isRoot?: boolean
     id?: string
 }
+interface editorStoreType {
+    components: ComponentDataType[]
+    currentElementId: string
+    pageData: {
+        title: string
+        props: PageProps
+    }
+    copiedComponent: ComponentDataType
+}
 const pageDefaultProps = {
     backgroundColor: '#ffffff',
     backgroundImage: 'url("/src/assets/mei1.jpg")',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    height: '560px',
+    height: '750px',
 }
 const useEditorStore = defineStore({
     id: 'editor',
@@ -104,15 +108,31 @@ const useEditorStore = defineStore({
                 title: '页面设置',
                 props: pageDefaultProps,
             },
+            copiedComponent: {} as ComponentDataType,
         }
     },
     getters: {
-        currentElement(state) {
+        currentElement(state): ComponentDataType {
             const current = state.components.find((component) => component.id === state.currentElementId)
             return current as ComponentDataType
         },
     },
     actions: {
+        deleteComponent() {
+            if (this.currentElementId) {
+                this.components = this.components.filter((component) => component.id !== this.currentElementId)
+                message.success('删除图层成功', 1)
+            }
+        },
+        copyComponent() {
+            this.copiedComponent = this.currentElement
+        },
+        pasteComponent() {
+            const cloneComponent = cloneDeep(this.copiedComponent)
+            cloneComponent.id = uuidv4()
+            cloneComponent.layerName = cloneComponent.layerName + '副本'
+            this.components.push(cloneComponent)
+        },
         // 添加组件
         addItem(props: Partial<TextComponentTypeProps>) {
             this.components.push({

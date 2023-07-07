@@ -22,6 +22,9 @@ dependencies:
   cropperjs:
     specifier: ^1.5.13
     version: 1.5.13
+  hotkeys-js:
+    specifier: ^3.10.4
+    version: 3.10.4
   lego-bricks:
     specifier: ^1.0.11
     version: 1.0.11(vue@3.3.4)
@@ -2829,6 +2832,10 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
     dev: true
+
+  /hotkeys-js@3.10.4:
+    resolution: {integrity: sha512-naw9gN7jPx61zNfYiyRmHjDmbT6D3iLEMgRTZdvdZVyVFx/E9gFrRdiQukrmoMU9oWl4K5TYGe6qOTaldqhoXg==}
+    dev: false
 
   /html-encoding-sniffer@3.0.0:
     resolution: {integrity: sha512-oWv4T4yJ52iKrufjnyZPkrN0CH3QnrUqdB6In1g5Fe1mia8GmF36gnfNySxoZtxD5+NmYw1EElVXiBk93UeskA==}

@@ -19,7 +19,7 @@ export interface GroupProps {
     items: string[]
 }
 const activeKey = ref('item-0')
-const props = withDefaults(defineProps<{ data: AllComponentProps; groups?: GroupProps[] }>(), {
+const props = withDefaults(defineProps<{ data: Partial<AllComponentProps>; groups?: GroupProps[] }>(), {
     groups: defaultEditGroups,
 })
 
@@ -40,14 +40,17 @@ const editGroups = computed(() => {
     return newGroups.value.map((group) => {
         const propsMap = {} as AllComponentProps
         group.items.forEach((key) => {
-            propsMap[key] = props.data[key]
+            propsMap[key] = props.data[key as keyof AllComponentProps]
         })
-        group.propsMap = propsMap
-        return group
+        // group.propsMap = propsMap
+        return {
+            ...group,
+            propsMap,
+        }
     })
 })
 const emits = defineEmits(['change'])
-const handleChange = ({ key, value }) => {
+const handleChange = ({ key, value }: any) => {
     console.log({ key, value })
     emits('change', { key, value })
 }

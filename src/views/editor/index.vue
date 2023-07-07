@@ -66,7 +66,9 @@ import EditGroup from '../../components/EditGroup/index.vue'
 // import BackgroundProcesser from '../../components/BackgroundProcesser/index.vue'
 import LayerList from '../../components/LayerList/index.vue'
 import EditWrapper from '../../components/EditWrapper/index.vue'
-
+import initHotKey from '../../plugins/hotKey'
+// 注册快捷键
+initHotKey()
 const activePanel = ref('component')
 const editStore = useEditorStore()
 // 改变组件属性
@@ -101,17 +103,17 @@ interface positionType {
 }
 const updatePositon = ({ left, top, id, width, height }: positionType) => {
     if (left) {
-        editStore.updateComponentData({ key: 'left', value: left + 'px', id })
+        editStore.updateComponentData({ key: 'left', value: left, id })
     }
     if (top) {
-        editStore.updateComponentData({ key: 'top', value: top + 'px', id })
+        editStore.updateComponentData({ key: 'top', value: top, id })
     }
 
     if (width) {
-        editStore.updateComponentData({ key: 'width', value: width + 'px', id })
+        editStore.updateComponentData({ key: 'width', value: width, id })
     }
     if (height) {
-        editStore.updateComponentData({ key: 'height', value: height + 'px', id })
+        editStore.updateComponentData({ key: 'height', value: height, id })
     }
 }
 </script>

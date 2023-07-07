@@ -9,7 +9,7 @@
         @mousedown="startMove"
     >
         <slot></slot>
-        <div class="resizers">
+        <div class="resizers" v-if="showResize">
             <div class="resizer top-left" @mousedown.stop="startResize('top-left')"></div>
             <div class="resizer top-right" @mousedown.stop="startResize('top-right')"></div>
             <div class="resizer bottom-left" @mousedown.stop="startResize('bottom-left')"></div>
@@ -21,7 +21,7 @@
 import { computed, ref, nextTick } from 'vue'
 import useEditorStore from '../../store/editor'
 import { pick } from 'lodash-es'
-// import { TextComponentProps } from 'lego-bricks'
+
 const editStore = useEditorStore()
 const props = defineProps<{ id: string; isHidden: boolean; props: Object }>()
 // 获取定位属性
@@ -33,10 +33,13 @@ const handleEmitData = () => {
 }
 // 选中高亮
 const active = computed(() => props.id === editStore.currentElementId)
+// ===========================
 // 拖动移动
 const currentElement = ref<HTMLElement>()
+const showResize = ref(false)
 const startMove = (e: MouseEvent) => {
     e.preventDefault()
+    showResize.value = true
     const grap = { x: 0, y: 0 }
     let isMove = false
     if (currentElement.value) {
@@ -73,6 +76,7 @@ const startMove = (e: MouseEvent) => {
     }
     document.addEventListener('mouseup', handleUp)
 }
+// ===========================
 // 拖动改变大小
 type ResizeDirection = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
 interface OriginalPositions {
@@ -149,6 +153,7 @@ const caculateSize = (direction: ResizeDirection, e: MouseEvent, positions: Orig
             break
     }
 }
+// 添加快捷键
 </script>
 <style scoped lang="scss">
 .edit-wrapper {
