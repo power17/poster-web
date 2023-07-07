@@ -92,9 +92,27 @@ const handleSendItemData = (id: string) => {
     editStore.currentSelect(id)
 }
 // 更新组件left top值
-const updatePositon = ({ left, top, id }: { left: number; top: number; id: string }) => {
-    editStore.updateComponentData({ key: 'left', value: left + 'px', id })
-    editStore.updateComponentData({ key: 'top', value: top + 'px', id })
+interface positionType {
+    left: number
+    top: number
+    width: number
+    height: number
+    id: string
+}
+const updatePositon = ({ left, top, id, width, height }: positionType) => {
+    if (left) {
+        editStore.updateComponentData({ key: 'left', value: left + 'px', id })
+    }
+    if (top) {
+        editStore.updateComponentData({ key: 'top', value: top + 'px', id })
+    }
+
+    if (width) {
+        editStore.updateComponentData({ key: 'width', value: width + 'px', id })
+    }
+    if (height) {
+        editStore.updateComponentData({ key: 'height', value: height + 'px', id })
+    }
 }
 </script>
 <style scoped lang="scss">
