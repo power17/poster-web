@@ -24,6 +24,22 @@ const initHotKey = () => {
     useHotKey('backspace, delete', () => {
         editorStore.deleteComponent()
     })
+    useHotKey('up', (e: KeyboardEvent) => {
+        e.preventDefault()
+        editorStore.moveComponent('Up', -1)
+    })
+    useHotKey('down', (e: KeyboardEvent) => {
+        e.preventDefault()
+        editorStore.moveComponent('Down', 1)
+    })
+    useHotKey('left', (e: KeyboardEvent) => {
+        e.preventDefault()
+        editorStore.moveComponent('Left', -1)
+    })
+    useHotKey('right', (e: KeyboardEvent) => {
+        e.preventDefault()
+        editorStore.moveComponent('Right', 1)
+    })
 }
 
 export default initHotKey

@@ -76,6 +76,13 @@ export const testComponents: ComponentDataType[] = [
         },
     },
 ]
+interface HistoryProps {
+    id: string
+    componentId: string
+    type: 'add' | 'delete' | 'modify'
+    data: any
+    index?: number
+}
 interface paramType {
     key: any
     value: any
@@ -90,6 +97,8 @@ interface editorStoreType {
         props: PageProps
     }
     copiedComponent: ComponentDataType
+    histories: HistoryProps[]
+    historyIndex: number
 }
 const pageDefaultProps = {
     backgroundColor: '#ffffff',
@@ -98,6 +107,7 @@ const pageDefaultProps = {
     backgroundSize: 'cover',
     height: '750px',
 }
+type Direction = 'Up' | 'Down' | 'Left' | 'Right'
 const useEditorStore = defineStore({
     id: 'editor',
     state: (): editorStoreType => {
@@ -109,6 +119,8 @@ const useEditorStore = defineStore({
                 props: pageDefaultProps,
             },
             copiedComponent: {} as ComponentDataType,
+            histories: [],
+            historyIndex: -1,
         }
     },
     getters: {
@@ -118,10 +130,64 @@ const useEditorStore = defineStore({
         },
     },
     actions: {
+        // 撤销操作
+        undo() {
+            if (this.historyIndex === -1) {
+                this.historyIndex = this.histories.length - 1
+            } else {
+                this.historyIndex--
+            }
+            const history = this.histories[this.historyIndex]
+            switch (history.type) {
+                case 'add':
+                    this.components = this.components.filter((component) => component.id !== history.componentId)
+                    break
+                case 'delete':
+                    this.components.splice(history.index as number, 1, history.data)
+                    break
+                case 'modify': {
+                    const { componentId, data } = history
+                    const { key, oldValue } = data
+                    const updateComponent = this.components.find((component) => component.id === componentId)
+                    if (updateComponent) {
+                        updateComponent.props[key as keyof AllComponentProps] = oldValue
+                    }
+                    break
+                }
+                default:
+                    break
+            }
+        },
+        moveComponent(direction: Direction, amount: number) {
+            if ((direction === 'Up' || direction === 'Down') && this.currentElement) {
+                const top = parseFloat(this.currentElement.props.top || '0') + amount
+                this.updateComponentData({
+                    key: 'top',
+                    value: top + 'px',
+                })
+            }
+            if ((direction === 'Left' || direction === 'Right') && this.currentElement) {
+                const left = parseFloat(this.currentElement.props.left || '0') + amount
+                console.log(left)
+                this.updateComponentData({
+                    key: 'left',
+                    value: left + 'px',
+                })
+            }
+        },
         deleteComponent() {
             if (this.currentElementId) {
                 this.components = this.components.filter((component) => component.id !== this.currentElementId)
                 message.success('删除图层成功', 1)
+                // 历史
+                const currentIndex = this.components.findIndex((component) => component.id === this.currentElementId)
+                this.histories.push({
+                    id: uuidv4(),
+                    componentId: this.currentElementId,
+                    data: this.currentElement,
+                    type: 'delete',
+                    index: currentIndex,
+                })
             }
         },
         copyComponent() {
@@ -134,16 +200,31 @@ const useEditorStore = defineStore({
             cloneComponent.id = uuidv4()
             cloneComponent.layerName = cloneComponent.layerName + '副本'
             this.components.push(cloneComponent)
+            // 历史
+            this.histories.push({
+                id: uuidv4(),
+                componentId: cloneComponent.id,
+                data: cloneComponent,
+                type: 'add',
+            })
         },
         // 添加组件
         addItem(props: Partial<TextComponentTypeProps>) {
-            this.components.push({
+            const item = {
                 id: uuidv4(),
                 name: 'l-text',
                 props,
-                layerName: '',
+                layerName: '图层' + (this.components.length + 1),
                 isLocked: false,
                 isHidden: false,
+            }
+            this.components.push(item)
+            // 历史
+            this.histories.push({
+                id: uuidv4(),
+                componentId: item.id,
+                data: item,
+                type: 'add',
             })
         },
         // 选中
@@ -160,7 +241,14 @@ const useEditorStore = defineStore({
                 if (isRoot) {
                     ;(current as any)[key] = value
                 } else {
+                    const oldValue = current.props[key as keyof AllComponentProps]
                     current.props[key as keyof AllComponentProps] = value
+                    this.histories.push({
+                        id: uuidv4(),
+                        componentId: id || this.currentElementId,
+                        type: 'modify',
+                        data: { oldValue, newValue: value, key },
+                    })
                 }
             }
         },

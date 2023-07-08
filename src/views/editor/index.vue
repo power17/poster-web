@@ -9,6 +9,7 @@
             </a-layout-sider>
             <a-layout-content class="main">
                 <div>画布区域</div>
+                <history-area></history-area>
                 <div id="canvas-area" class="canvas-area" :style="editStore.pageData.props">
                     <edit-wrapper
                         @sendItemData="handleSendItemData"
@@ -60,6 +61,7 @@ import { ref } from 'vue'
 import useEditorStore from './../../store/editor.ts'
 import defaultTextTemplates from './data/defaultTemplate.ts'
 import ComponentList from '../../components/ComponentList/index.vue'
+import HistoryArea from './historyArea.vue'
 
 // import SelectTable from '../../components/selectTable/index.vue'
 import EditGroup from '../../components/EditGroup/index.vue'
