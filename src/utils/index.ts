@@ -1,4 +1,4 @@
-import { isEmpty, mapValues, pick } from 'lodash-es'
+import { mapValues, pick } from 'lodash-es'
 import { computed } from 'vue'
 import { TextComponentTypeProps } from '../components/defaultAttr'
 export const transformToComponentProps = <T extends {}>(props: T) => {
@@ -28,6 +28,16 @@ export const isEmptyObject = (object: Object) => {
 export const getDragTargetIndex = (element: HTMLElement, className: string) => {
     while (element) {
         if (element.classList.contains(className)) {
+            return element
+        } else {
+            element = element.parentNode as HTMLElement
+        }
+    }
+    return null
+}
+export const getParentElement = (element: HTMLElement, className: string) => {
+    while (element) {
+        if (element.classList && element.classList.contains(className)) {
             return element
         } else {
             element = element.parentNode as HTMLElement

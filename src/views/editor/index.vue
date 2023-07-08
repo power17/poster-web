@@ -1,4 +1,5 @@
 <template>
+    <context-menu :actions="testAcitons"></context-menu>
     <a-layout>
         <a-layout>
             <a-layout-sider>
@@ -69,6 +70,12 @@ import EditGroup from '../../components/EditGroup/index.vue'
 import LayerList from '../../components/LayerList/index.vue'
 import EditWrapper from '../../components/EditWrapper/index.vue'
 import initHotKey from '../../plugins/hotKey'
+const testAcitons = [
+    {
+        text: '测试右键',
+        shortcut: 'fjsojoj',
+    },
+]
 // 注册快捷键
 initHotKey()
 const activePanel = ref('component')

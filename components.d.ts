@@ -40,6 +40,7 @@ declare module '@vue/runtime-core' {
     BackgroundProcesser: typeof import('./src/components/BackgroundProcesser/index.vue')['default']
     ColorPicker: typeof import('./src/components/ColorPicker/index.vue')['default']
     ComponentList: typeof import('./src/components/ComponentList/index.vue')['default']
+    ContextMenu: typeof import('./src/components/ContextMenu/index.vue')['default']
     Drag: typeof import('./src/components/Upload/drag.vue')['default']
     Dragg: typeof import('./src/components/LayerList/dragg.vue')['default']
     EditGroup: typeof import('./src/components/EditGroup/index.vue')['default']
