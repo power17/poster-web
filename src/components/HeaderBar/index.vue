@@ -15,7 +15,7 @@
                 <a-button type="primary" @click="saveWork" :loading="loading">保存</a-button>
             </a-menu-item>
             <a-menu-item key="3">
-                <a-button type="primary">发布</a-button>
+                <a-button type="primary" @click="publish">发布</a-button>
             </a-menu-item>
             <a-menu-item key="4">
                 <user-profile></user-profile>
@@ -37,6 +37,11 @@ const saveWork = async () => {
     await editStore.saveWork(id)
     message.success('保存成功', 1)
     loading.value = false
+}
+// 发布
+const emits = defineEmits(['publish'])
+const publish = () => {
+    emits('publish')
 }
 // 自动保存
 let timer: NodeJS.Timeout

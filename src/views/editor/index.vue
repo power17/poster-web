@@ -1,6 +1,6 @@
 <template>
     <context-menu :actions="testAcitons"></context-menu>
-    <header-bar></header-bar>
+    <header-bar @publish="publish"></header-bar>
     <a-layout>
         <a-layout>
             <a-layout-sider>
@@ -14,6 +14,7 @@
                 <history-area></history-area>
                 <div id="canvas-area" class="canvas-area" :style="editStore.pageData.props">
                     <edit-wrapper
+                        :class="{ 'canvas-fix': canvasFix }"
                         @sendItemData="handleSendItemData"
                         v-for="component in editStore.components"
                         :key="component.id"
@@ -57,9 +58,10 @@
             </a-layout-sider>
         </a-layout>
     </a-layout>
+    <img src="" ref="img" id="img" alt="" />
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import useEditorStore from './../../store/editor.ts'
 import defaultTextTemplates from './data/defaultTemplate.ts'
 import ComponentList from '../../components/ComponentList/index.vue'
@@ -74,9 +76,11 @@ import EditWrapper from '../../components/EditWrapper/index.vue'
 import initHotKey from '../../plugins/hotKey'
 import { useRoute, onBeforeRouteLeave } from 'vue-router'
 import { Modal } from 'ant-design-vue'
+import html2canvas from 'html2canvas'
 const editStore = useEditorStore()
 const route = useRoute()
 const { id } = route.params
+
 onMounted(() => {
     editStore.fetchWork(id)
 })
@@ -151,7 +155,23 @@ onBeforeRouteLeave((_to, _from, next) => {
         },
     })
 })
-
+// 发布
+const canvasFix = ref(false)
+const img = ref<HTMLImageElement | null>(null)
+const publish = async () => {
+    const canvasArea = document.getElementById('canvas-area')
+    if (canvasArea) {
+        // useCORS 解决跨域， scale默认为像素比
+        canvasFix.value = true
+        await nextTick()
+        const canvas = await html2canvas(canvasArea, { width: 375, useCORS: true, scale: 1 })
+        if (img.value) {
+            img.value.src = canvas.toDataURL()
+            canvasFix.value = false
+        }
+    }
+}
+console.log(devicePixelRatio)
 window.onbeforeunload = () => {}
 </script>
 <style scoped lang="scss">

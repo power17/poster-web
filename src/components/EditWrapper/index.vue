@@ -162,6 +162,11 @@ const caculateSize = (direction: ResizeDirection, e: MouseEvent, positions: Orig
         width: 100% !important;
         height: 100% !important;
     }
+    &.canvas-fix {
+        :deep(> *) {
+            box-shadow: none !important;
+        }
+    }
     .resizer {
         width: 10px;
         height: 10px;
