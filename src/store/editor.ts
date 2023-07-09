@@ -98,8 +98,11 @@ interface editorStoreType {
         props: PageProps
     }
     copiedComponent: ComponentDataType
+    // 回退操作
     histories: HistoryProps[]
     historyIndex: number
+    // 是否修改
+    isDirty: boolean
 }
 const pageDefaultProps = {
     backgroundColor: '#ffffff',
@@ -122,6 +125,7 @@ const useEditorStore = defineStore({
             copiedComponent: {} as ComponentDataType,
             histories: [],
             historyIndex: -1,
+            isDirty: false,
         }
     },
     getters: {
@@ -131,6 +135,10 @@ const useEditorStore = defineStore({
         },
     },
     actions: {
+        async saveWork(id: string | string[]) {
+            await this.updateWork(id)
+            this.isDirty = false
+        },
         async updateWork(id: string | string[]) {
             // const title = this.title
             const payload = {
@@ -180,6 +188,7 @@ const useEditorStore = defineStore({
             }
         },
         moveComponent(direction: Direction, amount: number) {
+            this.isDirty = true
             if ((direction === 'Up' || direction === 'Down') && this.currentElement) {
                 const top = parseFloat(this.currentElement.props.top || '0') + amount
                 this.updateComponentData({
@@ -197,6 +206,7 @@ const useEditorStore = defineStore({
             }
         },
         deleteComponent() {
+            this.isDirty = true
             if (this.currentElementId) {
                 this.components = this.components.filter((component) => component.id !== this.currentElementId)
                 message.success('删除图层成功', 1)
@@ -212,11 +222,13 @@ const useEditorStore = defineStore({
             }
         },
         copyComponent() {
+            this.isDirty = true
             if (this.currentElement) {
                 this.copiedComponent = this.currentElement
             }
         },
         pasteComponent() {
+            this.isDirty = true
             const cloneComponent = cloneDeep(this.copiedComponent)
             cloneComponent.id = uuidv4()
             cloneComponent.layerName = cloneComponent.layerName + '副本'
@@ -231,6 +243,7 @@ const useEditorStore = defineStore({
         },
         // 添加组件
         addItem(props: Partial<TextComponentTypeProps>) {
+            this.isDirty = true
             const item = {
                 id: uuidv4(),
                 name: 'l-text',
@@ -253,9 +266,11 @@ const useEditorStore = defineStore({
             this.currentElementId = id
         },
         updatePageData({ key, value }: any) {
+            this.isDirty = true
             this.pageData.props[key as keyof PageProps] = value
         },
         updateComponentData({ key, value, isRoot, id }: paramType) {
+            this.isDirty = true
             const current = this.components.find((component) => component.id === (id || this.currentElementId))
             if (current) {
                 this.currentElementId = id || this.currentElementId

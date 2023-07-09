@@ -3,7 +3,7 @@
         <div class="page-title">
             <router-link to="/">
                 <img alt="power设计" src="../../assets/logo.png" class="logo-img" />
-                power设计
+                {{ editStore.pageData.title }}
             </router-link>
             <!-- <inline-edit :value="page.title" @change="titleChange" /> -->
         </div>
@@ -24,21 +24,36 @@
     </a-layout-header>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import useEditorStore from '../../store/editor'
-import { useRoute } from 'vue-router'
-import { message } from 'ant-design-vue'
 
-const { id } = useRoute().params
+import { message } from 'ant-design-vue'
+import { useRoute } from 'vue-router'
 const editStore = useEditorStore()
 const loading = ref(false)
-
+const { id } = useRoute().params
 const saveWork = async () => {
     loading.value = true
-    await editStore.updateWork(id)
+    await editStore.saveWork(id)
     message.success('保存成功', 1)
     loading.value = false
 }
+// 自动保存
+let timer: NodeJS.Timeout
+onMounted(() => {
+    timer = setInterval(async () => {
+        if (editStore.isDirty) {
+            loading.value = true
+            await editStore.saveWork(id)
+            setTimeout(() => {
+                loading.value = false
+            }, 2000)
+        }
+    }, 20000)
+})
+onUnmounted(() => {
+    clearInterval(timer)
+})
 </script>
 <style lang="scss" scoped>
 .header-menu {

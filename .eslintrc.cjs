@@ -18,6 +18,9 @@ module.exports = {
         parser: '@typescript-eslint/parser',
     },
     plugins: ['vue', '@typescript-eslint'],
+    globals: {
+        NodeJS: true,
+    },
     rules: {
         // eslint (http://eslint.cn/docs/rules)
         'no-var': 'error', // 要求使用 let 或 const 而不是 var

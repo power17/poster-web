@@ -72,11 +72,13 @@ import LayerList from '../../components/LayerList/index.vue'
 import HeaderBar from '../../components/HeaderBar/index.vue'
 import EditWrapper from '../../components/EditWrapper/index.vue'
 import initHotKey from '../../plugins/hotKey'
-import { useRoute } from 'vue-router'
+import { useRoute, onBeforeRouteLeave } from 'vue-router'
+import { Modal } from 'ant-design-vue'
 const editStore = useEditorStore()
 const route = useRoute()
+const { id } = route.params
 onMounted(() => {
-    editStore.fetchWork(route.params.id)
+    editStore.fetchWork(id)
 })
 const testAcitons = [
     {
@@ -132,6 +134,25 @@ const updatePositon = ({ left, top, id, width, height }: positionType) => {
         editStore.updateComponentData({ key: 'height', value: height, id })
     }
 }
+// 离开保存
+onBeforeRouteLeave((_to, _from, next) => {
+    if (!editStore.isDirty) return next()
+    Modal.confirm({
+        title: '作品还没保存，是否保存',
+        okText: '保存',
+        okType: 'primary',
+        cancelText: '不保存',
+        onOk: async () => {
+            await editStore.saveWork(id)
+            next()
+        },
+        onCancel: () => {
+            next()
+        },
+    })
+})
+
+window.onbeforeunload = () => {}
 </script>
 <style scoped lang="scss">
 :deep(.ant-layout-sider-children) {
@@ -148,6 +169,7 @@ const updatePositon = ({ left, top, id, width, height }: positionType) => {
 }
 .canvas-area {
     position: relative;
+    width: 375px;
 }
 
 .editor-container .preview-container {
