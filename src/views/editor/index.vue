@@ -1,5 +1,6 @@
 <template>
     <context-menu :actions="testAcitons"></context-menu>
+    <header-bar></header-bar>
     <a-layout>
         <a-layout>
             <a-layout-sider>
@@ -18,7 +19,7 @@
                         :key="component.id"
                         :id="component.id"
                         :props="component.props"
-                        :isHidden="component.isHidden"
+                        :isHidden="component.isHidden || false"
                         @update-position="updatePositon"
                     >
                         <component :is="component.name" v-bind="component.props" />
@@ -52,13 +53,13 @@
                     </a-tab-pane>
                 </a-tabs>
 
-                <pre>{{ editStore.currentElement }}</pre>
+                <pre>{{ editStore.pageData.props }}</pre>
             </a-layout-sider>
         </a-layout>
     </a-layout>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import useEditorStore from './../../store/editor.ts'
 import defaultTextTemplates from './data/defaultTemplate.ts'
 import ComponentList from '../../components/ComponentList/index.vue'
@@ -68,8 +69,15 @@ import HistoryArea from './historyArea.vue'
 import EditGroup from '../../components/EditGroup/index.vue'
 // import BackgroundProcesser from '../../components/BackgroundProcesser/index.vue'
 import LayerList from '../../components/LayerList/index.vue'
+import HeaderBar from '../../components/HeaderBar/index.vue'
 import EditWrapper from '../../components/EditWrapper/index.vue'
 import initHotKey from '../../plugins/hotKey'
+import { useRoute } from 'vue-router'
+const editStore = useEditorStore()
+const route = useRoute()
+onMounted(() => {
+    editStore.fetchWork(route.params.id)
+})
 const testAcitons = [
     {
         text: '测试右键',
@@ -79,7 +87,7 @@ const testAcitons = [
 // 注册快捷键
 initHotKey()
 const activePanel = ref('component')
-const editStore = useEditorStore()
+
 // 改变组件属性
 interface paramType {
     key: any
@@ -91,7 +99,6 @@ const handleChangeBackground = (data: paramType) => {
     editStore.updatePageData(data)
 }
 const handleChange = (data: paramType) => {
-    console.log(data)
     editStore.updateComponentData(data)
 }
 //  添加组件

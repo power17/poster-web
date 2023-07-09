@@ -23,7 +23,7 @@ import useEditorStore from '../../store/editor'
 import { pick } from 'lodash-es'
 
 const editStore = useEditorStore()
-const props = defineProps<{ id: string; isHidden: boolean; props: Object }>()
+const props = defineProps<{ id: string; isHidden?: boolean; props: Object }>()
 // 获取定位属性
 const wrapPosition = computed(() => pick(props.props, ['position', 'left', 'top', 'bottom', 'left']))
 // 发送数据

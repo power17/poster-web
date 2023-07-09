@@ -28,6 +28,9 @@ dependencies:
   lego-bricks:
     specifier: ^1.0.11
     version: 1.0.11(vue@3.3.4)
+  lego-components:
+    specifier: ^0.1.7
+    version: 0.1.7(vue@3.3.4)
   lodash-es:
     specifier: ^4.17.21
     version: 4.17.21
@@ -3279,6 +3282,15 @@ packages:
       vue: ^3.0.0
     dependencies:
       core-js: 3.30.2
+      lodash-es: 4.17.21
+      vue: 3.3.4
+    dev: false
+
+  /lego-components@0.1.7(vue@3.3.4):
+    resolution: {integrity: sha512-iGvL/OD2DPlgDeFsFQU9iZYNOZUxWzve1uomEUjonXimUIlK3iJIo4801lFT/KZUHeY+kCFXJ/cVDIv9djf9qw==}
+    peerDependencies:
+      vue: ^3.0.0-0
+    dependencies:
       lodash-es: 4.17.21
       vue: 3.3.4
     dev: false

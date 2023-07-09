@@ -23,6 +23,7 @@
         "cropperjs": "^1.5.13",
         "hotkeys-js": "^3.10.4",
         "lego-bricks": "^1.0.11",
+        "lego-components": "^0.1.7",
         "lodash-es": "^4.17.21",
         "pinia": "^2.1.3",
         "sass": "^1.62.1",

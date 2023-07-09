@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { defineStore } from 'pinia'
 interface userInfoType {
-    nickName: string
+    nickname: string
 }
 interface userStoreType {
     loginButtonStatus: boolean
@@ -25,6 +25,7 @@ export const useUserStore = defineStore({
     actions: {
         login: async function (payload: payloadType) {
             const res = await axios.post('/users/loginByPhoneNumber', payload)
+            console.log(res)
             this.token = res.data.token || ''
             localStorage.setItem('token', this.token)
             this.isLogin = true
@@ -33,7 +34,8 @@ export const useUserStore = defineStore({
         },
         fetchCurrentUser: async function () {
             const res = await axios.get('/users/getUserInfo')
-            this.userInfo = res.data
+            this.userInfo = res.data.userData
+
             return this.userInfo
         },
         loginAndFetch: async function (payload: payloadType) {

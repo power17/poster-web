@@ -6,15 +6,21 @@ import router from './router'
 import { createPinia } from 'pinia'
 import './style/inidex.css'
 import configAnt from './config/configAnt'
-import legoBricks from 'lego-bricks'
+// import legoBricks from 'lego-bricks'
+import Lego from 'lego-components'
+
+// 加载样式
+import 'lego-components/dist/lego-components.css'
+
 const app = createApp(App)
 const pinia = createPinia()
-app.use(pinia).use(router).use(legoBricks).use(configAnt).mount('#app')
+app.use(pinia).use(Lego).use(router).use(configAnt).mount('#app')
 
 import axios from 'axios'
 import { useGlobalStore } from '../src/store/global'
 import { message } from 'ant-design-vue'
-const baseBackendUrl = 'http://182.92.168.192:8081/api/'
+const baseBackendUrl = 'http://127.0.0.1:5173/api/'
+// const baseBackendUrl = 'http://182.92.168.192:8081/api/'
 axios.defaults.baseURL = baseBackendUrl
 const globalStore = useGlobalStore()
 axios.interceptors.request.use((config) => {
@@ -26,7 +32,8 @@ axios.interceptors.response.use(
         globalStore.finishLoading()
         const { data } = resp
         if (data.errno !== 0) {
-            message.error(data.message || '后端接口返回错误')
+            console.log(data)
+            message.error(data.msg || '后端接口返回错误')
             return Promise.reject(data)
         }
         return data

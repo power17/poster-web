@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import { useTemplateStore } from './../../store/template'
 import { useUserStore } from '../../store/user'
-
+import TemplateList from '../../components/TemplateList/index.vue'
 import { computed, onMounted } from 'vue'
 import axios from 'axios'
 import { isEmptyObject } from '../../utils/index'

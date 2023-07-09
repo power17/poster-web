@@ -4,7 +4,7 @@
     </router-link>
     <div v-else>
         <a-dropdown-button class="user-profile-component">
-            <router-link to="/">{{ userInfo.nickName }}</router-link>
+            <router-link to="/">{{ userInfo.nickname }}</router-link>
             <template #overlay>
                 <a-menu class="user-profile-dropdown">
                     <a-menu-item key="0">登出</a-menu-item>
@@ -19,6 +19,7 @@ import { computed } from 'vue'
 import { isEmptyObject } from '../utils'
 const userStore = useUserStore()
 const userInfo = computed(() => userStore.userInfo)
+console.log(userInfo)
 </script>
 <style scoped lang="scss">
 .user-profile-component {

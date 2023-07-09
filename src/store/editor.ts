@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { PageProps } from '../components/propsMap'
 import { cloneDeep } from 'lodash-es'
 import { message } from 'ant-design-vue'
+import axios from 'axios'
 
 export const testComponents: ComponentDataType[] = [
     {
@@ -130,6 +131,14 @@ const useEditorStore = defineStore({
         },
     },
     actions: {
+        async fetchWork(id: string | string[]) {
+            const res = await axios.get(`/work/${id}`)
+            if (res.data) {
+                this.components = res.data.content.components
+                this.pageData.props = res.data.content.props
+            }
+            console.log(this.components)
+        },
         // 撤销操作
         undo() {
             if (this.historyIndex === -1) {

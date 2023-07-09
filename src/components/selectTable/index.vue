@@ -29,6 +29,7 @@ import { finalDataType } from './interface/index'
 import { mapPropsToForms, PropsToForms } from './../propsMap'
 import { AllComponentProps } from 'lego-bricks'
 const props = defineProps<{ data: Partial<AllComponentProps> }>()
+
 // const componentsMap: componentsMapType = {
 //     text: {
 //         componentName: 'a-textarea',
@@ -125,7 +126,7 @@ const finalData = computed(() => {
             }
         }
     })
-    console.log(result)
+
     return result
 })
 
