@@ -131,6 +131,18 @@ const useEditorStore = defineStore({
         },
     },
     actions: {
+        async updateWork(id: string | string[]) {
+            // const title = this.title
+            const payload = {
+                title: 'hello',
+                content: {
+                    components: this.components,
+                    props: this.pageData.props,
+                },
+            }
+            const res = await axios.post(`/work/updateWork/${id}`, payload)
+            console.log(res)
+        },
         async fetchWork(id: string | string[]) {
             const res = await axios.get(`/work/${id}`)
             if (res.data) {

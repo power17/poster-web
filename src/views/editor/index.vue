@@ -48,7 +48,7 @@
                             :list="editStore.components"
                         ></layer-list>
                     </a-tab-pane>
-                    <a-tab-pane :tab="editStore.pageData.title">
+                    <a-tab-pane tab="页面设置">
                         <select-table @change="handleChangeBackground" :data="editStore.pageData.props"></select-table>
                     </a-tab-pane>
                 </a-tabs>

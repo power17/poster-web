@@ -7,7 +7,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { useTemplateStore } from './../../store/template'
+import { useTemplateStore } from './../../store/work'
 import { useUserStore } from '../../store/user'
 import TemplateList from '../../components/TemplateList/index.vue'
 import { computed, onMounted } from 'vue'
@@ -30,3 +30,4 @@ onMounted(async () => {
     }
 })
 </script>
+../../store/work
