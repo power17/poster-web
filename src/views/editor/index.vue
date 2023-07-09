@@ -76,7 +76,8 @@ import EditWrapper from '../../components/EditWrapper/index.vue'
 import initHotKey from '../../plugins/hotKey'
 import { useRoute, onBeforeRouteLeave } from 'vue-router'
 import { Modal } from 'ant-design-vue'
-import html2canvas from 'html2canvas'
+import { takeScreenshotAndUpload } from '../../utils/index'
+
 const editStore = useEditorStore()
 const route = useRoute()
 const { id } = route.params
@@ -164,11 +165,7 @@ const publish = async () => {
         // useCORS 解决跨域， scale默认为像素比
         canvasFix.value = true
         await nextTick()
-        const canvas = await html2canvas(canvasArea, { width: 375, useCORS: true, scale: 1 })
-        if (img.value) {
-            img.value.src = canvas.toDataURL()
-            canvasFix.value = false
-        }
+        takeScreenshotAndUpload(canvasArea)
     }
 }
 console.log(devicePixelRatio)
