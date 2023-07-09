@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { TemplateType } from './../../store/template'
+import { TemplateType } from './../../store/resType'
 defineProps<{ list: TemplateType[] }>()
 </script>
 
