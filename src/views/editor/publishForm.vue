@@ -73,9 +73,10 @@
 <script setup lang="ts">
 import { editorStoreType } from './../../store/editor'
 import useEditorStore from '../../store/editor'
-import { computed, reactive } from 'vue'
+import { computed, reactive, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { Form } from 'ant-design-vue'
+import QRCode from 'qrcode'
 const currentWorkId = useRoute().params.id
 const editorStore = useEditorStore()
 const channels = computed(() => editorStore.channels)
@@ -84,6 +85,27 @@ defineProps<{ page: editorStoreType['pageData'] }>()
 const form = reactive({
     channelName: '',
 })
+// 二维码
+const generateQrcode = async () => {
+    channels.value.map(async (channel) => {
+        const ele = document.getElementById(`channel-barcode-${channel.id}`)
+        await QRCode.toCanvas(ele, generateChannelURL(channel.workId, channel.id), { width: 100 })
+    })
+}
+onMounted(async () => {
+    generateQrcode()
+})
+watch(
+    channels,
+    () => {
+        generateQrcode()
+        // console.log(newChannels, oldChannels)
+    },
+    {
+        flush: 'post',
+    },
+)
+
 const rules = reactive({
     channelName: [{ required: true, message: '标题不能为空', trigger: 'blur' }],
 })
