@@ -84,13 +84,20 @@ interface HistoryProps {
     data: any
     index?: number
 }
-interface editorStoreType {
+export interface ChannelProps {
+    id: string
+    name: string
+    workId: number
+    //   status: number;
+}
+export interface editorStoreType {
     components: ComponentDataType[]
     currentElementId: string
     pageData: {
         title: string
         coverImg?: string
         props: PageProps
+        desc?: string
     }
     copiedComponent: ComponentDataType
     // 回退操作
@@ -98,6 +105,7 @@ interface editorStoreType {
     historyIndex: number
     // 是否修改
     isDirty: boolean
+    channels: ChannelProps[]
 }
 
 export interface paramType {
@@ -122,12 +130,14 @@ const useEditorStore = defineStore({
             currentElementId: testComponents[0].id,
             pageData: {
                 title: '页面设置',
+                desc: '',
                 props: pageDefaultProps,
             },
             copiedComponent: {} as ComponentDataType,
             histories: [],
             historyIndex: -1,
             isDirty: false,
+            channels: [],
         }
     },
     getters: {
@@ -137,14 +147,20 @@ const useEditorStore = defineStore({
         },
     },
     actions: {
+        async deleteChannel(channelId: string) {
+            const deleteData = axios.post(`/work/deleteWorkchannel/${channelId}`)
+            console.log('deleteData', deleteData)
+            return deleteData
+        },
         async fetchChannel(id: string | string[]) {
             const data = await axios.get(`/work/getChannels/${id}`)
             console.log('channel', data)
-            return data.data.list || []
+            this.channels = data.data.list
+            return this.channels || []
         },
-        async createChannel(id: string | string[]) {
+        async createChannel(id: string | string[], channelName = '默认') {
             const payload = {
-                name: '默认',
+                name: channelName,
                 workId: Number(id),
             }
             const data = await axios.post('/work/createChannel', payload)

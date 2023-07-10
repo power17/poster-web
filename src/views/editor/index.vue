@@ -58,6 +58,9 @@
             </a-layout-sider>
         </a-layout>
     </a-layout>
+    <a-modal title="发布成功" v-model:visible="showPublishForm" width="700px" :footer="null">
+        <publish-form :page="editStore.pageData" />
+    </a-modal>
 </template>
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from 'vue'
@@ -77,7 +80,9 @@ import { useRoute, onBeforeRouteLeave } from 'vue-router'
 import { Modal } from 'ant-design-vue'
 import { takeScreenshotAndUpload } from '../../utils/index'
 import { paramType } from './../../store/editor.ts'
+import PublishForm from './publishForm.vue'
 const publishLoading = ref(false)
+const showPublishForm = ref(false)
 
 const editStore = useEditorStore()
 const route = useRoute()
@@ -154,7 +159,6 @@ onBeforeRouteLeave((_to, _from, next) => {
 })
 // 发布
 const canvasFix = ref(false)
-const img = ref<HTMLImageElement | null>(null)
 const publish = async () => {
     const canvasArea = document.getElementById('canvas-area')
     if (canvasArea) {
@@ -173,6 +177,7 @@ const publish = async () => {
                 if (!channel.length) {
                     await editStore.createChannel(id)
                 }
+                showPublishForm.value = true
             }
         } catch (e) {
             console.error(e)
