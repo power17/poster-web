@@ -75,8 +75,9 @@ import { editorStoreType } from './../../store/editor'
 import useEditorStore from '../../store/editor'
 import { computed, reactive, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { Form } from 'ant-design-vue'
+import { Form, message } from 'ant-design-vue'
 import QRCode from 'qrcode'
+import ClipboardJS from 'clipboard'
 const currentWorkId = useRoute().params.id
 const editorStore = useEditorStore()
 const channels = computed(() => editorStore.channels)
@@ -94,11 +95,20 @@ const generateQrcode = async () => {
 }
 onMounted(async () => {
     generateQrcode()
+    // 初始化复制
+    // 复制
+    const clipboard = new ClipboardJS('.copy-button')
+    clipboard.on('success', (e) => {
+        message.success('复制成功')
+        // 清楚选项
+        e.clearSelection()
+    })
 })
 watch(
     channels,
     () => {
         generateQrcode()
+
         // console.log(newChannels, oldChannels)
     },
     {
