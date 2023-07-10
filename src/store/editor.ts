@@ -95,6 +95,7 @@ interface editorStoreType {
     currentElementId: string
     pageData: {
         title: string
+        coverImg?: string
         props: PageProps
     }
     copiedComponent: ComponentDataType
@@ -103,6 +104,11 @@ interface editorStoreType {
     historyIndex: number
     // 是否修改
     isDirty: boolean
+}
+interface updatePageParamType {
+    key: string
+    value: any
+    root: boolean
 }
 const pageDefaultProps = {
     backgroundColor: '#ffffff',
@@ -135,6 +141,10 @@ const useEditorStore = defineStore({
         },
     },
     actions: {
+        async publishWork(id: string | string[]) {
+            const data = await axios.post(`/work/publishWork/${id}`)
+            console.log('publish Data', data)
+        },
         async saveWork(id: string | string[]) {
             await this.updateWork(id)
             this.isDirty = false
@@ -143,6 +153,7 @@ const useEditorStore = defineStore({
             // const title = this.title
             const payload = {
                 title: 'hello',
+                coverImg: this.pageData.coverImg,
                 content: {
                     components: this.components,
                     props: this.pageData.props,
@@ -265,9 +276,13 @@ const useEditorStore = defineStore({
         currentSelect(id: string) {
             this.currentElementId = id
         },
-        updatePageData({ key, value }: any) {
+        updatePageData({ key, value, root }: updatePageParamType) {
             this.isDirty = true
-            this.pageData.props[key as keyof PageProps] = value
+            if (root) {
+                ;(this.pageData as any)[key] = value
+            } else {
+                this.pageData.props[key as keyof PageProps] = value
+            }
         },
         updateComponentData({ key, value, isRoot, id }: paramType) {
             this.isDirty = true

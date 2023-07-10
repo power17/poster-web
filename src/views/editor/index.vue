@@ -165,10 +165,22 @@ const publish = async () => {
         // useCORS 解决跨域， scale默认为像素比
         canvasFix.value = true
         await nextTick()
-        takeScreenshotAndUpload(canvasArea)
+        try {
+            const resp = await takeScreenshotAndUpload(canvasArea)
+
+            if (resp) {
+                editStore.updatePageData({ key: 'coverImg', value: resp.url, root: true })
+                await editStore.saveWork(id)
+                await editStore.publishWork(id)
+            }
+        } catch (e) {
+            console.error(e)
+        } finally {
+            canvasFix.value = false
+        }
     }
 }
-console.log(devicePixelRatio)
+
 window.onbeforeunload = () => {}
 </script>
 <style scoped lang="scss">
