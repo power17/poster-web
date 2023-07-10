@@ -84,12 +84,6 @@ interface HistoryProps {
     data: any
     index?: number
 }
-interface paramType {
-    key: any
-    value: any
-    isRoot?: boolean
-    id?: string
-}
 interface editorStoreType {
     components: ComponentDataType[]
     currentElementId: string
@@ -105,10 +99,12 @@ interface editorStoreType {
     // 是否修改
     isDirty: boolean
 }
-interface updatePageParamType {
-    key: string
+
+export interface paramType {
+    key: any
     value: any
-    root: boolean
+    isRoot?: boolean
+    id?: string
 }
 const pageDefaultProps = {
     backgroundColor: '#ffffff',
@@ -141,6 +137,19 @@ const useEditorStore = defineStore({
         },
     },
     actions: {
+        async fetchChannel(id: string | string[]) {
+            const data = await axios.get(`/work/getChannels/${id}`)
+            console.log('channel', data)
+            return data.data.list || []
+        },
+        async createChannel(id: string | string[]) {
+            const payload = {
+                name: '默认',
+                workId: Number(id),
+            }
+            const data = await axios.post('/work/createChannel', payload)
+            console.log('createChanel', data)
+        },
         async publishWork(id: string | string[]) {
             const data = await axios.post(`/work/publishWork/${id}`)
             console.log('publish Data', data)
@@ -276,9 +285,9 @@ const useEditorStore = defineStore({
         currentSelect(id: string) {
             this.currentElementId = id
         },
-        updatePageData({ key, value, root }: updatePageParamType) {
+        updatePageData({ key, value, isRoot }: paramType) {
             this.isDirty = true
-            if (root) {
+            if (isRoot) {
                 ;(this.pageData as any)[key] = value
             } else {
                 this.pageData.props[key as keyof PageProps] = value

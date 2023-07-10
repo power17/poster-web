@@ -15,7 +15,7 @@
                 <a-button type="primary" @click="saveWork" :loading="loading">保存</a-button>
             </a-menu-item>
             <a-menu-item key="3">
-                <a-button type="primary" @click="publish">发布</a-button>
+                <a-button type="primary" @click="publish" :loading="publishLoading">发布</a-button>
             </a-menu-item>
             <a-menu-item key="4">
                 <user-profile></user-profile>
@@ -29,6 +29,7 @@ import useEditorStore from '../../store/editor'
 
 import { message } from 'ant-design-vue'
 import { useRoute } from 'vue-router'
+defineProps<{ publishLoading: boolean }>()
 const editStore = useEditorStore()
 const loading = ref(false)
 const { id } = useRoute().params

@@ -1,6 +1,6 @@
 <template>
     <context-menu :actions="testAcitons"></context-menu>
-    <header-bar @publish="publish"></header-bar>
+    <header-bar @publish="publish" :publishLoading="publishLoading"></header-bar>
     <a-layout>
         <a-layout>
             <a-layout-sider>
@@ -58,7 +58,6 @@
             </a-layout-sider>
         </a-layout>
     </a-layout>
-    <img src="" ref="img" id="img" alt="" />
 </template>
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from 'vue'
@@ -77,6 +76,8 @@ import initHotKey from '../../plugins/hotKey'
 import { useRoute, onBeforeRouteLeave } from 'vue-router'
 import { Modal } from 'ant-design-vue'
 import { takeScreenshotAndUpload } from '../../utils/index'
+import { paramType } from './../../store/editor.ts'
+const publishLoading = ref(false)
 
 const editStore = useEditorStore()
 const route = useRoute()
@@ -96,12 +97,7 @@ initHotKey()
 const activePanel = ref('component')
 
 // 改变组件属性
-interface paramType {
-    key: any
-    value: any
-    isRoot?: boolean
-    id?: string
-}
+
 const handleChangeBackground = (data: paramType) => {
     editStore.updatePageData(data)
 }
@@ -164,19 +160,25 @@ const publish = async () => {
     if (canvasArea) {
         // useCORS 解决跨域， scale默认为像素比
         canvasFix.value = true
+        publishLoading.value = true
         await nextTick()
         try {
             const resp = await takeScreenshotAndUpload(canvasArea)
 
             if (resp) {
-                editStore.updatePageData({ key: 'coverImg', value: resp.url, root: true })
+                editStore.updatePageData({ key: 'coverImg', value: resp.url, isRoot: true })
                 await editStore.saveWork(id)
                 await editStore.publishWork(id)
+                const channel = await editStore.fetchChannel(id)
+                if (!channel.length) {
+                    await editStore.createChannel(id)
+                }
             }
         } catch (e) {
             console.error(e)
         } finally {
             canvasFix.value = false
+            publishLoading.value = false
         }
     }
 }
