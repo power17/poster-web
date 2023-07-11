@@ -6,7 +6,7 @@
                 <color-picker
                     :value="values[3]"
                     @change="
-                        (v) => {
+                        (v:number|string) => {
                             updateValue(v, 3)
                         }
                     "
@@ -21,7 +21,7 @@
                     :min="0"
                     :max="20"
                     @change="
-                        (v) => {
+                        (v:string|number) => {
                             updateValue(v, [0, 1])
                         }
                     "
@@ -36,7 +36,7 @@
                     :min="0"
                     :max="20"
                     @change="
-                        (v) => {
+                        (v:string| number) => {
                             updateValue(v, 2)
                         }
                     "

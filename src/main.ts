@@ -15,11 +15,15 @@ import 'lego-components/dist/lego-components.css'
 const app = createApp(App)
 const pinia = createPinia()
 app.use(pinia).use(Lego).use(router).use(configAnt).mount('#app')
-
 import axios from 'axios'
 import { useGlobalStore } from '../src/store/global'
 import { message } from 'ant-design-vue'
-const baseBackendUrl = 'http://127.0.0.1:5173/api/'
+let baseBackendUrl
+if (process.env.NODE_ENV === 'development') {
+    baseBackendUrl = 'http://127.0.0.1:5173/api/'
+} else {
+    baseBackendUrl = 'http://120.78.65.45:7002/api/'
+}
 // const baseBackendUrl = 'http://182.92.168.192:8081/api/'
 axios.defaults.baseURL = baseBackendUrl
 const globalStore = useGlobalStore()

@@ -29,13 +29,13 @@ const router = createRouter({
         {
             path: '/editor/:id',
             name: 'editor',
-            component: () => import(/* webpackChunkName: "home" */ '../views/Editor/index.vue'),
+            component: () => import(/* webpackChunkName: "editor" */ '../views/Editor/index.vue'),
             meta: { title: '编辑我的设计' },
         },
         {
             path: '/login',
             name: 'login',
-            component: () => import(/* webpackChunkName: "editor" */ '../views/Login/index.vue'),
+            component: () => import(/* webpackChunkName: "login" */ '../views/Login/index.vue'),
             meta: { redirectAlreadyLogin: true, title: '登录到慕课乐高', disableLoading: true },
         },
     ],

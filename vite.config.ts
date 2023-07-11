@@ -4,9 +4,12 @@ import vue from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+// 包大小分析
+import { visualizer } from 'rollup-plugin-visualizer'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    base: '/',
     server: {
         proxy: {
             '/api': {
@@ -20,6 +23,7 @@ export default defineConfig({
     plugins: [
         vue({}),
         vueJsx(),
+        visualizer(),
         Components({
             resolvers: [
                 AntDesignVueResolver({
@@ -31,5 +35,17 @@ export default defineConfig({
     test: {
         globals: true,
         environment: 'jsdom',
+    },
+    // 清除debugger
+    esbuild: {
+        drop: ['console', 'debugger'],
+    },
+    build: {
+        chunkSizeWarningLimit: 600,
+        rollupOptions: {
+            manualChunks: {
+                'ant-design-vue': ['ant-design-vue'],
+            },
+        },
     },
 })
