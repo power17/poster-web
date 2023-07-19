@@ -7,48 +7,50 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 // 包大小分析
 import { visualizer } from 'rollup-plugin-visualizer'
 
-const base = process.env['NODE_ENV'] === 'production' ? '/poster-web' : '/'
-console.log(process.env['NODE_ENV'], base)
-
 // https://vitejs.dev/config/
-export default defineConfig({
-    base,
-    server: {
-        proxy: {
-            '/api': {
-                target: 'http://127.0.0.1:7001',
-                // target: 'http://182.92.168.192:8081',
-                changeOrigin: true,
-                // rewrite: (path) => path.replace(/^\/api/, ''),
+export default defineConfig((config) => {
+    const base = config.command === 'build' ? '/poster-web' : '/'
+    console.log(config.command, base)
+
+    return {
+        base,
+        server: {
+            proxy: {
+                '/api': {
+                    target: 'http://127.0.0.1:7001',
+                    // target: 'http://182.92.168.192:8081',
+                    changeOrigin: true,
+                    // rewrite: (path) => path.replace(/^\/api/, ''),
+                },
             },
         },
-    },
-    plugins: [
-        vue({}),
-        vueJsx(),
-        visualizer(),
-        Components({
-            resolvers: [
-                AntDesignVueResolver({
-                    importStyle: false, // css in js
-                }),
-            ],
-        }),
-    ],
-    test: {
-        globals: true,
-        environment: 'jsdom',
-    },
-    // 清除debugger
-    esbuild: {
-        drop: ['console', 'debugger'],
-    },
-    build: {
-        chunkSizeWarningLimit: 600,
-        rollupOptions: {
-            manualChunks: {
-                'ant-design-vue': ['ant-design-vue'],
+        plugins: [
+            vue({}),
+            vueJsx(),
+            visualizer(),
+            Components({
+                resolvers: [
+                    AntDesignVueResolver({
+                        importStyle: false, // css in js
+                    }),
+                ],
+            }),
+        ],
+        test: {
+            globals: true,
+            environment: 'jsdom',
+        },
+        // 清除debugger
+        esbuild: {
+            drop: ['console', 'debugger'],
+        },
+        build: {
+            chunkSizeWarningLimit: 600,
+            rollupOptions: {
+                manualChunks: {
+                    'ant-design-vue': ['ant-design-vue'],
+                },
             },
         },
-    },
+    }
 })
