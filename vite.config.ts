@@ -8,7 +8,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import { visualizer } from 'rollup-plugin-visualizer'
 
 const base = process.env.NODE_ENV === 'production' ? '/poster-web' : '/'
-
+console.log(process.env.NODE_ENV, base)
 // https://vitejs.dev/config/
 export default defineConfig({
     base,
