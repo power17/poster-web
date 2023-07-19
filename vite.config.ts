@@ -8,7 +8,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import { visualizer } from 'rollup-plugin-visualizer'
 
 // https://vitejs.dev/config/
-export default defineConfig((config) => {
+export default defineConfig(() => {
     // const base = config.command === 'build' ? '/poster-web' : '/'
     // console.log(config.command, base)
 
