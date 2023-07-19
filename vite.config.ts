@@ -9,11 +9,11 @@ import { visualizer } from 'rollup-plugin-visualizer'
 
 // https://vitejs.dev/config/
 export default defineConfig((config) => {
-    const base = config.command === 'build' ? '/poster-web' : '/'
-    console.log(config.command, base)
+    // const base = config.command === 'build' ? '/poster-web' : '/'
+    // console.log(config.command, base)
 
     return {
-        base,
+        base: './',
         server: {
             proxy: {
                 '/api': {
