@@ -8,7 +8,7 @@ export const useTemplateStore = defineStore('templateStore', {
     },
     actions: {
         fetchTemplate: async function () {
-            const templateDate = await axios.get('/work/templates', {
+            const templateDate = await axios.get('/work/templatesList', {
                 params: {
                     pageIndex: 0,
                     pageSize: 8,
