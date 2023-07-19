@@ -15,7 +15,7 @@ const router = createRouter({
                     path: '',
                     name: 'home',
                     component: () => import(/* webpackChunkName: "home" */ '../views/Home/index.vue'),
-                    meta: { title: '欢迎来到慕课乐高' },
+                    meta: { requiredLogin: true, title: '欢迎来到慕课乐高' },
                 },
                 // {
                 //     path: 'template/:id',

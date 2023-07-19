@@ -7,9 +7,11 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 // 包大小分析
 import { visualizer } from 'rollup-plugin-visualizer'
 
+const base = process.env.NODE_ENV === 'production' ? '/poster-web' : '/'
+
 // https://vitejs.dev/config/
 export default defineConfig({
-    base: '/',
+    base,
     server: {
         proxy: {
             '/api': {
