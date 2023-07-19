@@ -9,23 +9,6 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    AButton: typeof import('ant-design-vue/es')['Button']
-    ACol: typeof import('ant-design-vue/es')['Col']
-    AEmpty: typeof import('ant-design-vue/es')['Empty']
-    AForm: typeof import('ant-design-vue/es')['Form']
-    AFormItem: typeof import('ant-design-vue/es')['FormItem']
-    AInput: typeof import('ant-design-vue/es')['Input']
-    ALayout: typeof import('ant-design-vue/es')['Layout']
-    ALayoutContent: typeof import('ant-design-vue/es')['LayoutContent']
-    ALayoutFooter: typeof import('ant-design-vue/es')['LayoutFooter']
-    ALayoutHeader: typeof import('ant-design-vue/es')['LayoutHeader']
-    ALayoutSider: typeof import('ant-design-vue/es')['LayoutSider']
-    AModal: typeof import('ant-design-vue/es')['Modal']
-    ARow: typeof import('ant-design-vue/es')['Row']
-    ASlider: typeof import('ant-design-vue/es')['Slider']
-    ASpin: typeof import('ant-design-vue/es')['Spin']
-    ATabPane: typeof import('ant-design-vue/es')['TabPane']
-    ATabs: typeof import('ant-design-vue/es')['Tabs']
     BackgroundProcesser: typeof import('./src/components/BackgroundProcesser/index.vue')['default']
     ColorPicker: typeof import('./src/components/ColorPicker/index.vue')['default']
     ComponentList: typeof import('./src/components/ComponentList/index.vue')['default']
