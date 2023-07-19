@@ -176,3 +176,4 @@ const handleEmit = (key: string, v: string, arg: string) => {
     }
 }
 </style>
+../propsMap
