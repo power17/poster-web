@@ -15,6 +15,7 @@
     },
     "dependencies": {
         "@ant-design/icons-vue": "^6.1.0",
+        "@power88/utils": "^1.0.2",
         "@types/lodash-es": "^4.17.7",
         "@types/uuid": "^9.0.1",
         "ant-design-vue": "^3.2.20",
