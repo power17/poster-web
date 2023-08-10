@@ -9,13 +9,14 @@ import { visualizer } from 'rollup-plugin-visualizer'
 
 // https://vitejs.dev/config/
 export default defineConfig((config) => {
-    // const base = config.command === 'build' ? '/poster-web' : '/'
+    const base = config.command === 'build' ? '/poster-web' : '/'
     if (config.command === 'build') {
         process.env.NODE_ENV = 'production'
     }
 
     return {
-        base: './',
+        base,
+        // publicDir: '/assets',
         server: {
             proxy: {
                 '/api': {
@@ -47,10 +48,13 @@ export default defineConfig((config) => {
             drop: ['console', 'debugger'],
         },
         build: {
+            // target: 'es2015',
             chunkSizeWarningLimit: 600,
             rollupOptions: {
-                manualChunks: {
-                    'ant-design-vue': ['ant-design-vue'],
+                output: {
+                    manualChunks: {
+                        'ant-design-vue': ['ant-design-vue'],
+                    },
                 },
             },
         },

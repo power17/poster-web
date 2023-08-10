@@ -9,12 +9,12 @@ const router = createRouter({
         {
             path: '/',
             name: 'index',
-            component: () => import(/* webpackChunkName: "index" */ '../views/Index/index.vue'),
+            component: () => import('../views/Index/index.vue'),
             children: [
                 {
                     path: '',
                     name: 'home',
-                    component: () => import(/* webpackChunkName: "home" */ '../views/Home/index.vue'),
+                    component: () => import('../views/Home/index.vue'),
                     meta: { title: '欢迎来到慕课乐高' },
                 },
                 // {
